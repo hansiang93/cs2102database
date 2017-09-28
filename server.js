@@ -8,7 +8,6 @@ var flash = require('express-flash');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var dotenv = require('dotenv');
-var exphbs = require('express-handlebars');
 
 // Load environment variables from .env file
 dotenv.load();
@@ -19,24 +18,8 @@ var contactController = require('./controllers/contact');
 
 var app = express();
 
-
-var hbs = exphbs.create({
-  defaultLayout: 'main',
-  helpers: {
-    ifeq: function(a, b, options) {
-      if (a === b) {
-        return options.fn(this);
-      }
-      return options.inverse(this);
-    },
-    toJSON : function(object) {
-      return JSON.stringify(object);
-    }
-  }
-});
-
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(logger('dev'));
