@@ -1,12 +1,10 @@
 /** Exports */
 exports.executeQueriesInOrder = executeQueriesInOrder;
 
-
 /** Implementation */
 require('dotenv').config();
 
-let mysql = require('mysql');
-
+const pg = require('pg');
 
 /**
  * Executes the given query strings in order and returns a promise.
@@ -19,15 +17,19 @@ let mysql = require('mysql');
  * @param {*} queries : one or more queries to execute. 
  */
 function executeQueriesInOrder(...queries) {
-    const pool = mysql.createPool({
-        connectionLimit: 10,
-        host: 'example.org',
-        user: 'bob',
-        password: 'secret',
-        database: 'my_db'
+    const pool = new pg.Pool({
+        user: process.env.DB_USER,
+        host: process.env.DB_HOST,
+        database: process.env.DB_DATABASE,
+        password: process.env.DB_PASS,
+        port: 5433,
     });
-    if (queries.length < 1) return;
+    if (queries.length < 1) {
+        return;
+    }
+
     let promise = pool.query(queries[0]);
+
     for (let i = 0; i < queries.length; i++) {
         if (i > 0) {
             promise = promise.then(() => pool.query(queries[i]));
