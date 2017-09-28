@@ -1,0 +1,12 @@
+<div class="project-listing-component-wrapper">
+  <div class="container">
+    list out all projects here
+    <p>Use ng if, need to limit 3 cards to 1 row dummy data</p>
+    <div class="card-deck" *ngIf="projects">
+
+      <!-- placeholder to be removed -->
+      <project *ngFor="let project of projects" [project]="project"></project>
+
+    </div>
+  </div>
+</div>
