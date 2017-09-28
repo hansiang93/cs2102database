@@ -4,7 +4,11 @@
   "private": true,
   "description": "My app description",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "fixtures": "node database/fixtures/all.js",
+    "droptables": "node database/schemas/dropTables.js",
+    "maketables": "node database/schemas/createSchema.js",
+    "resetdb": "npm run droptables && npm run maketables && npm run fixtures"
   },
   "dependencies": {
     "body-parser": "~1.17.1",

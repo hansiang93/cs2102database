@@ -12,11 +12,7 @@ app name: cs2102database
 ### Setup
 
 initialise your setup by 
-> npm install
-
-or 
-
-> sudo npm install
+> $ npm install
 
 The MySQL setup was based off of the following tutorial: 
 > https://www.sitepoint.com/using-node-mysql-javascript-client/
