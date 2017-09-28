@@ -14,7 +14,7 @@ data.
 
 ## ER Diagram
 
-![basic er diagram](/erdiagram.jpg)
+![basic er diagram](erdiagram.jpg)
 
 ## SQL Commands for the schema
 
