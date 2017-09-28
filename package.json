@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "fixtures": "node database/fixtures/all.js",
-    "droptables": "node database/schemas/dropTables.js",
-    "maketables": "node database/schemas/createSchema.js",
+    "droptables": "node database/schema/dropSchema.js",
+    "maketables": "node database/schema/createSchema.js",
     "resetdb": "npm run droptables && npm run maketables && npm run fixtures"
   },
   "dependencies": {
@@ -27,7 +27,7 @@
     "morgan": "~1.8.1",
     "nodemailer": "^2.3.0",
     "serve-favicon": "~2.4.2",
-    "pg": "^4.5.1"
+    "pg": "^6.1.2"
   },
   "devDependencies": {},
   "engines": {
