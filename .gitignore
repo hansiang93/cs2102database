@@ -30,3 +30,6 @@ bower_components
 Thumbs.db
 
 package-lock.json
+
+# Views
+public
