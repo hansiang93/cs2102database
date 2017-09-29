@@ -16,7 +16,7 @@ export class NewProjectComponent implements OnInit {
     this.project.title = "";
     this.project.date = "";
     this.project.description = "";
-    this.project.image = "";
+    // this.project.image = "";
   }
 
   onSubmit() {
