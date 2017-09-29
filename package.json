@@ -4,7 +4,7 @@
   "private": true,
   "description": "My app description",
   "scripts": {
-    "start": "node server.js",
+    "start": "cd ./frontend && npm install && npm run-script start && cd ./.. && nodemon server.js",
     "populate": "node database/populate/populateAll.js",
     "droptables": "node database/schema/dropSchema.js",
     "maketables": "node database/schema/createSchema.js",
@@ -26,8 +26,9 @@
     "method-override": "^2.3.5",
     "morgan": "~1.8.1",
     "nodemailer": "^2.3.0",
-    "serve-favicon": "~2.4.2",
-    "pg": "^6.1.2"
+    "nodemon": "^1.12.1",
+    "pg": "^6.1.2",
+    "serve-favicon": "~2.4.2"
   },
   "devDependencies": {},
   "engines": {
