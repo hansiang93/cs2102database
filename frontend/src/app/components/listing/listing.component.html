@@ -1,7 +1,24 @@
 <div class="project-listing-component-wrapper">
   <div class="container">
-    list out all projects here
-    <p>Use ng if, need to limit 3 cards to 1 row dummy data</p>
+    <form>
+      <h2>
+        Funded page will be the same appearance, except different API call
+      </h2>
+      <h2>Search</h2>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Project Name</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="orderDate">Order by</label>
+        <select class="form-control" id="orderDate">
+          <option>Date added (oldest)</option>
+          <option>Date added (newest)</option>
+        </select>
+      </div>
+    </form>
+    
     <div class="card-deck" *ngIf="projects">
 
       <!-- placeholder to be removed -->

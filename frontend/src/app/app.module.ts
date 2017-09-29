@@ -13,9 +13,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProjectComponent } from './components/project/project.component';
 import { ListingComponent } from './components/listing/listing.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 import { LoginService } from './components/login/login.service';
 import { ListingService } from './components/listing/listing.service';
+import { NewProjectComponent } from './components/new-project/new-project.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { ListingService } from './components/listing/listing.service';
     DashboardComponent,
     NavbarComponent,
     ProjectComponent,
-    ListingComponent
+    ListingComponent,
+    PageNotFoundComponent,
+    NewProjectComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

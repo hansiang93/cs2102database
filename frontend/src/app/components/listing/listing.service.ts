@@ -1,5 +1,4 @@
-//TODO add model for user, remove any
-//TODO add authorization tokens if there is time
+//TODO get projects that have not been funded
 
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';

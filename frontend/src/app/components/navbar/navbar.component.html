@@ -1,4 +1,4 @@
-<div class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+<div class="navbar navbar-toggleable-sm navbar-inverse bg-primary">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,22 +7,27 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <a [routerLink]="['/']" class="navbar-brand">CS2102</a>
       <ul class="navbar-nav">
-          <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
-            <a [routerLink]="['/']" class="nav-link">
-              <i class="fa fa-home fa-lg"></i> Home
-            </a>
-          </li>
-          <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
-            <a [routerLink]="['/projects']" class="nav-link">
-              <i class="fa fa-home fa-lg"></i> Projects
-            </a>
-          </li>
+        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+          <a [routerLink]="['/projects']" class="nav-link">
+            <i class="fa fa-cube fa-lg"></i> Projects
+          </a>
+        </li>
+        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+          <a [routerLink]="['/projects']" class="nav-link">
+            <i class="fa fa-check fa-lg"></i> Funded
+          </a>
+        </li>
+        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+          <a [routerLink]="['/newproject']" class="nav-link">
+            <i class="fa fa-plus fa-lg"></i> New Project
+          </a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav ml-auto">
         <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
           <a [routerLink]="['/login']" class="nav-link">
-            <i class="fa fa-home fa-lg"></i> Login
+            <i class="fa fa-sign-in fa-lg"></i> Login
           </a>
         </li>
       </ul>
