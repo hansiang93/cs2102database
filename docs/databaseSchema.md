@@ -22,13 +22,12 @@ UserAccounts table
 
 ```
 CREATE TABLE users (
-	uid INT PRIMARY KEY,
-	username VARCHAR(32),
+	username VARCHAR(32) PRIMARY KEY,
 	fullname VARCHAR(64),
 	email VARCHAR(256),
 	dob DATE,
 	country VARCHAR(64),
-	role VARCHAR(8)
+	admin BOOLEAN
 	);
 ```
 
@@ -36,7 +35,7 @@ Catagories table
 
 ```
 CREATE TABLE catagory (
-	catagory PRIMARY KEY
+	catagory VARCHAR(64) PRIMARY KEY,
 	);
 ```
 
@@ -45,13 +44,13 @@ Projects table
 ```
 CREATE TABLE project (
 	pid INT PRIMARY KEY,
-	creator REFERENCES account(uid),
-	title,
-	description,
+	creator REFERENCES account(username),
+	title VARCHAR(256) NOT NULL,
+	description VARCHAR(256),
 	catagory REFERENCES catagory(name),
-	startdate DATE,
-	enddate DATE,
-	amountrequested
+	startdate DATE NOT NULL,
+	enddate DATE NOT NULL,,
+	amountrequested INT CHECK(amountrequested > 0)
 	);
 ```
 
@@ -59,18 +58,20 @@ Investment table
 
 ```
 CREATE TABLE invest (
-	investor INT REFERENCES account(uid),
+	investor INT REFERENCES account(username),
 	project INT REFERENCES project(pid),
-	amount
+	amount INT CHECK(amount > 0),
+	date DATE NOT NULL
 	);
 ```
 
-Project Funding view
+Project Funding function
 
 ```
 CREATE VIEW funding AS
-	SELECT
-	FROM
+	SELECT *
+	FROM invest
+	WHERE
 	;
 ```
 

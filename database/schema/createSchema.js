@@ -2,47 +2,43 @@ require('dotenv').config();
 
 const dbHelper = require('../dbHelper');
 
-const accountQuery = 
-    'CREATE TABLE account (' +
-        'id SERIAL PRIMARY KEY,' +
-        'username VARCHAR(32) UNIQUE NOT NULL,' +
-        'full_name VARCHAR(256) NOT NULL,' +
-        'description VARCHAR(1024),' +
-        'age INT CHECK(age>=0),' +
-        'gender VARCHAR(6) CHECK(gender = \'MALE\' OR gender = \'FEMALE\' OR gender = \'OTHER\'),' +
-        'email VARCHAR(256),' +
-        'country VARCHAR(64),' +
-        'role VARCHAR(5) CHECK(role = \'ADMIN\' OR role = \'USER\')' +
-    ');';
-const categoryQuery = 
-    'CREATE TABLE category (' +
-        'name VARCHAR(64) PRIMARY KEY,' +
-        'description VARCHAR(1024)' +
-    ');';
-const projectQuery = 
-    'CREATE TABLE project (' +
-        'id SERIAL PRIMARY KEY,' +
-        'title VARCHAR(256) NOT NULL,' +
-        'category VARCHAR(64) REFERENCES category(name) ON DELETE SET NULL,' +
-        'image_url VARCHAR (2048),' +
-        'description VARCHAR(1024),' +
-        'start_date DATE NOT NULL,' +
-        'end_date DATE NOT NULL,' +
-        'amount_sought DECIMAL CHECK(amount_sought > 0),' +
-        'owner_account INTEGER REFERENCES account(id) ON DELETE SET NULL' +
-    ');';
-const fundsQuery = 
-    'CREATE TABLE funds (' +
-        'id SERIAL PRIMARY KEY,' +
-        'project SERIAL REFERENCES project(id) ON DELETE SET NULL,' +
-        'account SERIAL REFERENCES account(id) ON DELETE SET NULL,' +
-        'amount DECIMAL CHECK(amount > 0),' +
-        'time DATE NOT NULL' +
-    ');';
-const backerType = 
-    'CREATE TYPE backer_type as ('  + 
-        'username text, id text, project integer, account integer, amount integer, time date' +
+const userQuery =
+	'CREATE TABLE users (' +
+		'username VARCHAR(32) PRIMARY KEY, ' +
+		'fullname VARCHAR(64),' +
+		'email VARCHAR(256),' +
+		'dob DATE,' +
+		'country VARCHAR(64),' +
+		'admin BOOLEAN' +
+	');';
+
+
+const catagoryQuery = 
+    'CREATE TABLE catagory (' +
+        'name VARCHAR(64) PRIMARY KEY' +
     ');';
 
-dbHelper.executeQueriesInOrder(categoryQuery, accountQuery, projectQuery, fundsQuery, backerType)
+const projectQuery = 
+	'CREATE TABLE project (' +
+		'pid SERIAL PRIMARY KEY,' +
+		'creator VARCHAR(32) REFERENCES users(username),' +
+		'title VARCHAR(256),' +
+		'description VARCHAR(256),' +
+		'catagory VARCHAR(64) REFERENCES catagory(name),' +
+		'startdate DATE NOT NULL,' +
+		'enddate DATE NOT NULL,' +
+		'amountrequested BIGSERIAL' +
+	');'
+
+const investmentQuery = 
+    'CREATE TABLE investment (' +
+        'id SERIAL PRIMARY KEY,' +
+        'investor VARCHAR(32) REFERENCES users(username) ON DELETE SET NULL,' +
+        'project SERIAL REFERENCES project(pid) ON DELETE SET NULL,' +
+        'amount DECIMAL CHECK(amount > 0),' +
+        'date DATE NOT NULL' +
+    ');';
+
+
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery)
     .then( () => console.log("Make tables done!") );

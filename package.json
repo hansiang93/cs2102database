@@ -5,10 +5,10 @@
   "description": "My app description",
   "scripts": {
     "start": "node server.js",
-    "fixtures": "node database/fixtures/all.js",
+    "populate": "node database/populate/populateAll.js",
     "droptables": "node database/schema/dropSchema.js",
     "maketables": "node database/schema/createSchema.js",
-    "resetdb": "npm run droptables && npm run maketables && npm run fixtures"
+    "resetdb": "npm run droptables && npm run maketables && npm run populate"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
