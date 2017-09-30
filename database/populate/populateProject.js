@@ -1,11 +1,14 @@
-// CREATE TABLE users (
-//     username VARCHAR(32) PRIMARY KEY,
-//     fullname VARCHAR(64),
-//     email VARCHAR(256),
-//     dob DATE,
-//     country VARCHAR(64),
-//     admin BOOLEAN
-//     );
+// const projectQuery = 
+//     'CREATE TABLE project (' +
+//         'pid SERIAL PRIMARY KEY,' +
+//         'creator VARCHAR(32) REFERENCES users(username),' +
+//         'title VARCHAR(256),' +
+//         'description VARCHAR(256),' +
+//         'catagory VARCHAR(64) REFERENCES catagory(name),' +
+//         'startdate DATE NOT NULL,' +
+//         'enddate DATE NOT NULL,' +
+//         'amountrequested BIGSERIAL' +
+//     ');'
 
 
 exports.query =  

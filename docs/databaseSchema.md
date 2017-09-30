@@ -80,11 +80,5 @@ CREATE VIEW funding AS
 Use the following commands to populate the table with test values
 
 ```
-Give the example
-```
-
-And
-
-```
-until finished
+$ npm run droptables && npm run maketables && npm run populate
 ```
