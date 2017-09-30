@@ -29,9 +29,9 @@ app.use(session({ secret: process.env.SESSION_SECRET, resave: true, saveUninitia
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', HomeController.index);
-app.get('/contact', contactController.contactGet);
-app.post('/contact', contactController.contactPost);
+// Declare routes
+var users = require('./users/router');
+app.use('/users', users);
 
 // Production error handler
 if (app.get('env') === 'production') {
