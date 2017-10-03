@@ -24,7 +24,7 @@ router.post('/register', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
     var username = req.body.username;
-    var password = req.body.password;
+    // var password = req.body.password;
 
     // send to db to check if user can be authenticated
 

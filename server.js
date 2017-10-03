@@ -14,7 +14,7 @@ dotenv.load();
 
 // Controllers
 var HomeController = require('./controllers/home');
-var contactController = require('./controllers/contact');
+var apiRoute = require('./api/all');
 
 var app = express();
 app.set('port', process.env.PORT || 3000);
@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Declare routes
 var users = require('./users/router');
 app.use('/users', users);
+app.use('/api', apiRoute);
 
 // Production error handler
 if (app.get('env') === 'production') {

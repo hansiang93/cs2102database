@@ -72,6 +72,12 @@ Create/start pgsl server at:
 postgres://localhost:5432/cs2102
 ```
 
+Ubuntu bash to start
+
+```
+$ sudo /etc/init.d/postgresql restart
+```
+
 Enter the development database name, password and user in a '.env' file in root in the following format:
 
 ```

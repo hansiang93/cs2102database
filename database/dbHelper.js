@@ -22,7 +22,7 @@ function executeQueriesInOrder(...queries) {
         host: process.env.DB_HOST,
         database: process.env.DB_DATABASE,
         password: process.env.DB_PASS,
-        port: 5433,
+        port: process.env.DB_PORT,
     });
     if (queries.length < 1) {
         return;

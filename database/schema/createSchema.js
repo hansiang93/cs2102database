@@ -14,7 +14,7 @@ const userQuery =
 
 
 const catagoryQuery = 
-    'CREATE TABLE catagory (' +
+    'CREATE TABLE category (' +
         'name VARCHAR(64) PRIMARY KEY' +
     ');';
 
@@ -24,7 +24,7 @@ const projectQuery =
 		'creator VARCHAR(32) REFERENCES users(username),' +
 		'title VARCHAR(256),' +
 		'description VARCHAR(256),' +
-		'catagory VARCHAR(64) REFERENCES catagory(name),' +
+		'category VARCHAR(64) REFERENCES category(name),' +
 		'startdate DATE NOT NULL,' +
 		'enddate DATE NOT NULL,' +
 		'amountrequested BIGSERIAL' +

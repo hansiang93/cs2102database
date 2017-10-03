@@ -3,7 +3,7 @@ require('dotenv').config();
 const dbHelper = require('../dbHelper');
 
 const userQuery = 'DROP TABLE users;';
-const catagoryQuery = 'DROP TABLE catagory;';
+const catagoryQuery = 'DROP TABLE category;';
 const projectQuery = 'DROP TABLE project;';
 const investmentQuery = 'DROP TABLE investment;';
 
