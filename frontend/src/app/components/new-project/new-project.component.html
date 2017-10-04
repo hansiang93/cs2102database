@@ -10,51 +10,11 @@
         <input [(ngModel)]="project.title" name="title" type="text" class="form-control" id="exampleFormControlInput1" required>
       </div>
       <div class="form-group">
-        <label>Category (Select at least 1??) (TODO replace with categories obtained from db)</label>
-        <div>
+        <label>Category</label>
+        <div *ngFor="let category of categories">
           <div class="form-check form-check-inline">
             <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="art"> Art
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="craft"> Craft
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="design"> Design
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="fashion"> Fashion
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="film"> Film
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="food"> Food
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="games"> Games
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="photography"> Photography
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="technology"> Technology
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="art"> {{category.name}}
             </label>
           </div>
         </div>

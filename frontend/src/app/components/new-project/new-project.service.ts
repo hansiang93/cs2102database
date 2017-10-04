@@ -7,22 +7,21 @@ import 'rxjs/add/operator/toPromise';
 import { Project } from '../models/project';
 
 const Routes = {
-  getUsers: "http://localhost:3000/api/alluser",
-  user: "http://localhost:3000/api/user"
+  categories: "http://localhost:3000/api/categories",
+  project: "http://localhost:3000/api/projects"
 }
 
 @Injectable()
-export class DashboardService {
+export class NewProjectService {
 
   constructor(
     private http: Http
   ) { }
 
-  //TODO add user model and get rid of any
-  getUsers(): Promise<any> {
+  getCategories(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http
-        .get(Routes.getUsers)
+        .get(Routes.categories)
         .subscribe(
         data => {
           resolve(data.json());
@@ -36,10 +35,10 @@ export class DashboardService {
     });
   }
 
-  removeUser(id: string): Promise<any> {
+  createProject(project: Project): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http
-        .delete(Routes.user + id)
+        .post(Routes.project, project)
         .subscribe(
         data => {
           resolve(data.json());
