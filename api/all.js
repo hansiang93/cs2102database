@@ -31,6 +31,20 @@ router.get('/projects/:id', function(req, res) {
     });
 })
 
+router.delete('/projects/:id', function(req, res) {
+    var promise = executer.getProjectById(req.params['id']);
+
+    if (projects.rowCount == 0) {
+        res.status(404).send('No such project');
+        return;
+    }
+    let project = projects.rows[0];
+    console.log(project);
+
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
 
 router.get('/myprojects/:id', function(req, res) {
     console.log('projects by username: ', username);
@@ -41,25 +55,50 @@ router.get('/myprojects/:id', function(req, res) {
 });
 
 
-router.get('/user', function(req, res) {
+router.get('/user/:id', function(req, res) {
+    var promise = executer.getUser(req.params['id']);
+    promise.then(results => {
+        return res.json(results.rows);
+    });
 
 });
 
-router.delete('/user:/id', function(req, res) {
+router.delete('/user/:id', function(req, res) {
+    var promise = executer.deleteUser(req.params['id']);
+    promise.then(results => {
+        return res.json(results.rows);
+    });
 
 });
 
-router.post('/account', function(req, res, next) {
+router.post('/register', function(req, res, next) {
     var username = req.body.username;
     var fullname = req.body.fullname;
     var email = req.body.email;
     var dob = req.body.dob;
     var country = (req.body.country) ? req.body.country : '';
     var role = req.body.role;
-    var promise = executer.addAccount(username, fullname, email, dob, country, role);
+    var promise = executer.addUser(username, fullname, email, dob, country, role);
     promise.then(function(result) {
         res.redirect('/'); //redirect back to home
     });
+});
+
+router.post('/login', function(req, res, next) {
+  var promise = queryExecuter.getUser(req.body.username);
+  promise.then(results => {
+    if (results.rows.length > 0) {
+      username = results.rows[0].username;
+    } else {
+      errorMessage = 'Your username is not registered.';
+    }
+    res.redirect(req.get('referer'));
+  });
+});
+
+router.get('/logout', function(req, res, next) {
+  if (username !== "") username = "";
+  res.redirect(req.get('referer'));
 });
 
 

@@ -23,14 +23,23 @@ function executeAndLog(query, args) {
     return promise;
 }
 
-exports.addAccount = function addAccount(username, full_name, email, dob,
+exports.addUser = function addUser(username, full_name, email, dob,
     country, role) {
 
     console.log('Attemping to add account ' + username);
-    return executeAndLog(queries.ADD_ACCOUNT, [
+    return executeAndLog(queries.ADD_USER, [
         username, full_name, email, dob, country, role
     ]);
 }
+
+exports.getUser = function(username) {
+    return executeAndLog(queries.GET_USER, [username]);
+}
+
+exports.deleteUser = function(username) {
+    return executeAndLog(queries.DELETE_USER, [username]);
+}
+
 
 exports.addProject = function addProject(username, full_name, email, dob,
     country, role) {
@@ -63,3 +72,4 @@ exports.getCategories = function() {
     console.log('attempting to get all available categories');
     return executeAndLog(queries.GET_CATEGORIES);
 }
+

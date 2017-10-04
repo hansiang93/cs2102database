@@ -21,8 +21,8 @@ exports.ADD_INVEST =
 exports.GET_CATEGORIES =
     'SELECT * FROM category ORDER BY name';
 
-exports.GET_ACCOUNT =
-    'SELECT * FROM account WHERE username = $1';
+exports.GET_USER =
+    'SELECT * FROM users WHERE username = $1';
 
 exports.GET_ALL_PROJECTS = 
     'SELECT * FROM project';
@@ -32,3 +32,9 @@ exports.GET_PROJECT_BY_ID =
 
 exports.GET_PROJECT_BY_USER =
     'SELECT * FROM project pr WHERE pr.creator = $1';
+
+exports.DELETE_USER =
+    'DELETE FROM users WHERE username = $1';
+    
+exports.DELETE_USER =
+    'DELETE FROM users WHERE username = $1';
