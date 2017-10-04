@@ -22,6 +22,11 @@
             <i class="fa fa-plus fa-lg"></i> New Project
           </a>
         </li>
+        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+          <a [routerLink]="['/dashboard']" class="nav-link">
+            <i class="fa fa-user fa-lg"></i> Dashboard
+          </a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav ml-auto">

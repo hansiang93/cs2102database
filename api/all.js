@@ -112,7 +112,7 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    var promise = queryExecuter.getUser(req.body.username);
+    var promise = executer.getUser(req.body.username);
     promise.then(results => {
         if (results.rows.length > 0) {
             username = results.rows[0].username;

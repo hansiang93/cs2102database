@@ -19,6 +19,7 @@ import { LoginService } from './components/login/login.service';
 import { ListingService } from './components/listing/listing.service';
 import { NewProjectComponent } from './components/new-project/new-project.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { DashboardService } from './components/dashboard/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   providers: [
     LoginService,
-    ListingService
+    ListingService,
+    DashboardService
   ],
   exports: [
     ProjectComponent
