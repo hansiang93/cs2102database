@@ -16,33 +16,29 @@ router.get('/categories', function(req, res) {
 })
 
 
-router.get('/projects/:id', function(req, res) {
-    var promise = executer.getProjectById(req.params['id']);
-
-    if (projects.rowCount == 0) {
-        res.status(404).send('No such project');
-        return;
-    }
-    let project = projects.rows[0];
-    console.log(project);
-
+router.get('/projects/:pid', function(req, res) {
+    var promise = executer.getProjectById(req.params['pid']);
     promise.then(results => {
-        return res.json(results.rows);
+        let projects = results;
+        if (projects.rowCount == 0) {
+            res.status(404).send('No such project');
+            return;
+        }
+        let project = projects.rows[0];
+        console.log(project);
+        return res.json(project);
+    }).catch(function() {
+        console.log("No such project");
     });
 })
 
 router.delete('/projects/:id', function(req, res) {
-    var promise = executer.getProjectById(req.params['id']);
-
-    if (projects.rowCount == 0) {
-        res.status(404).send('No such project');
-        return;
-    }
-    let project = projects.rows[0];
-    console.log(project);
-
+    var promise = executer.deleteProjectById(req.params['pid']);
     promise.then(results => {
-        return res.json(results.rows);
+        console.log("deleting project " + results);
+        return res.json('DELETE request to project: ' + pid);
+    }).catch(function() {
+        console.log("Promise rejected");
     });
 })
 
@@ -85,20 +81,20 @@ router.post('/register', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-  var promise = queryExecuter.getUser(req.body.username);
-  promise.then(results => {
-    if (results.rows.length > 0) {
-      username = results.rows[0].username;
-    } else {
-      errorMessage = 'Your username is not registered.';
-    }
-    res.redirect(req.get('referer'));
-  });
+    var promise = queryExecuter.getUser(req.body.username);
+    promise.then(results => {
+        if (results.rows.length > 0) {
+            username = results.rows[0].username;
+        } else {
+            errorMessage = 'Your username is not registered.';
+        }
+        res.redirect(req.get('referer'));
+    });
 });
 
 router.get('/logout', function(req, res, next) {
-  if (username !== "") username = "";
-  res.redirect(req.get('referer'));
+    if (username !== "") username = "";
+    res.redirect(req.get('referer'));
 });
 
 

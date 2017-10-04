@@ -35,6 +35,6 @@ exports.GET_PROJECT_BY_USER =
 
 exports.DELETE_USER =
     'DELETE FROM users WHERE username = $1';
-    
-exports.DELETE_USER =
-    'DELETE FROM users WHERE username = $1';
+
+exports.DELETE_PROJECT =
+    'DELETE FROM project pr WHERE pr.pid = $1';

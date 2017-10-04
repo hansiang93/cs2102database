@@ -43,11 +43,14 @@ exports.deleteUser = function(username) {
 
 exports.addProject = function addProject(username, full_name, email, dob,
     country, role) {
-
-    console.log('Attemping to add account ' + username);
+    console.log('Attemping to add project under ' + username);
     return executeAndLog(queries.ADD_PROJECT, [
-        username, full_name, email, dob, country, role
+        pid, creator, title, description, category, startdate, enddate, amountrequest
     ]);
+}
+
+exports.deleteProjectById = function(pid) {
+    return executeAndLog(queries.DELETE_PROJECT, [pid]);
 }
 
 exports.addInvest = function addInvest(username, project, amount,
@@ -66,7 +69,6 @@ exports.getProjectById = function(pid) {
 exports.getProjectByUser = function(username) {
     return executeAndLog(queries.GET_PROJECT_BY_USER, [username]);
 }
-
 
 exports.getCategories = function() {
     console.log('attempting to get all available categories');

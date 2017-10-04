@@ -14,6 +14,10 @@ These instructions will get you a copy of the project up and running on your loc
 
 [Database and SQL commands for this project](docs/databaseSchema.md)
 
+### Database Schema
+
+[APIs for this project](docs/api.md)
+
 ### Prerequisites
 
 This app uses NodeJS. Install NodeJS via your terminal with 
