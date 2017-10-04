@@ -55,8 +55,8 @@ export class LoginService {
   //   });
   // }
 
-  loginUser(user: any) {
-    
+  loginUser(user: any): Promise<any> {
+
     return new Promise((resolve, reject) => {
       this.http
         .post(UserRoutes.login, user)
