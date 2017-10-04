@@ -18,13 +18,16 @@ exports.ADD_INVEST =
     ' (investor, project, amount, date)' +
     ' VALUES ($1, $2, $3, $4)';
 
+exports.GET_ALL_USER =
+    'SELECT * FROM users';
+
 exports.GET_CATEGORIES =
     'SELECT * FROM category ORDER BY name';
 
 exports.GET_USER =
     'SELECT * FROM users WHERE username = $1';
 
-exports.GET_ALL_PROJECTS = 
+exports.GET_ALL_PROJECT = 
     'SELECT * FROM project';
 
 exports.GET_PROJECT_BY_ID =

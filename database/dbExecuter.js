@@ -32,6 +32,10 @@ exports.addUser = function addUser(username, full_name, email, dob,
     ]);
 }
 
+exports.getAllUser = function() {
+    return executeAndLog(queries.GET_ALL_USER);
+}
+
 exports.getUser = function(username) {
     return executeAndLog(queries.GET_USER, [username]);
 }
@@ -40,6 +44,10 @@ exports.deleteUser = function(username) {
     return executeAndLog(queries.DELETE_USER, [username]);
 }
 
+
+exports.getAllProject = function() {
+    return executeAndLog(queries.GET_ALL_PROJECT);
+}
 
 exports.addProject = function addProject(username, full_name, email, dob,
     country, role) {

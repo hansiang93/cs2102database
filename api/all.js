@@ -15,6 +15,19 @@ router.get('/categories', function(req, res) {
     });
 })
 
+router.get('/allproject', function(req, res) {
+    var promise = executer.getAllProject();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
+
+router.get('/alluser', function(req, res) {
+    var promise = executer.getAllUser();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
 
 router.get('/projects/:pid', function(req, res) {
     var promise = executer.getProjectById(req.params['pid']);
@@ -56,7 +69,6 @@ router.get('/user/:id', function(req, res) {
     promise.then(results => {
         return res.json(results.rows);
     });
-
 });
 
 router.delete('/user/:id', function(req, res) {
