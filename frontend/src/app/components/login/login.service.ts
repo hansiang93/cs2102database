@@ -6,7 +6,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 const UserRoutes = {
-    users: "http://localhost:3000/api/users"
+    login: "http://localhost:3000/users/login"
 }
 
 @Injectable()
@@ -17,51 +17,49 @@ export class LoginService {
   ) { }
 
   //test function
-  getUsers() {
-    return new Promise((resolve, reject) => {
-      this.http
-        .get(UserRoutes.users)
-        .subscribe(
-        data => {
-            resolve({
-              success: true, 
-              data: data.json()
-            });
-        },
-        err => {
-            reject({
-              success: false,
-              data: null
-            });
-        });
-    });
-  }
+  // getUsers() {
+  //   return new Promise((resolve, reject) => {
+  //     this.http
+  //       .get(UserRoutes.users)
+  //       .subscribe(
+  //       data => {
+  //           resolve({
+  //             success: true, 
+  //             data: data.json()
+  //           });
+  //       },
+  //       err => {
+  //           reject({
+  //             success: false,
+  //             data: null
+  //           });
+  //       });
+  //   });
+  // }
 
   //TODO add model for user, remove any
-  registerUser(user: any): Promise<any> {
-    let headers = new Headers();
-    //TODO add authorization tokens if there is time
+  // registerUser(user: any): Promise<any> {
+  //   let headers = new Headers();
+  //   //TODO add authorization tokens if there is time
     
-    return new Promise((resolve, reject) => {
-      this.http
-        .post(UserRoutes.users, user, { headers: headers })
-        .subscribe(
-        data => {
-            resolve({success: true});
-        },
-        err => {
-            reject({success: false});
-        });
-    });
-  }
+  //   return new Promise((resolve, reject) => {
+  //     this.http
+  //       .post(UserRoutes.users, user, { headers: headers })
+  //       .subscribe(
+  //       data => {
+  //           resolve({success: true});
+  //       },
+  //       err => {
+  //           reject({success: false});
+  //       });
+  //   });
+  // }
 
   loginUser(user: any) {
-    let headers = new Headers();
-    //TODO add authorization tokens if there is time
     
     return new Promise((resolve, reject) => {
       this.http
-        .post(UserRoutes.users, user, { headers: headers })
+        .post(UserRoutes.login, user)
         .subscribe(
         data => {
             resolve({success: true});

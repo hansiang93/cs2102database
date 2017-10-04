@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
     // var password = req.body.password;
 
     // send to db to check if user can be authenticated
-    var promise = queryExecuter.getUser(req.body.username);
+    var promise = executer.getUser(req.body.username);
     promise.then(results => {
         if (results.rows.length > 0) {
             // if success
@@ -42,7 +42,11 @@ router.post('/login', function(req, res, next) {
             res.send(err);
         }
         // res.redirect(req.get('referer'));
-    });
+    })
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(401);
+    })
 });
 
 module.exports = router;

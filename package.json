@@ -4,7 +4,8 @@
   "private": true,
   "description": "My app description",
   "scripts": {
-    "start": "cd ./frontend && npm install && npm run-script start && cd ./.. && nodemon server.js",
+    "full-start": "cd ./frontend && npm install && npm run-script start && cd ./.. && nodemon server.js",
+    "start": "nodemon server.js",
     "populate": "node database/populate/populateAll.js",
     "droptables": "node database/schema/dropSchema.js",
     "maketables": "node database/schema/createSchema.js",

@@ -11,6 +11,7 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
   form: any;
   formHasError: boolean;
+  isLoggedIn: boolean; //fkin hacky shit that should not exist
 
   constructor(
     private loginService: LoginService
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.form = {};
     this.formHasError = false;
+    this.isLoggedIn = false;
   }
 
   submitForm() {
@@ -30,6 +32,8 @@ export class LoginComponent implements OnInit {
         // localStorage.setItem('id_token', token)
         // this.loginService.storeUserData(token);
         // this.router.navigate(['/dashboard']);
+        console.log(res);
+        this.isLoggedIn = true;
       } else {
         this.formHasError = true;
       }
