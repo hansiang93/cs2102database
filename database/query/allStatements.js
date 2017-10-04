@@ -5,8 +5,13 @@ exports.ADD_USER =
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    ' (pid, creator, title, description, category, startdate, enddate, amountrequest)' +
+    ' (pid, creator, title, description, category, startdate, enddate, amountrequested)' +
     ' VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+
+exports.UPDATE_PROJECT =
+    'UPDATE project ' +
+    ' SET title = $1, description = $2, category = $3, startdate = $4, enddate = $5, amountrequested = $6' +
+    ' WHERE pid = $7';
 
 exports.ADD_CATEGORY =
     'INSERT INTO category ' +
@@ -27,7 +32,7 @@ exports.GET_CATEGORIES =
 exports.GET_USER =
     'SELECT * FROM users WHERE username = $1';
 
-exports.GET_ALL_PROJECT = 
+exports.GET_ALL_PROJECT =
     'SELECT * FROM project';
 
 exports.GET_PROJECT_BY_ID =

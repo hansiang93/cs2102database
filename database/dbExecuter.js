@@ -57,6 +57,15 @@ exports.addProject = function addProject(username, full_name, email, dob,
     ]);
 }
 
+exports.updateProject = function (pid, title, category, description,
+    start_date, end_date, amount_sought) {
+
+    console.log('attemping to edit project ' + pid + ': ' + title);
+    return executeAndLog(queries.UPDATE_PROJECT, [
+        title, description, category, start_date, end_date, amount_sought, pid
+    ]);
+}
+
 exports.deleteProjectById = function(pid) {
     return executeAndLog(queries.DELETE_PROJECT, [pid]);
 }

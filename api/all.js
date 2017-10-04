@@ -55,6 +55,25 @@ router.delete('/projects/:id', function(req, res) {
     });
 })
 
+
+router.post('/projects/:id/update', function (req, res, next) {
+  var projectId = parseInt(req.params.id);
+  var title = req.body.title;
+  var category = req.body.category;
+  var description = req.body.description;
+  var start_date = req.body.startdate;
+  var end_date = req.body.enddate;
+  var amount_sought = req.body.amountrequested;
+  var owner_account = req.body.creator;
+  console.log(req.body);
+  var promise = executer.updateProject(
+    projectId, title, category, description, start_date, end_date, amount_sought
+    );
+  promise.then(function() {
+    res.redirect('/projects/' + projectId); // to project page
+  });
+});
+
 router.get('/myprojects/:id', function(req, res) {
     console.log('projects by username: ', username);
     executer.getProjectByUser(req.params['id']).then(result => {
@@ -108,6 +127,8 @@ router.get('/logout', function(req, res, next) {
     if (username !== "") username = "";
     res.redirect(req.get('referer'));
 });
+
+
 
 
 module.exports = router;
