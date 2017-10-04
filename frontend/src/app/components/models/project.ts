@@ -5,8 +5,8 @@ export class Project {
     title: string;
     description: string;
     startDate: string;
-    duration: string;
-    categories: string[];
+    endDate: string;
+    category: string;
     amountRequested: number;
     funded: boolean;
 

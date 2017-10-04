@@ -20,7 +20,14 @@ export class ListingComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.projects = this.listingService.getDummyProjects();
+    this.listingService.getProjects()
+    .then(res => {
+      this.projects = res;
+      console.log(this.projects);
+    })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
 }
