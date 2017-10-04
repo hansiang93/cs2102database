@@ -40,7 +40,7 @@ export class DashboardService {
   removeUser(id: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http
-        .get(Routes.user + id)
+        .delete(Routes.user + id)
         .subscribe(
         data => {
           console.log(data.json());

@@ -17,6 +17,11 @@
         <td>{{user.fullname}}</td>
         <td>{{user.email}}</td>
         <td>{{user.country}}</td>
+        <td>
+          <button (click)="removeUser(user.username)" type="button" class="btn btn-danger">
+            <i class="fa fa-trash fa-lg"></i>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

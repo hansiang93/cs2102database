@@ -28,4 +28,14 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  removeUser(id: string) {
+    this.dashboardService.removeUser(id)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
 }
