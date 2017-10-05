@@ -90,8 +90,8 @@ router.get('/user/:id', function(req, res) {
     });
 });
 
-router.delete('/user/:id', function(req, res) {
-    var promise = executer.deleteUser(req.params['id']);
+router.delete('/user/:username', function(req, res) {
+    var promise = executer.deleteUser(req.params['username']);
     promise.then(results => {
         return res.json(results.rows);
     });
