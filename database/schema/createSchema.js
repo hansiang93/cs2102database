@@ -39,6 +39,12 @@ const investmentQuery =
         'date DATE NOT NULL' +
     ');';
 
+const functionInvestQuery = 
+	'CREATE FUNCTION investment (name VARCHAR(32)) RETURNS integer' +
+	'AS SELECT SUM(*) FROM investment i, project p WHERE' +
+	'i.project = p.pid AND' +
+	'p.pid = name'
+	');';
 
-dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery)
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, functionInvestQuery)
     .then( () => console.log("Make tables done!") );
