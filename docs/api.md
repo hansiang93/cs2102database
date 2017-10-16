@@ -8,15 +8,15 @@ prefix all apis with 'localhost:3000/api'
 
 - [x] Get all categories
 
-GET /categories
+> GET /categories
 
 - [x] Get all projects and their information
 
-GET /allprojects
+> GET /allprojects
 
 - [x] Get individual project
 
-GET /projects/{pid} 
+> GET /projects/{pid} 
 
 - [ ] Get projects filtered by name
 - [ ] Get projects filtered by categories
@@ -24,12 +24,12 @@ GET /projects/{pid}
 - [ ] Get project investors and their values
 - [x] Get all Usernames and their information (for Admin)
 
-GET /alluser
+> GET /alluser
 
 - [ ] Get individual project progress in funding
 - [x] Get individual User and their information
 
-GET /user/{username}
+> GET /user/{username}
 
 - [ ] Get individual User's Projects
 - [ ] Get individual's all projects invested in
@@ -37,6 +37,7 @@ GET /user/{username}
 - [ ] Create Project for indiviudual user
 
 POST /projects/{pid}/update
+
 '''
 example data
 
@@ -50,11 +51,11 @@ example data
 
 '''
 
-
 - [ ] Create investment amound for a project
 - [x] Create a new User
 
-POST /register
+> POST /register
+
 '''
 needs req.body.() username, fullname, email, dob, country, role
 '''
@@ -65,7 +66,7 @@ needs req.body.() username, fullname, email, dob, country, role
 - [ ] Delete individual investment
 - [ ] Delete individual User (for self) (for admin) BUT keep investment?
 
-DELETE /user/{username}
+> DELETE /user/{username}
 
 
 ## to be Implemented
