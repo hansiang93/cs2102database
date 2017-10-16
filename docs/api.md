@@ -7,43 +7,34 @@ prefix all apis with 'localhost:3000/api'
 ## List of various APIs needed
 
 - [x] Get all categories
-- [ ] Get all projects and their information
+
+GET /categories
+
+- [x] Get all projects and their information
+
+GET /allprojects
+
+- [x] Get individual project
+
+GET /projects/{pid} 
+
 - [ ] Get projects filtered by name
 - [ ] Get projects filtered by categories
 - [ ] Get projects filtered by progress
 - [ ] Get project investors and their values
-- [ ] Get all Usernames and their information (for Admin)
+- [x] Get all Usernames and their information (for Admin)
+
+GET /alluser
+
 - [ ] Get individual project progress in funding
-- [ ] Get individual User and their information
+- [x] Get individual User and their information
+
+GET /user/{username}
+
 - [ ] Get individual User's Projects
 - [ ] Get individual's all projects invested in
 
 - [ ] Create Project for indiviudual user
-- [ ] Create investment amound for a project
-- [ ] Create Users
-- [ ] Create new catagory?
-
-- [ ] Delete individual project -> Delete all related investments as well (for Admin)
-- [ ] Delete individual investment
-- [ ] Delete individual User (for self) (for admin) BUT keep investment?
-
-
-## Implemented
-
-GET /categories
-
-returns all categories
-
-GET /projects/{pid} 
-GET/DELETE /user/{username}
-
-GET /allprojects
-GET /alluser
-
-POST /register
-'''
-needs req.body.() username, fullname, email, dob, country, role
-'''
 
 POST /projects/{pid}/update
 '''
@@ -58,3 +49,26 @@ example data
 "creator":"username02"
 
 '''
+
+
+- [ ] Create investment amound for a project
+- [x] Create a new User
+
+POST /register
+'''
+needs req.body.() username, fullname, email, dob, country, role
+'''
+
+- [ ] Create new catagory?
+
+- [ ] Delete individual project -> Delete all related investments as well (for Admin)
+- [ ] Delete individual investment
+- [ ] Delete individual User (for self) (for admin) BUT keep investment?
+
+DELETE /user/{username}
+
+
+## to be Implemented
+
+
+
