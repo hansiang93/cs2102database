@@ -18,10 +18,10 @@ exports.ADD_CATEGORY =
     ' (category)' +
     ' VALUES($1)';
 
-exports.ADD_INVEST =
+exports.ADD_INVESTMENT =
     'INSERT INTO invest' +
-    ' (investor, project, amount, date)' +
-    ' VALUES ($1, $2, $3, $4)';
+    ' (id, investor, project, amount, date)' +
+    ' VALUES ($1, $2, $3, $4, $5)';
 
 exports.GET_ALL_USER =
     'SELECT * FROM users';

@@ -66,17 +66,16 @@ exports.updateProject = function (pid, title, category, description,
     ]);
 }
 
-exports.deleteProjectById = function(pid) {
-    return executeAndLog(queries.DELETE_PROJECT, [pid]);
+exports.investProject = function (invest_id, investor, project_id, 
+	amount, invest_date) {
+	    console.log('Attemping to add investment under project id ' + project_id);
+    return executeAndLog(queries.ADD_INVESTMENT, [
+       invest_id, investor, project_id, amount, invest_date
+    ]);
 }
 
-exports.addInvest = function addInvest(username, project, amount,
-    date) {
-
-    console.log('Attemping to add account ' + username);
-    return executeAndLog(queries.ADD_INVEST, [
-        username, project, amount, date
-    ]);
+exports.deleteProjectById = function(pid) {
+    return executeAndLog(queries.DELETE_PROJECT, [pid]);
 }
 
 exports.getProjectById = function(pid) {

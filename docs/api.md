@@ -34,7 +34,7 @@ prefix all apis with 'localhost:3000/api'
 - [ ] Get individual User's Projects
 - [ ] Get individual's all projects invested in
 
-- [ ] Create Project for indiviudual user
+- [x] Create Project for indiviudual user
 
 POST /projects/{pid}/update
 
@@ -51,7 +51,18 @@ example data
 
 '''
 
-- [ ] Create investment amound for a project
+- [x] Create investment amount for a project
+
+POST /invest/{project_id}
+
+'''
+"invest_id":"1234",
+"username":"username10",
+"amount":"59483",
+"date":"2018-11-20",
+
+'''
+
 - [x] Create a new User
 
 > POST /register
@@ -69,7 +80,9 @@ needs req.body.() username, fullname, email, dob, country, role
 > DELETE /user/{username}
 
 
-## to be Implemented
+## Other Useful APIs to support
 
-
+- [ ] Check if Project ID is occupied?
+- [ ] Check if Investment ID is occupied?
+- [ ] Check if username is taken
 
