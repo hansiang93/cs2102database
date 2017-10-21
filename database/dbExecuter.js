@@ -32,8 +32,8 @@ exports.addUser = function addUser(username, full_name, email, dob,
     ]);
 }
 
-exports.getAllUser = function() {
-    return executeAndLog(queries.GET_ALL_USER);
+exports.getAllUsers = function() {
+    return executeAndLog(queries.GET_ALL_USERS);
 }
 
 exports.getUser = function(username) {
@@ -45,8 +45,8 @@ exports.deleteUser = function(username) {
 }
 
 
-exports.getAllProject = function() {
-    return executeAndLog(queries.GET_ALL_PROJECT);
+exports.getAllProjects = function() {
+    return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
 exports.addProject = function addProject(username, full_name, email, dob,
@@ -90,4 +90,3 @@ exports.getCategories = function() {
     console.log('attempting to get all available categories');
     return executeAndLog(queries.GET_CATEGORIES);
 }
-

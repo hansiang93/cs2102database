@@ -7,29 +7,16 @@ const router = express.Router();
 
 var username = '';
 
+// Project APIs
 
-router.get('/categories', function(req, res) {
-    var promise = executer.getCategories();
-    promise.then(results => {
-        return res.json(results.rows);
-    });
-})
-
-router.get('/allproject', function(req, res) {
-    var promise = executer.getAllProject();
+router.get('/allprojects', function(req, res) {
+    var promise = executer.getAllProjects();
     promise.then(results => {
         return res.json(results.rows);
     });
 });
 
-router.get('/alluser', function(req, res) {
-    var promise = executer.getAllUser();
-    promise.then(results => {
-        return res.json(results.rows);
-    });
-});
-
-router.get('/projects/:pid', function(req, res) {
+router.get('/project/:pid', function(req, res) {
     var promise = executer.getProjectById(req.params['pid']);
     promise.then(results => {
         let projects = results;
@@ -45,7 +32,8 @@ router.get('/projects/:pid', function(req, res) {
     });
 })
 
-router.delete('/projects/:id', function(req, res) {
+
+router.delete('/projects/:pid', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
     promise.then(results => {
         console.log("deleting project " + results);
@@ -56,8 +44,8 @@ router.delete('/projects/:id', function(req, res) {
 })
 
 
-router.post('/projects/:id/update', function (req, res, next) {
-  var projectId = parseInt(req.params.id);
+router.post('/projects/:pid', function (req, res, next) {
+  var projectId = parseInt(req.params.pid);
   var title = req.body.title;
   var category = req.body.category;
   var description = req.body.description;
@@ -74,30 +62,28 @@ router.post('/projects/:id/update', function (req, res, next) {
   });
 });
 
-router.post('/invest/:id', function (req, res, next) {
-    var invest_id = req.body.invest_id
-  var investor = req.body.username;
-  var project_id = parseInt(req.params.id);
-  var amount = req.body.amount;
-  var invest_date = req.body.date;
-  console.log(req.body);
-  var promise = executer.investProject(
-    invest_id, investor, project_id, amount, invest_date
-    );
-  promise.then(function() {
-    res.redirect('/projects/' + projectId); // to project page
-  });
-});
 
+// User APIs
 
-router.get('/myprojects/:id', function(req, res) {
-    console.log('projects by username: ', username);
-    executer.getProjectByUser(req.params['id']).then(result => {
-        let projects = result.rows;
-        return res.json(projects);
+router.get('/allusers', function(req, res) {
+    var promise = executer.getAllUsers();
+    promise.then(results => {
+        return res.json(results.rows);
     });
 });
 
+router.post('/register', function(req, res, next) {
+    var username = req.body.username;
+    var fullname = req.body.fullname;
+    var email = req.body.email;
+    var dob = req.body.dob;
+    var country = (req.body.country) ? req.body.country : '';
+    var role = req.body.role;
+    var promise = executer.addUser(username, fullname, email, dob, country, role);
+    promise.then(function(result) {
+        res.redirect('/'); //redirect back to home
+    });
+});
 
 router.get('/user/:id', function(req, res) {
     var promise = executer.getUser(req.params['id']);
@@ -114,18 +100,39 @@ router.delete('/user/:username', function(req, res) {
 
 });
 
-router.post('/register', function(req, res, next) {
-    var username = req.body.username;
-    var fullname = req.body.fullname;
-    var email = req.body.email;
-    var dob = req.body.dob;
-    var country = (req.body.country) ? req.body.country : '';
-    var role = req.body.role;
-    var promise = executer.addUser(username, fullname, email, dob, country, role);
-    promise.then(function(result) {
-        res.redirect('/'); //redirect back to home
+router.get('/myprojects/:id', function(req, res) {
+    console.log('projects by username: ', username);
+    executer.getProjectByUser(req.params['id']).then(result => {
+        let projects = result.rows;
+        return res.json(projects);
     });
 });
+
+// Investing APIs
+
+router.post('/invest/:id', function (req, res, next) {
+    var invest_id = req.body.invest_id
+  var investor = req.body.username;
+  var project_id = parseInt(req.params.id);
+  var amount = req.body.amount;
+  var invest_date = req.body.date;
+  console.log(req.body);
+  var promise = executer.investProject(
+    invest_id, investor, project_id, amount, invest_date
+    );
+  promise.then(function() {
+    res.redirect('/projects/' + projectId); // to project page
+  });
+});
+
+// Other APIs
+
+router.get('/categories', function(req, res) {
+    var promise = executer.getCategories();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
 
 router.post('/login', function(req, res, next) {
     var promise = executer.getUser(req.body.username);
@@ -143,8 +150,5 @@ router.get('/logout', function(req, res, next) {
     if (username !== "") username = "";
     res.redirect(req.get('referer'));
 });
-
-
-
 
 module.exports = router;

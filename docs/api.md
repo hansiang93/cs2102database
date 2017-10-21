@@ -2,7 +2,39 @@
 
 prefix all apis with 'localhost:3000/api'
 
+Finish on the week of GRE
 
+CREATE ISSUEs
+
+MULTIPLE catagorIES
+
+
+SORTING OF DATABASE
+search by username
+
+To do: Sort database by name via trigger
+Set PostGreSQL DATE format
+Get Current DATE in Postgres
+New Function for random PID and IID
+Trigger to check if funded, if not, check if fund is reached
+If ensure investment date < p.enddate
+
+SEARCH BY PROJECT NAME AND FILTERS
+
+LEADERBOARD for investors
+Additional Stats? lower priority i guess? MEAN MEDIAN AVG ETC
+FUNKY Person with name that starts with P donates more than those
+Person born in Jan > Dec
+
+
+FEATURED PROJECTS for frontpage
+
+Give you a list of users and amount + users and project no.
+
+
+ADMIN tools
+
+THROW
 
 ## List of various APIs needed
 
@@ -20,7 +52,7 @@ prefix all apis with 'localhost:3000/api'
 
 - [ ] Get projects filtered by name
 - [ ] Get projects filtered by categories
-- [ ] Get projects filtered by progress
+- [ ] Get projects filtered by FUNDED OR NOT
 - [ ] Get project investors and their values
 - [x] Get all Usernames and their information (for Admin)
 
@@ -43,7 +75,7 @@ example data
 
 "title":"this is a new crafts game",
 "description":"testing",
-"category":"Crafts",
+"category":[String0,string1....],
 "enddate":"2018-11-20",
 "startdate": "2016-09-23",
 "amountrequested":"5000",
