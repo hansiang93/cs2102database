@@ -49,6 +49,10 @@ exports.getAllProjects = function() {
     return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
+exports.getProjectInvestment = function() {
+    return executeAndLog(queries.GET_PROJECT_INVESTMENT_AMOUNT);
+}
+
 exports.addProject = function addProject(username, full_name, email, dob,
     country, role) {
     console.log('Attemping to add project under ' + username);

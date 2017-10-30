@@ -68,12 +68,39 @@ CREATE TABLE invest (
 Project Funding function
 
 ```
-CREATE VIEW funding AS
-	SELECT *
-	FROM invest
-	WHERE
-	;
+    CREATE OR REPLACE FUNCTION projectInvestment(projectid INT)
+        RETURNS DECIMAL AS $$
+        DECLARE totalinvestment DECIMAL;
+        BEGIN
+        SELECT SUM(i.amount) INTO totalinvestment
+        FROM investment i, project p
+        WHERE projectid = p.pid
+        AND i.project = p.pid;
+        RETURN totalinvestment;
+        END; $$
+        LANGUAGE PLPGSQL;
 ```
+
+
+```
+    CREATE OR REPLACE FUNCTION addInvestmentTrigger()
+     RETURNS trigger AS 
+     $$
+     BEGIN
+     IF (projectInvestment(NEW.pid) >= amountrequested) THEN
+     SET funded = TRUE;
+     ELSEIF (projectInvestment(pid) < amountrequested) THEN
+     SET funded = FALSE;
+     END IF;
+     RETURN NEW;
+    END;
+    
+    $$
+    LANGUAGE 'plpgsql';
+
+```
+
+
 
 ## Populating of database
 

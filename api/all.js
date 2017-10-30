@@ -110,15 +110,14 @@ router.get('/myprojects/:id', function(req, res) {
 
 // Investing APIs
 
-router.post('/invest/:id', function (req, res, next) {
+router.post('/invest', function (req, res, next) {
     var invest_id = req.body.invest_id
   var investor = req.body.username;
   var project_id = parseInt(req.params.id);
   var amount = req.body.amount;
-  var invest_date = req.body.date;
   console.log(req.body);
   var promise = executer.investProject(
-    invest_id, investor, project_id, amount, invest_date
+    invest_id, investor, project_id, amount
     );
   promise.then(function() {
     res.redirect('/projects/' + projectId); // to project page

@@ -13,10 +13,15 @@ SORTING OF DATABASE
 search by username
 
 To do: Sort database by name via trigger
-Set PostGreSQL DATE format
+
+done Set PostGreSQL DATE format
+
 Get Current DATE in Postgres
+
 New Function for random PID and IID
-Trigger to check if funded, if not, check if fund is reached
+
+done?? Trigger to check if funded, if not, check if fund is reached
+
 If ensure investment date < p.enddate
 
 SEARCH BY PROJECT NAME AND FILTERS
@@ -117,4 +122,3 @@ needs req.body.() username, fullname, email, dob, country, role
 - [ ] Check if Project ID is occupied?
 - [ ] Check if Investment ID is occupied?
 - [ ] Check if username is taken
-

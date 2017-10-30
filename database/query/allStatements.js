@@ -9,13 +9,13 @@ exports.GET_CATEGORIES =
 exports.ADD_INVESTMENT =
     'INSERT INTO invest' +
     ' (id, investor, project, amount, date)' +
-    ' VALUES ($1, $2, $3, $4, $5)';
+    ' VALUES ($1, $2, $3, $4, CURRENT_DATE)';
 
 // Project Statements
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    ' (pid, creator, title, description, category, startdate, enddate, amountrequested, funded)' +
+    ' (pid, creator, title, description, category, CURRENT_DATE, enddate, amountrequested, funded)' +
     ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, FALSE)';
 
 exports.UPDATE_PROJECT =
@@ -24,7 +24,14 @@ exports.UPDATE_PROJECT =
     ' WHERE pid = $7';
 
 exports.GET_ALL_PROJECTS =
-    'SELECT * FROM project';
+    'SELECT pid, creator, title, description, category,' +
+    ' to_char(startdate, 'DD-MM-YYY'),' + 
+    ' to_char(enddate, 'DD-MM-YYY'), amountrequested' +
+    ' FROM project' +
+    ' ORDER BY title';
+
+exports.GET_PROJECT_INVESTMENT_AMOUNT =
+    'SELECT * FROM project pr WHERE pr.pid = $1';
 
 exports.GET_PROJECT_BY_ID =
     'SELECT * FROM project pr WHERE pr.pid = $1';

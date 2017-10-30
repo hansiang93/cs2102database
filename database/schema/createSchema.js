@@ -40,7 +40,7 @@ const investmentQuery =
         'date DATE' +
     ');';
 
-const investmentViewQuery = 
+const investmentFunctionQuery = 
     'CREATE OR REPLACE FUNCTION projectInvestment(projectid INT)' +
         'RETURNS DECIMAL AS $$' +
         'DECLARE totalinvestment DECIMAL;' +
@@ -51,7 +51,22 @@ const investmentViewQuery =
         'AND i.project = p.pid;' +
         'RETURN totalinvestment;' +
         'END; $$' +
-    'LANGUAGE PLPGSQL;';
+        'LANGUAGE PLPGSQL;';
 
-dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, investmentViewQuery)
-    .then( () => console.log("Make tables done!") );
+const investmentTriggerQuery =
+    'CREATE OR REPLACE FUNCTION addInvestmentTrigger()' +
+    ' RETURNS trigger AS ' +
+    ' $$' +
+    ' BEGIN' +
+    ' IF (projectInvestment(NEW.pid) >= amountrequested) THEN' +
+    ' SET funded = TRUE;' +
+    ' ELSEIF (projectInvestment(pid) < amountrequested) THEN' +
+    ' SET funded = FALSE;' +
+    ' END IF;' +
+    ' RETURN NEW;' +
+    'END;' +
+    '$$' +
+    'LANGUAGE \'plpgsql\';'
+
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, investmentFunctionQuery)
+    .then(() => console.log("Make tables done!"));
