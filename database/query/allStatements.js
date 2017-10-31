@@ -25,8 +25,8 @@ exports.UPDATE_PROJECT =
 
 exports.GET_ALL_PROJECTS =
     'SELECT pid, creator, title, description, category,' +
-    ' to_char(startdate, 'DD-MM-YYY'),' + 
-    ' to_char(enddate, 'DD-MM-YYY'), amountrequested' +
+    ' to_char(startdate, \'DD-MM-YYY\'),' + 
+    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
     ' FROM project' +
     ' ORDER BY title';
 
