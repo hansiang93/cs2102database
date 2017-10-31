@@ -17,12 +17,12 @@
             <i class="fa fa-check fa-lg"></i> Funded
           </a>
         </li>
-        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+        <li *ngIf="loginService.isLoggedIn" [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
           <a [routerLink]="['/newproject']" class="nav-link">
             <i class="fa fa-plus fa-lg"></i> New Project
           </a>
         </li>
-        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+        <li *ngIf="loginService.isLoggedIn" [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
           <a [routerLink]="['/dashboard']" class="nav-link">
             <i class="fa fa-user fa-lg"></i> Dashboard
           </a>
@@ -30,7 +30,7 @@
       </ul>
 
       <ul class="nav navbar-nav ml-auto">
-        <li [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+        <li *ngIf="!loginService.isLoggedIn" [routerLinkActive]="['nav-link-active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
           <a [routerLink]="['/login']" class="nav-link">
             <i class="fa fa-sign-in fa-lg"></i> Login
           </a>

@@ -11,49 +11,13 @@ const UserRoutes = {
 
 @Injectable()
 export class LoginService {
+  isLoggedIn: Boolean;
 
   constructor(
     private http: Http
-  ) { }
-
-  //test function
-  // getUsers() {
-  //   return new Promise((resolve, reject) => {
-  //     this.http
-  //       .get(UserRoutes.users)
-  //       .subscribe(
-  //       data => {
-  //           resolve({
-  //             success: true, 
-  //             data: data.json()
-  //           });
-  //       },
-  //       err => {
-  //           reject({
-  //             success: false,
-  //             data: null
-  //           });
-  //       });
-  //   });
-  // }
-
-  //TODO add model for user, remove any
-  // registerUser(user: any): Promise<any> {
-  //   let headers = new Headers();
-  //   //TODO add authorization tokens if there is time
-    
-  //   return new Promise((resolve, reject) => {
-  //     this.http
-  //       .post(UserRoutes.users, user, { headers: headers })
-  //       .subscribe(
-  //       data => {
-  //           resolve({success: true});
-  //       },
-  //       err => {
-  //           reject({success: false});
-  //       });
-  //   });
-  // }
+  ) {
+    this.isLoggedIn = false;
+  }
 
   loginUser(user: any): Promise<any> {
 
@@ -62,12 +26,17 @@ export class LoginService {
         .post(UserRoutes.login, user)
         .subscribe(
         data => {
-            resolve({success: true});
+          this.isLoggedIn = true;
+          resolve({success: true});
         },
         err => {
-            reject({success: false});
+          reject({success: false});
         });
     });
+  }
+
+  logout(): void {
+    this.isLoggedIn = false;
   }
 
 }

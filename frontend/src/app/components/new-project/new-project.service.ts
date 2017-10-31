@@ -27,10 +27,7 @@ export class NewProjectService {
           resolve(data.json());
         },
         err => {
-            reject({
-              success: false,
-              data: null
-            });
+            reject(err);
         });
     });
   }
@@ -44,10 +41,7 @@ export class NewProjectService {
           resolve(data.json());
         },
         err => {
-            reject({
-              success: false,
-              data: null
-            });
+            reject(err);
         });
     });
   }
