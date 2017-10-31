@@ -20,7 +20,7 @@ Get Current DATE in Postgres
 
 New Function for random PID and IID
 
-done?? Trigger to check if funded, if not, check if fund is reached
+done?? Trigger to check if funded, if not, check if fund is reached 
 
 If ensure investment date < p.enddate
 
@@ -39,7 +39,7 @@ Give you a list of users and amount + users and project no.
 
 ADMIN tools
 
-THROW
+THROW ERROR
 
 ## List of various APIs needed
 

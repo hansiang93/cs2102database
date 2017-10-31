@@ -41,32 +41,39 @@ const investmentQuery =
     ');';
 
 const investmentFunctionQuery = 
-    'CREATE OR REPLACE FUNCTION projectInvestment(projectid INT)' +
-        'RETURNS DECIMAL AS $$' +
-        'DECLARE totalinvestment DECIMAL;' +
-        'BEGIN' +
-        'SELECT SUM(i.amount) INTO totalinvestment' +
-        'FROM investment i, project p' +
-        'WHERE projectid = p.pid' +
-        'AND i.project = p.pid;' +
-        'RETURN totalinvestment;' +
-        'END; $$' +
+    'CREATE OR REPLACE FUNCTION projectInvestment(projectid INT) ' +
+        'RETURNS DECIMAL AS $$ ' +
+        'DECLARE totalinvestment DECIMAL; ' +
+        'BEGIN ' +
+        'SELECT SUM(i.amount) INTO totalinvestment ' +
+        'FROM investment i, project p ' +
+        'WHERE projectid = p.pid ' +
+        'AND i.project = p.pid; ' +
+        'RETURN totalinvestment; ' +
+        'END; $$ ' +
         'LANGUAGE PLPGSQL;';
 
-const investmentTriggerQuery =
+const investmentTriggerFunctionQuery =
     'CREATE OR REPLACE FUNCTION addInvestmentTrigger()' +
     ' RETURNS trigger AS ' +
     ' $$' +
     ' BEGIN' +
-    ' IF (projectInvestment(NEW.pid) >= amountrequested) THEN' +
-    ' SET funded = TRUE;' +
-    ' ELSEIF (projectInvestment(pid) < amountrequested) THEN' +
-    ' SET funded = FALSE;' +
-    ' END IF;' +
-    ' RETURN NEW;' +
+    ' UPDATE project' +
+    ' SET funded = CASE WHEN (projectInvestment(pid) >= amountrequested) THEN true' +
+    ' WHEN (projectInvestment(pid) < amountrequested) THEN false' +
+    ' END' +
+    ' WHERE project.pid = NEW.project;' +
+    ' RETURN NULL;' +
     'END;' +
     '$$' +
     'LANGUAGE \'plpgsql\';'
 
-dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, investmentFunctionQuery)
+const investmentTriggerQuery =
+    'CREATE TRIGGER check_funded ' +
+    'AFTER INSERT ON investment ' +
+    'FOR EACH ROW ' +
+    'EXECUTE PROCEDURE addInvestmentTrigger();';
+
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, 
+    investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery)
     .then(() => console.log("Make tables done!"));

@@ -87,20 +87,30 @@ Project Funding function
      RETURNS trigger AS 
      $$
      BEGIN
-     IF (projectInvestment(NEW.pid) >= amountrequested) THEN
-     SET funded = TRUE;
-     ELSEIF (projectInvestment(pid) < amountrequested) THEN
-     SET funded = FALSE;
-     END IF;
-     RETURN NEW;
+     UPDATE project
+     SET funded = CASE WHEN (projectInvestment(pid) >= amountrequested) THEN true
+     WHEN (projectInvestment(pid) < amountrequested) THEN false
+     END
+     WHERE project.pid = NEW.project;
     END;
-    
     $$
     LANGUAGE 'plpgsql';
 
 ```
 
-
+```
+    CREATE OR REPLACE TRIGGER check_funded
+    AFTER UPDATE ON investment
+    FOR EACH ROW
+    BEGIN
+    UPDATE project
+    IF (projectInvestment(pid) >= amountrequested) THEN
+    SET funded = TRUE;
+    ELSEIF (projectInvestment(pid) < amountrequested) THEN
+     SET funded = FALSE;
+     END IF;
+    END;
+```
 
 ## Populating of database
 
