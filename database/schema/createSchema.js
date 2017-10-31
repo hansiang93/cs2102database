@@ -31,6 +31,12 @@ const projectQuery =
 		'funded BOOLEAN' +
 	');'
 
+const projectCatagoryQuery =
+    'CREATE TABLE project_category ( ' +
+        'pid INT REFERENCES project(pid), ' +
+        'name VARCHAR(64) REFERENCES category(name) ' +
+        ');'
+
 const investmentQuery = 
     'CREATE TABLE investment (' +
         'id INT PRIMARY KEY,' +
@@ -74,6 +80,6 @@ const investmentTriggerQuery =
     'FOR EACH ROW ' +
     'EXECUTE PROCEDURE addInvestmentTrigger();';
 
-dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, 
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, projectCatagoryQuery, investmentQuery, 
     investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery)
     .then(() => console.log("Make tables done!"));
