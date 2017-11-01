@@ -28,6 +28,10 @@ exports.getAllProjects = function() {
     return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
+exports.getAllProjects = function(category) {
+    return executeAndLog(queries.GET_ALL_PROJECTS_BY_CAT, [category]);
+}
+
 exports.getProjectById = function(pid) {
     return executeAndLog(queries.GET_PROJECT_BY_ID, [pid]);
 }
@@ -59,6 +63,16 @@ exports.updateProject = function (pid, title, category, description,
     return executeAndLog(queries.UPDATE_PROJECT, [
         title, description, category, start_date, end_date, amount_sought, pid
     ]);
+}
+
+exports.removeProjectCategories = function (pid) {
+    console.log('Removing all project ' + pid + ' project categories');
+    return executeAndLog(queries.REMOVE_PROJECT_CATEGORIES, [pid]);
+}
+
+exports.addProjectCategory = function (pid, category) {
+    console.log('Adding project ' + pid + ' project categories');
+    return executeAndLog(queries.ADD_PROJECT_CATEGORY, [pid, category]);
 }
 
 exports.getProjectInvestment = function() {

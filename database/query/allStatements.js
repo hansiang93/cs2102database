@@ -23,11 +23,29 @@ exports.UPDATE_PROJECT =
     ' SET title = $1, description = $2, category = $3, startdate = $4, enddate = $5, amountrequested = $6' +
     ' WHERE pid = $7';
 
+exports.REMOVE_PROJECT_CATEGORIES =
+    'DELETE FROM project_category ' +
+    'WHERE pid = $1';
+
+exports.ADD_PROJECT_CATEGORY =
+    'INSERT INTO project_category ' +
+    ' (pid, name)' +
+    ' VALUES($1, $2)';
+
 exports.GET_ALL_PROJECTS =
-    'SELECT pid, creator, title, description, category,' +
-    ' to_char(startdate, \'DD-MM-YYY\'),' + 
+    'SELECT pid, creator, title, description,' +
+    ' to_char(startdate, \'DD-MM-YYY\'),' +
     ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
     ' FROM project' +
+    ' ORDER BY title';
+
+exports.GET_ALL_PROJECTS_BY_CAT =
+    'SELECT pid, creator, title, description,' +
+    ' to_char(startdate, \'DD-MM-YYY\'),' +
+    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
+    ' FROM project p, project_category pc' +
+    ' WHERE p.pid = pc.pid' +
+    ' AND pc.name LIKE %$1%' +
     ' ORDER BY title';
 
 exports.GET_PROJECT_INVESTMENT_AMOUNT =

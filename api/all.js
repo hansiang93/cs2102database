@@ -9,8 +9,15 @@ var username = '';
 
 // Project APIs
 
-router.get('/allprojects', function(req, res) {
+router.get('/projects', function(req, res) {
     var promise = executer.getAllProjects();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
+
+router.get('/projects/:category', function(req, res) {
+    var promise = executer.getAllProjectsByCat(req.params['category']);
     promise.then(results => {
         return res.json(results.rows);
     });
@@ -57,40 +64,48 @@ router.delete('/projects/:pid', function(req, res) {
     });
 })
 
-router.post('/project', function (req, res, next) {
-  var projectId = req.body.pid;
-  var username = req.body.username;
-  var title = req.body.title;
-  var description = req.body.description;
-  var end_date = req.body.enddate;
-  var amount_sought = req.body.amountrequested;
-  var category = req.body.category; // yet to do category adding
-  console.log(req.body);
-  var promise = executer.addProject(
-    projectId, username, title, description, end_date, amount_sought
+router.post('/project', function(req, res, next) {
+    var projectId = req.body.pid;
+    var username = req.body.username;
+    var title = req.body.title;
+    var description = req.body.description;
+    var end_date = req.body.enddate;
+    var amount_sought = req.body.amountrequested;
+    var category = req.body.category; // yet to do category adding
+    console.log(req.body);
+    var promise = executer.addProject(
+        projectId, username, title, description, end_date, amount_sought
     );
-  promise.then(function() {
-    res.redirect('/projects/' + projectId); // to project page
-  });
+    promise.then(function() {
+        res.redirect('/projects/' + projectId); // to project page
+    });
 
 });
 
-router.post('/projects/:pid', function (req, res, next) {
-  var projectId = parseInt(req.params.pid);
-  var title = req.body.title;
-  var category = req.body.category;
-  var description = req.body.description;
-  var start_date = req.body.startdate;
-  var end_date = req.body.enddate;
-  var amount_sought = req.body.amountrequested;
-  var owner_account = req.body.creator;
-  console.log(req.body);
-  var promise = executer.updateProject(
-    projectId, title, category, description, start_date, end_date, amount_sought
+router.post('/projects/:pid', function(req, res, next) {
+    var projectId = parseInt(req.params.pid);
+    var title = req.body.title;
+    var project_categories = req.body.category;
+    var description = req.body.description;
+    var start_date = req.body.startdate;
+    var end_date = req.body.enddate;
+    var amount_sought = req.body.amountrequested;
+    var owner_account = req.body.creator;
+    console.log(req.body);
+    var promise = executer.updateProject(
+        projectId, title, category, description, start_date, end_date, amount_sought
     );
-  promise.then(function() {
-    res.redirect('/projects/' + projectId); // to project page
-  });
+    promise.then(function() {
+        res.redirect('/projects/' + projectId); // to project page
+    });
+    if (project_categories.length > 0) {
+        executer.removeProjectCategories(projectId); // removes all project categories and replaces them
+        project_categories.forEach(function(element) {
+            executer.addProjectCategory(
+                projectId, element
+            );
+        });
+    }
 });
 
 
@@ -141,18 +156,18 @@ router.get('/myprojects/:id', function(req, res) {
 
 // Investing APIs
 
-router.post('/invest', function (req, res, next) {
-  var invest_id = req.body.invest_id
-  var investor = req.body.username;
-  var project_id = parseInt(req.params.id);
-  var amount = req.body.amount;
-  console.log(req.body);
-  var promise = executer.investProject(
-    invest_id, investor, project_id, amount
+router.post('/invest', function(req, res, next) {
+    var invest_id = req.body.invest_id
+    var investor = req.body.username;
+    var project_id = parseInt(req.params.id);
+    var amount = req.body.amount;
+    console.log(req.body);
+    var promise = executer.investProject(
+        invest_id, investor, project_id, amount
     );
-  promise.then(function() {
-    res.redirect('/projects/' + projectId); // to project page
-  });
+    promise.then(function() {
+        res.redirect('/projects/' + projectId); // to project page
+    });
 });
 
 // Other APIs
