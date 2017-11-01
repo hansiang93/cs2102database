@@ -15,8 +15,11 @@ exports.ADD_INVESTMENT =
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    ' (pid, creator, title, description, category, CURRENT_DATE, enddate, amountrequested, funded)' +
-    ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, FALSE)';
+    ' (pid, creator, title, description, category, startdate, enddate, amountrequested, funded)' +
+    ' VALUES($1, $2, $3, $4, $5, CURRENT_DATE, $7, $8, FALSE);' + 
+    'INSERT INTO project_category' +
+    ' (pid, category)' +
+    ' VALUES($1, $5);' ;
 
 exports.UPDATE_PROJECT =
     'UPDATE project ' +
