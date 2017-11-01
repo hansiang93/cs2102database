@@ -32,6 +32,20 @@ router.get('/project/:pid', function(req, res) {
     });
 })
 
+router.get('/allprojects/funded', function(req, res) {
+    var promise = executer.getFundedProjects();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
+
+router.get('/allprojects/ongoing', function(req, res) {
+    var promise = executer.getUnFundedProjects();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
+
 
 router.delete('/projects/:pid', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
@@ -43,6 +57,23 @@ router.delete('/projects/:pid', function(req, res) {
     });
 })
 
+router.post('/project', function (req, res, next) {
+  var projectId = req.body.pid;
+  var username = req.body.username;
+  var title = req.body.title;
+  var description = req.body.description;
+  var end_date = req.body.enddate;
+  var amount_sought = req.body.amountrequested;
+  var category = req.body.category; // yet to do category adding
+  console.log(req.body);
+  var promise = executer.addProject(
+    projectId, username, title, description, end_date, amount_sought
+    );
+  promise.then(function() {
+    res.redirect('/projects/' + projectId); // to project page
+  });
+
+});
 
 router.post('/projects/:pid', function (req, res, next) {
   var projectId = parseInt(req.params.pid);
@@ -111,7 +142,7 @@ router.get('/myprojects/:id', function(req, res) {
 // Investing APIs
 
 router.post('/invest', function (req, res, next) {
-    var invest_id = req.body.invest_id
+  var invest_id = req.body.invest_id
   var investor = req.body.username;
   var project_id = parseInt(req.params.id);
   var amount = req.body.amount;

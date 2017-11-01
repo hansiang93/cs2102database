@@ -23,41 +23,32 @@ function executeAndLog(query, args) {
     return promise;
 }
 
-exports.addUser = function addUser(username, full_name, email, dob,
-    country, role) {
-
-    console.log('Attemping to add account ' + username);
-    return executeAndLog(queries.ADD_USER, [
-        username, full_name, email, dob, country, role
-    ]);
-}
-
-exports.getAllUsers = function() {
-    return executeAndLog(queries.GET_ALL_USERS);
-}
-
-exports.getUser = function(username) {
-    return executeAndLog(queries.GET_USER, [username]);
-}
-
-exports.deleteUser = function(username) {
-    return executeAndLog(queries.DELETE_USER, [username]);
-}
-
 
 exports.getAllProjects = function() {
     return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
-exports.getProjectInvestment = function() {
-    return executeAndLog(queries.GET_PROJECT_INVESTMENT_AMOUNT);
+exports.getProjectById = function(pid) {
+    return executeAndLog(queries.GET_PROJECT_BY_ID, [pid]);
 }
 
-exports.addProject = function addProject(username, full_name, email, dob,
-    country, role) {
+exports.getFundedProjects = function() {
+    return executeAndLog(queries.GET_PROJECTS_FUNDED);
+}
+
+exports.getUnFundedProjects = function() {
+    return executeAndLog(queries.GET_PROJECTS_UNFUNDED);
+}
+
+exports.deleteProjectById = function(pid) {
+    return executeAndLog(queries.DELETE_PROJECT, [pid]);
+}
+
+exports.addProject = function addProject(pid, username, title, description, enddate,
+    amountrequested) {
     console.log('Attemping to add project under ' + username);
     return executeAndLog(queries.ADD_PROJECT, [
-        pid, creator, title, description, category, startdate, enddate, amountrequest
+        pid, username, title, description, enddate, amountrequest
     ]);
 }
 
@@ -70,27 +61,52 @@ exports.updateProject = function (pid, title, category, description,
     ]);
 }
 
-exports.investProject = function (invest_id, investor, project_id, 
-	amount, invest_date) {
-	    console.log('Attemping to add investment under project id ' + project_id);
-    return executeAndLog(queries.ADD_INVESTMENT, [
-       invest_id, investor, project_id, amount, invest_date
+exports.getProjectInvestment = function() {
+    return executeAndLog(queries.GET_PROJECT_INVESTMENT_AMOUNT);
+}
+
+// USERs
+
+exports.getAllUsers = function() {
+    return executeAndLog(queries.GET_ALL_USERS);
+}
+
+exports.addUser = function addUser(username, full_name, email, dob,
+    country, role) {
+
+    console.log('Attemping to add account ' + username);
+    return executeAndLog(queries.ADD_USER, [
+        username, full_name, email, dob, country, role
     ]);
 }
 
-exports.deleteProjectById = function(pid) {
-    return executeAndLog(queries.DELETE_PROJECT, [pid]);
+exports.getUser = function(username) {
+    return executeAndLog(queries.GET_USER, [username]);
 }
 
-exports.getProjectById = function(pid) {
-    return executeAndLog(queries.GET_PROJECT_BY_ID, [pid]);
+exports.deleteUser = function(username) {
+    return executeAndLog(queries.DELETE_USER, [username]);
 }
 
 exports.getProjectByUser = function(username) {
     return executeAndLog(queries.GET_PROJECT_BY_USER, [username]);
 }
 
+
+// Investing
+
+exports.investProject = function (invest_id, investor, project_id, 
+    amount, invest_date) {
+        console.log('Attemping to add investment under project id ' + project_id);
+    return executeAndLog(queries.ADD_INVESTMENT, [
+       invest_id, investor, project_id, amount, invest_date
+    ]);
+}
+
+// Others
+
 exports.getCategories = function() {
     console.log('attempting to get all available categories');
     return executeAndLog(queries.GET_CATEGORIES);
 }
+

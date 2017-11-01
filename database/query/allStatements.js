@@ -15,11 +15,8 @@ exports.ADD_INVESTMENT =
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    ' (pid, creator, title, description, category, startdate, enddate, amountrequested, funded)' +
-    ' VALUES($1, $2, $3, $4, $5, CURRENT_DATE, $7, $8, FALSE);' + 
-    'INSERT INTO project_category' +
-    ' (pid, category)' +
-    ' VALUES($1, $5);' ;
+    ' (pid, creator, title, description, startdate, enddate, amountrequested, funded)' +
+    ' VALUES($1, $2, $3, $4, CURRENT_DATE, $5, $6, FALSE);';
 
 exports.UPDATE_PROJECT =
     'UPDATE project ' +
@@ -41,7 +38,13 @@ exports.GET_PROJECT_BY_ID =
 
 exports.GET_PROJECT_BY_USER =
     'SELECT * FROM project pr WHERE pr.creator = $1';
-    
+
+exports.GET_PROJECTS_FUNDED =
+    'SELECT * FROM project pr WHERE pr.funded = TRUE';
+
+exports.GET_PROJECTS_UNFUNDED =
+    'SELECT * FROM project pr WHERE pr.funded = FALSE';
+
 exports.DELETE_PROJECT =
     'DELETE FROM project pr WHERE pr.pid = $1';
 
