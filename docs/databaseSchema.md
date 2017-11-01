@@ -34,8 +34,8 @@ CREATE TABLE users (
 Catagories table
 
 ```
-CREATE TABLE catagory (
-	catagory VARCHAR(64) PRIMARY KEY,
+CREATE TABLE category (
+	name VARCHAR(64) PRIMARY KEY,
 	);
 ```
 
@@ -54,6 +54,15 @@ CREATE TABLE project (
 	);
 ```
 
+Project categories table
+
+```
+CREATE TABLE project_category (
+    pid INT REFERENCES project(pid),
+    name VARCHAR(64) REFERENCES category(name)
+    );
+```
+
 Investment table
 
 ```
@@ -68,48 +77,51 @@ CREATE TABLE invest (
 Project Funding function
 
 ```
-    CREATE OR REPLACE FUNCTION projectInvestment(projectid INT)
-        RETURNS DECIMAL AS $$
-        DECLARE totalinvestment DECIMAL;
-        BEGIN
-        SELECT SUM(i.amount) INTO totalinvestment
-        FROM investment i, project p
-        WHERE projectid = p.pid
-        AND i.project = p.pid;
-        RETURN totalinvestment;
-        END; $$
-        LANGUAGE PLPGSQL;
-```
-
-
-```
-    CREATE OR REPLACE FUNCTION addInvestmentTrigger()
-     RETURNS trigger AS 
-     $$
-     BEGIN
-     UPDATE project
-     SET funded = CASE WHEN (projectInvestment(pid) >= amountrequested) THEN true
-     WHEN (projectInvestment(pid) < amountrequested) THEN false
-     END
-     WHERE project.pid = NEW.project;
-    END;
-    $$
-    LANGUAGE 'plpgsql';
-
-```
-
-```
-    CREATE OR REPLACE TRIGGER check_funded
-    AFTER UPDATE ON investment
-    FOR EACH ROW
+CREATE OR REPLACE FUNCTION projectInvestment(projectid INT)
+    RETURNS DECIMAL AS $$
+    DECLARE totalinvestment DECIMAL;
     BEGIN
-    UPDATE project
-    IF (projectInvestment(pid) >= amountrequested) THEN
-    SET funded = TRUE;
-    ELSEIF (projectInvestment(pid) < amountrequested) THEN
-     SET funded = FALSE;
-     END IF;
-    END;
+    SELECT SUM(i.amount) INTO totalinvestment
+    FROM investment i, project p
+    WHERE projectid = p.pid
+    AND i.project = p.pid;
+    RETURN totalinvestment;
+    END; $$
+    LANGUAGE PLPGSQL;
+```
+
+addInvestmentTrigger function
+
+```
+CREATE OR REPLACE FUNCTION addInvestmentTrigger()
+ RETURNS trigger AS 
+ $$
+ BEGIN
+ UPDATE project
+ SET funded = CASE WHEN (projectInvestment(pid) >= amountrequested) THEN true
+ WHEN (projectInvestment(pid) < amountrequested) THEN false
+ END
+ WHERE project.pid = NEW.project;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+```
+
+Trigger to update funded column in project
+
+```
+CREATE OR REPLACE TRIGGER check_funded
+AFTER UPDATE ON investment
+FOR EACH ROW
+BEGIN
+UPDATE project
+IF (projectInvestment(pid) >= amountrequested) THEN
+SET funded = TRUE;
+ELSEIF (projectInvestment(pid) < amountrequested) THEN
+ SET funded = FALSE;
+ END IF;
+END;
 ```
 
 ## Populating of database
