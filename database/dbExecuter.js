@@ -28,8 +28,12 @@ exports.getAllProjects = function() {
     return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
-exports.getAllProjects = function(category) {
+exports.getAllProjectsByCat = function(category) {
     return executeAndLog(queries.GET_ALL_PROJECTS_BY_CAT, [category]);
+}
+
+exports.getAllProjectsByName = function(name) {
+    return executeAndLog(queries.GET_ALL_PROJECTS_BY_NAME, [name]);
 }
 
 exports.getProjectById = function(pid) {
@@ -106,6 +110,9 @@ exports.getProjectByUser = function(username) {
     return executeAndLog(queries.GET_PROJECT_BY_USER, [username]);
 }
 
+exports.getProjectInvestedByUser = function(username) {
+    return executeAndLog(queries.GET_USER_PROJECTS_INVESTED, [username]);
+}
 
 // Investing
 
@@ -124,3 +131,12 @@ exports.getCategories = function() {
     return executeAndLog(queries.GET_CATEGORIES);
 }
 
+exports.getInvestmentsByMonthStats = function() {
+    console.log('attempting to get investments group by Month stat');
+    return executeAndLog(queries.GET_INVESTMENTS_BY_MONTH);
+}
+
+exports.getInvestmentsByDayStats = function() {
+    console.log('attempting to get investments group by Day stat');
+    return executeAndLog(queries.GET_INVESTMENTS_BY_DAY);
+}

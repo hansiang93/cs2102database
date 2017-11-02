@@ -23,6 +23,13 @@ router.get('/projects/:category', function(req, res) {
     });
 });
 
+router.get('/projects/:name', function(req, res) {
+    var promise = executer.getAllProjectsByName(req.params['name']);
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+});
+
 router.get('/project/:pid', function(req, res) {
     var promise = executer.getProjectById(req.params['pid']);
     promise.then(results => {
@@ -147,12 +154,21 @@ router.delete('/user/:username', function(req, res) {
 });
 
 router.get('/myprojects/:id', function(req, res) {
-    console.log('projects by username: ', username);
+    console.log('projects by username: ' + req.params['id']);
     executer.getProjectByUser(req.params['id']).then(result => {
         let projects = result.rows;
         return res.json(projects);
     });
 });
+
+router.get('/investments/:id', function(req, res) {
+    console.log('projects and investments: ' + req.params['id']);
+    executer.getProjectInvestedByUser(req.params['id']).then(result => {
+        let projects = result.rows;
+        return res.json(projects);
+    });
+});
+
 
 // Investing APIs
 
@@ -178,6 +194,21 @@ router.get('/categories', function(req, res) {
         return res.json(results.rows);
     });
 })
+
+router.get('/stats/month', function(req, res) {
+    var promise = executer.getInvestmentsByMonthStats();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
+
+router.get('/stats/day', function(req, res) {
+    var promise = executer.getInvestmentsByDayStats();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
+
 
 router.post('/login', function(req, res, next) {
     var promise = executer.getUser(req.body.username);

@@ -48,6 +48,14 @@ exports.GET_ALL_PROJECTS_BY_CAT =
     ' AND pc.name LIKE %$1%' +
     ' ORDER BY title';
 
+exports.GET_ALL_PROJECTS_BY_NAME =
+    'SELECT pid, creator, title, description,' +
+    ' to_char(startdate, \'DD-MM-YYY\'),' +
+    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
+    ' FROM project p' +
+    ' WHERE p.name LIKE %$1%' +
+    ' ORDER BY title';
+
 exports.GET_PROJECT_INVESTMENT_AMOUNT =
     'SELECT * FROM project pr WHERE pr.pid = $1';
 
@@ -81,3 +89,25 @@ exports.GET_USER =
 
 exports.DELETE_USER =
     'DELETE FROM users WHERE username = $1';
+
+exports.GET_USER_PROJECTS_INVESTED =
+    'SELECT p.title, SUM(i.amount) AS invested' +
+    ' FROM project p, investment i' +
+    ' WHERE p.pid = i.project' +
+    ' AND i.investor = $1' +
+    ' GROUP BY p.title;';
+
+// Fun stats?
+
+exports.GET_INVESTMENTS_BY_MONTH =
+    'SELECT TO_CHAR(date, 'MM'), SUM(amount)' +
+    ' FROM investment' +
+    ' GROUP BY TO_CHAR(date, 'MM')' +
+    ' ORDER BY 1;'
+
+exports.GET_INVESTMENTS_BY_DAY =
+    'SELECT TO_CHAR(date, 'DD'), SUM(amount)' +
+    ' FROM investment' +
+    ' GROUP BY TO_CHAR(date, 'DD')' +
+    ' ORDER BY 1;'
+
