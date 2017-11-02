@@ -46,14 +46,14 @@ router.get('/project/:pid', function(req, res) {
     });
 })
 
-router.get('/allprojects/funded', function(req, res) {
+router.get('/projects/funded', function(req, res) {
     var promise = executer.getFundedProjects();
     promise.then(results => {
         return res.json(results.rows);
     });
 });
 
-router.get('/allprojects/ongoing', function(req, res) {
+router.get('/projects/ongoing', function(req, res) {
     var promise = executer.getUnFundedProjects();
     promise.then(results => {
         return res.json(results.rows);
@@ -61,7 +61,7 @@ router.get('/allprojects/ongoing', function(req, res) {
 });
 
 
-router.delete('/projects/:pid', function(req, res) {
+router.delete('/project/:pid', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
     promise.then(results => {
         console.log("deleting project " + results);

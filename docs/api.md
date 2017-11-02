@@ -43,17 +43,66 @@ THROW ERROR
 
 ## List of various APIs needed
 
-- [x] Get all categories
-
-> GET /categories
-
 - [x] Get all projects and their information
 
-> GET /allprojects
+> GET /projects
+
+- [x] Get projects in this category
+
+> GET /projects/{category}
+
+- [x] Search projects by name
+
+> GET /projects/{name}
 
 - [x] Get individual project
 
 > GET /projects/{pid} 
+> GET /projects/funded
+> GET /projects/ongoing
+
+> DELETE /project/{pid}
+
+- [x] Create Project
+
+> POST /project/
+
+'''
+example data
+
+"pid":"5436"
+"username":"username02"
+"title":"this is a new crafts game",
+"description":"testing",
+"category":[String0,string1....],
+"enddate":"2018-11-20",
+"startdate": CURRENT DATE (will take current date),
+"amountrequested":"5000",
+
+'''
+
+- [x] Update Project
+
+> POST /project/{pid}
+
+'''
+example data
+
+"pid":"5436"
+"username":"username02"
+"title":"this is a new crafts game",
+"description":"testing",
+"category":[String0,string1....],
+"enddate":"2018-11-20",
+"startdate": CURRENT DATE (will take current date),
+"amountrequested":"5000",
+
+'''
+
+
+- [x] Get all categories
+
+> GET /categories
 
 - [ ] Get projects filtered by name
 - [ ] Get projects filtered by categories
@@ -71,22 +120,7 @@ THROW ERROR
 - [ ] Get individual User's Projects
 - [ ] Get individual's all projects invested in
 
-- [x] Create Project for indiviudual user
 
-POST /projects/{pid}/update
-
-'''
-example data
-
-"title":"this is a new crafts game",
-"description":"testing",
-"category":[String0,string1....],
-"enddate":"2018-11-20",
-"startdate": "2016-09-23",
-"amountrequested":"5000",
-"creator":"username02"
-
-'''
 
 - [x] Create investment amount for a project
 
