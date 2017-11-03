@@ -108,15 +108,15 @@ exports.DELETE_INVESTMENT =
 // Fun stats?
 
 exports.GET_INVESTMENTS_BY_MONTH =
-    'SELECT TO_CHAR(date, 'MM'), SUM(amount)' +
+    'SELECT TO_CHAR(date, \'MM\'), SUM(amount)' +
     ' FROM investment' +
-    ' GROUP BY TO_CHAR(date, 'MM')' +
+    ' GROUP BY TO_CHAR(date, \'MM\')' +
     ' ORDER BY 1;'
 
 exports.GET_INVESTMENTS_BY_DAY =
-    'SELECT TO_CHAR(date, 'DD'), SUM(amount)' +
+    'SELECT TO_CHAR(date, \'DD\'), SUM(amount)' +
     ' FROM investment' +
-    ' GROUP BY TO_CHAR(date, 'DD')' +
+    ' GROUP BY TO_CHAR(date, \'DD\')' +
     ' ORDER BY 1;'
 
 exports.GET_INVEST_AMOUNT_LEADERBOARD =
