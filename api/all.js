@@ -3,16 +3,64 @@ require('dotenv').config();
 const pg = require('pg');
 const express = require('express');
 const executer = require('../database/dbExecuter.js');
+const Rx = require('rx');
+const moment = require('moment');
+const capitalize = require('capitalize');
+
+
 const router = express.Router();
 
 var username = '';
+var errorMessage = '';
+
+
+
+router.get('/', function(req, res) {
+    let categoryObs = Rx.Observable.fromPromise(executer.getCategories());
+    let projectsObs = Rx.Observable.fromPromise(executer.getAllProjects());
+    Rx.Observable.zip(categoryObs, projectsObs).subscribe(
+        (results) => {
+            // this will only be executed once all the queries are done
+            let categories = results[0].rows;
+            let projects = results[1].rows;
+            res.render('pages/main', {
+                username: username,
+                categories: categories,
+                projects: projects,
+                error: errorMessage
+            });
+            errorMessage = '';
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+});
 
 // Project APIs
 
 router.get('/projects', function(req, res) {
+    var projects = [];
+    console.log(req.query);
+    var title = req.query.title ? req.query.title : '';
+    var categories = req.query.categories ? req.query.categories : [];
+    if (typeof(categories) == 'string') {
+        categories = [categories];
+    }
+    var params = {
+        title: title,
+        categories: categories
+    };
     var promise = executer.getAllProjects();
     promise.then(results => {
-        return res.json(results.rows);
+        projects = results.rows;
+        res.render('pages/search', {
+            username: username,
+            params: params,
+            projects: projects,
+            error: errorMessage
+        });
+        errorMessage = '';
     });
 });
 
@@ -31,16 +79,43 @@ router.get('/projects/:name', function(req, res) {
 });
 
 router.get('/project/:pid', function(req, res) {
-    var promise = executer.getProjectById(req.params['pid']);
+    var projectId = req.params.pid;
+    var promise = executer.getProjectById(projectId);
     promise.then(results => {
-        let projects = results;
-        if (projects.rowCount == 0) {
-            res.status(404).send('No such project');
-            return;
-        }
-        let project = projects.rows[0];
-        console.log(project);
-        return res.json(project);
+        // let projects = results;
+        // if (projects.rowCount == 0) {
+        //     res.status(404).send('No such project');
+        //     return;
+        // }
+        // let project = projects.rows[0];
+        // console.log(project);
+        // return res.json(project);
+        var result = results.rows[0];
+        console.log(result);
+
+        res.render('pages/viewProject', {
+            projectId: projectId,
+            username: username,
+            title: result.title,
+            description: result.description,
+            owner_account: result.owner_account,
+            category: result.category,
+            start_date: result.start_date,
+            end_date: result.end_date,
+            days_left: result.days_left,
+            backers: result.backers,
+            amount_sought: result.amount_sought,
+            amount_funded: result.amount_funded,
+            //TODO: do this in sql query instead?
+            is_funded: parseInt(result.amount_sought) < parseInt(result.amount_funded),
+            //TODO: do this in sql query instead?
+            percent_funded: parseFloat(parseFloat(result.amount_funded) / parseFloat(result.amount_sought) * 100).toFixed(2),
+            owner: result.owner,
+            owner_country: result.owner_country,
+            owner_description: result.owner_description,
+            error: errorMessage
+        });
+        errorMessage = '';
     }).catch(function() {
         console.log("No such project");
     });

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IndieStarter</title>
+	<% include ../partials/header %>
+	<link rel="stylesheet" href="../../styles/addEditProject.css">
+</head>
+<body>
+    <% include ../partials/navbar %>
+    <br>
+  	<div class="container">
+	  	<div class="section-title"><%= title %></div>
+	  	<div class = "projectform-body">
+		  	<form action="<%= formAction %>" method="<%= formMethod %>">
+		  		<div class="form-group">
+					<label>Title</label>
+					<input class="form-control" placeholder="Enter title here" name="title" value="<%= project.title %>"></input>
+				</div>
+				<div class="form-group">
+			    <label>Category</label>
+			    <select class="form-control" name="category">
+				<% categories.forEach( category => { %>
+					<% if (project.category == category.name) { %>
+						<option value="<%= category.name %>" selected><%=category.name%></option>
+					<% } else { %>
+						<option value="<%= category.name %>"><%=category.name%></option>
+					<% } %>
+				<% }); %>
+			    </select>
+				</div>
+				<div class="form-group">
+					<label>Image URL</label>
+					<input class="form-control" placeholder="http://www..." name="image_url" value="<%= project.image_url %>"></input>
+				</div>
+				<div class="form-group">
+					<label>Description</label>
+					<textarea class="form-control" type="text" name="description" placeholder="Tell what the project is about and the motivations behind it in a short paragraph"><%= project.description %></textarea>
+				</div>
+				<div class="form-group">
+					<label>Start Date</label>
+					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="start_date" value="<%= dateFormat(project.start_date) %>"></input>
+				</div>
+				<div class="form-group">
+					<label>End Date</label>
+					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="end_date" value="<%= dateFormat(project.end_date) %>"></input>
+				</div>
+				<div class="form-group">
+					<label>Amount seeking, in U.S. Dollars</label>
+					<input class="form-control" type="number" placeholder="0" name="amount_sought" value=<%= project.amount_sought %>></input>
+				</div>
+				<div class="form-group">
+					<label>Owner Username</label>
+					<% if(state==='add') { %>
+					<input class="form-control" type="text" name="owner_account" value="<%= username %>" readonly></input>
+					<% } else { %>
+					<input class="form-control" type="text" name="owner_account" value="<%= project.owner_account%>" readonly></input>
+					<% } %>
+				</div>
+
+				<% if (project.id == null) { %>
+					<button type="submit" class="btn btn-success">Publish</button>
+				<% } else { %>
+					<button type="submit" class="btn btn-primary">Update Project</button>
+				<% } %>
+
+			</form>
+		</div>
+	</div>
+	<% include ../partials/scripts %>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IndieStarter</title>
+	<% include ../partials/header %>
+	<link rel="stylesheet" href="/styles/myProjects.css">
+</head>
+<body>
+  <% include ../partials/navbar %>
+  <div class = "container myproject-container">
+  	<div class="section-title">My Projects</div>
+  	<div class="row">
+  		<% projects.forEach(function(project) { %>
+			<div class="col-md-3">
+			  	<div class="projectcard" onclick="openProject(<%= project.id %>)">
+			  		<div class="projectcard-content">
+			  			<div class="project-title"><%= project.title %></div>
+			  			<div class="project-owner"><%= project.owner %></div>
+			  			<div class="project-description"><%= project.description %></div>
+			  		</div>
+			  	</div>
+			  </div>
+			  <% }) %>
+				<a class="col-md-3" href="/projects/add">
+			  	<div class="projectcard">
+			 			<div class="project-add"><span class="glyphicon glyphicon-plus"></span> New Project</div>
+			  	</div>
+			  </a>
+  	</div>
+  </div>
+  <% include ../partials/scripts %>
+  <script src="/scripts/main.js"></script>
+</body>
+</html>
