@@ -98,10 +98,10 @@ CREATE OR REPLACE FUNCTION addInvestmentTrigger()
 	$$
 	BEGIN
 		UPDATE project
-		SET funded =	CASE
-						WHEN (projectInvestment(pid) >= amountrequested) THEN true
-						WHEN (projectInvestment(pid) < amountrequested) THEN false
-						END
+		SET funded = CASE
+			WHEN (projectInvestment(pid) >= amountrequested) THEN true
+			WHEN (projectInvestment(pid) < amountrequested) THEN false
+			END
 		WHERE project.pid = NEW.project;
 	END;
 	$$
@@ -139,6 +139,65 @@ As the project uses the PG module in Node.JS, the following SQL queries are writ
 
 These files can be found under ../populate in this Repo
 
+
+populateUser.js
+
+```
+exports.query =  
+        'INSERT INTO users VALUES(\'username00\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username01\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username02\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username03\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username04\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username05\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username06\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username07\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username08\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username09\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username10\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username11\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username12\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'admin01\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin02\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin03\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin04\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin05\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin06\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin07\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin08\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin09\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin10\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    ;
+
+```
+
+
+populateCat.js
+
+```
+exports.query =  
+        'INSERT INTO category VALUES(\'Art\');'
+    +   'INSERT INTO category VALUES(\'Comics\');'
+    +   'INSERT INTO category VALUES(\'Crafts\');'
+    +   'INSERT INTO category VALUES(\'Dance\');'
+    +   'INSERT INTO category VALUES(\'Design\');'
+    +   'INSERT INTO category VALUES(\'Fashion\');'
+    +   'INSERT INTO category VALUES(\'Film & Video\');'
+    +   'INSERT INTO category VALUES(\'Food\');'
+    +   'INSERT INTO category VALUES(\'Games\');'
+    +   'INSERT INTO category VALUES(\'Journalism\');'
+    +   'INSERT INTO category VALUES(\'Music\');'
+    +   'INSERT INTO category VALUES(\'Photography\');'
+    +   'INSERT INTO category VALUES(\'Publishing\');'
+    +   'INSERT INTO category VALUES(\'Technology\');'
+    +   'INSERT INTO category VALUES(\'Theater\');'
+    ;
+
+```
+
+
+
+
 populateProject.js
 
 ```
@@ -160,6 +219,61 @@ exports.query =
     +   'INSERT INTO project VALUES(\'14\', \'username05\', \'New android\', \'android version 20\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
     +   'INSERT INTO project VALUES(\'15\', \'username05\', \'Sick RnB\', \'some form of music\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
     +   'INSERT INTO project VALUES(\'16\', \'username12\', \'New Iphone\', \'ios version 30\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    ;
+
+```
+
+populateProjCat.js
+
+```
+exports.query =  
+        'INSERT INTO project_category VALUES(1, \'Art\');'
+    +   'INSERT INTO project_category VALUES(1, \'Photography\');'
+    +   'INSERT INTO project_category VALUES(2, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(3, \'Crafts\');'
+    +   'INSERT INTO project_category VALUES(4, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(5, \'Publishing\');'
+    +   'INSERT INTO project_category VALUES(6, \'Journalism\');'
+    +   'INSERT INTO project_category VALUES(7, \'Fashion\');'
+    +   'INSERT INTO project_category VALUES(8, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(8, \'Games\');'
+    +   'INSERT INTO project_category VALUES(8, \'Crafts\');'
+    +   'INSERT INTO project_category VALUES(9, \'Journalism\');'
+    +   'INSERT INTO project_category VALUES(10, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(11, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(12, \'Fashion\');'
+    +   'INSERT INTO project_category VALUES(13, \'Crafts\');'
+    +   'INSERT INTO project_category VALUES(13, \'Journalism\');'
+    +   'INSERT INTO project_category VALUES(13, \'Crafts\');'
+    +   'INSERT INTO project_category VALUES(14, \'Technology\');'
+    +   'INSERT INTO project_category VALUES(15, \'Music\');'
+    +   'INSERT INTO project_category VALUES(15, \'Photography\');'
+    +   'INSERT INTO project_category VALUES(16, \'Technology\');'
+    ;
+
+```
+
+populateInvest.js
+
+```
+
+exports.query =  
+        'INSERT INTO investment VALUES(\'1\', \'username02\', \'4\', 3434 , \'2018-01-01\');'
+    +   'INSERT INTO investment VALUES(\'2\', \'username05\', \'3\', 100 , \'2017-05-03\');'
+    +   'INSERT INTO investment VALUES(\'3\', \'username00\', \'7\', 24 , \'2019-01-01\');'
+    +   'INSERT INTO investment VALUES(\'4\', \'username00\', \'2\', 7655 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'5\', \'username03\', \'5\', 11 , \'2019-01-01\');'
+    +   'INSERT INTO investment VALUES(\'6\', \'username05\', \'8\', 432 , \'2018-04-01\');'
+    +   'INSERT INTO investment VALUES(\'7\', \'username00\', \'12\', 256 , \'2018-01-01\');'
+    +   'INSERT INTO investment VALUES(\'8\', \'username08\', \'16\', 3333 , \'2017-09-01\');'
+    +   'INSERT INTO investment VALUES(\'9\', \'username09\', \'10\', 333 , \'2018-11-01\');'
+    +   'INSERT INTO investment VALUES(\'10\', \'username04\', \'2\', 244 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'11\', \'username08\', \'1\', 2558 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'12\', \'username05\', \'1\', 3456 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'13\', \'username12\', \'2\', 786 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'14\', \'username10\', \'11\', 999 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'15\', \'username11\', \'10\', 453 , \'2020-01-01\');'
+    +   'INSERT INTO investment VALUES(\'16\', \'username02\', \'10\', 23425 , \'2020-01-01\');'
     ;
 
 ```
