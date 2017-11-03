@@ -2,8 +2,8 @@
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    ' (pid, creator, title, description, startdate, enddate, amountrequested, funded)' +
-    ' VALUES($1, $2, $3, $4, CURRENT_DATE, $5, $6, FALSE);';
+    ' (pid, creator, title, description, category, startdate, enddate, amountrequested, funded)' +
+    ' VALUES(DEFAULT, (SELECT users.id FROM users WHERE users.username = $1), $2, $3, $4, $5, $6, $7, FALSE);';
 
 exports.UPDATE_PROJECT =
     'UPDATE project ' +
@@ -20,25 +20,37 @@ exports.ADD_PROJECT_CATEGORY =
     ' VALUES($1, $2)';
 
 exports.GET_ALL_PROJECTS =
-    'SELECT pid, creator, title, description,' +
-    ' to_char(startdate, \'DD-MM-YYY\'),' +
-    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
-    ' FROM project' +
-    ' ORDER BY title';
+    'SELECT pr.pid, pr.creator, pr.title, pr.description,' +
+    ' to_char(pr.startdate, \'DD-MM-YYYY\'),' +
+    ' to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, ' +
+    ' u.username, u.fullname, u.country' +
+    ' FROM project pr, users u ' +
+    ' WHERE pr.creator = u.id ' +
+    ' ORDER BY pr.title';
+
+exports.GET_FEATURED_PROJECTS =
+    'SELECT pr.pid, pr.creator, pr.title, pr.description,' +
+    ' to_char(pr.startdate, \'DD-MM-YYYY\'),' +
+    ' to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, ' +
+    ' ((SELECT SUM(investment.amount) FROM investment WHERE investment.project = pr.pid) / pr.amountrequested) AS percentage, ' +
+    ' u.username, u.fullname, u.country' +
+    ' FROM project pr, users u ' +
+    ' WHERE pr.creator = u.id ' +
+    ' ORDER BY percentage ASC' +
+    ' LIMIT 12';
 
 exports.GET_ALL_PROJECTS_BY_CAT =
     'SELECT pid, creator, title, description,' +
-    ' to_char(startdate, \'DD-MM-YYY\'),' +
-    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
-    ' FROM project p, project_category pc' +
-    ' WHERE p.pid = pc.pid' +
-    ' AND pc.name LIKE %$1%' +
+    ' to_char(startdate, \'DD-MM-YYYY\'),' +
+    ' to_char(enddate, \'DD-MM-YYYY\'), amountrequested' +
+    ' FROM project p' +
+    ' WHERE p.category = $1' +
     ' ORDER BY title';
 
 exports.GET_ALL_PROJECTS_BY_NAME =
     'SELECT pid, creator, title, description,' +
-    ' to_char(startdate, \'DD-MM-YYY\'),' +
-    ' to_char(enddate, \'DD-MM-YYY\'), amountrequested' +
+    ' to_char(startdate, \'DD-MM-YYYY\'),' +
+    ' to_char(enddate, \'DD-MM-YYYY\'), amountrequested' +
     ' FROM project p' +
     ' WHERE p.name LIKE %$1%' +
     ' ORDER BY title';
@@ -46,11 +58,26 @@ exports.GET_ALL_PROJECTS_BY_NAME =
 exports.GET_PROJECT_INVESTMENT_AMOUNT =
     'SELECT * FROM project pr WHERE pr.pid = $1';
 
+exports.GET_PROJECTS =
+    'SELECT pr.pid, pr.title, pr.description, pr.owner_account, usr.fullname as owner, usr.country as owner_country ' +
+    'FROM project pr '+
+    'INNER JOIN users usr ON usr.id=pr.owner_account '+
+    'WHERE UPPER(pr.title) LIKE UPPER($1) '+
+    'ORDER BY pr.title';
+
 exports.GET_PROJECT_BY_ID =
-    'SELECT * FROM project pr WHERE pr.pid = $1';
+    'SELECT pr.pid, pr.title, pr.description, pr.creator, pr.category, ' +
+    'pr.startdate, pr.enddate, pr.amountrequested, pr.funded, ' +
+    'DATE_PART(\'day\', pr.enddate::timestamp - pr.startdate::timestamp) as daysleft, ' +
+    '(SELECT SUM(investment.amount) FROM investment WHERE investment.project = pr.pid) AS amountfunded, ' +
+    'users.fullname AS owner, users.country AS ownercountry ' +
+    'FROM project pr INNER JOIN users ON pr.creator = users.id WHERE pr.pid = $1';
+
 
 exports.GET_PROJECT_BY_USER =
-    'SELECT * FROM project pr WHERE pr.creator = $1';
+    'SELECT * FROM project pr, users u ' +
+    'WHERE pr.creator = u.id ' +
+    'AND u.username = $1';
 
 exports.GET_PROJECTS_FUNDED =
     'SELECT * FROM project pr WHERE pr.funded = TRUE';

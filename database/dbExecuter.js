@@ -28,6 +28,10 @@ exports.getAllProjects = function() {
     return executeAndLog(queries.GET_ALL_PROJECTS);
 }
 
+exports.getFeaturedProjects = function() {
+    return executeAndLog(queries.GET_FEATURED_PROJECTS);
+}
+
 exports.getAllProjectsByCat = function(category) {
     return executeAndLog(queries.GET_ALL_PROJECTS_BY_CAT, [category]);
 }
@@ -52,11 +56,11 @@ exports.deleteProjectById = function(pid) {
     return executeAndLog(queries.DELETE_PROJECT, [pid]);
 }
 
-exports.addProject = function addProject(pid, username, title, description, enddate,
+exports.addProject = function addProject(username, title, category, description, startdate, enddate,
     amountrequested) {
     console.log('Attemping to add project under ' + username);
     return executeAndLog(queries.ADD_PROJECT, [
-        pid, username, title, description, enddate, amountrequest
+        username, title, category, description, startdate, enddate, amountrequested
     ]);
 }
 

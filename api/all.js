@@ -17,7 +17,7 @@ var errorMessage = '';
 
 router.get('/', function(req, res) {
     let categoryObs = Rx.Observable.fromPromise(executer.getCategories());
-    let projectsObs = Rx.Observable.fromPromise(executer.getAllProjects());
+    let projectsObs = Rx.Observable.fromPromise(executer.getFeaturedProjects());
     Rx.Observable.zip(categoryObs, projectsObs).subscribe(
         (results) => {
             // this will only be executed once all the queries are done
@@ -64,22 +64,23 @@ router.get('/projects', function(req, res) {
     });
 });
 
-router.get('/projects/:category', function(req, res) {
-    var promise = executer.getAllProjectsByCat(req.params['category']);
-    promise.then(results => {
-        return res.json(results.rows);
-    });
-});
+// router.get('/projects/:category', function(req, res) {
+//     var promise = executer.getAllProjectsByCat(req.params['category']);
+//     promise.then(results => {
+//         return res.json(results.rows);
+//     });
+// });
 
-router.get('/projects/:name', function(req, res) {
-    var promise = executer.getAllProjectsByName(req.params['name']);
-    promise.then(results => {
-        return res.json(results.rows);
-    });
-});
+// router.get('/projects/:name', function(req, res) {
+//     var promise = executer.getAllProjectsByName(req.params['name']);
+//     promise.then(results => {
+//         return res.json(results.rows);
+//     });
+// });
 
 router.get('/project/:pid', function(req, res) {
     var projectId = req.params.pid;
+    console.log('Finding Project with id: ' + projectId);
     var promise = executer.getProjectById(projectId);
     promise.then(results => {
         // let projects = results;
@@ -92,27 +93,22 @@ router.get('/project/:pid', function(req, res) {
         // return res.json(project);
         var result = results.rows[0];
         console.log(result);
-
         res.render('pages/viewProject', {
             projectId: projectId,
             username: username,
             title: result.title,
             description: result.description,
-            owner_account: result.owner_account,
+            owner_account: result.creator,
             category: result.category,
-            start_date: result.start_date,
-            end_date: result.end_date,
-            days_left: result.days_left,
-            backers: result.backers,
-            amount_sought: result.amount_sought,
-            amount_funded: result.amount_funded,
-            //TODO: do this in sql query instead?
-            is_funded: parseInt(result.amount_sought) < parseInt(result.amount_funded),
-            //TODO: do this in sql query instead?
-            percent_funded: parseFloat(parseFloat(result.amount_funded) / parseFloat(result.amount_sought) * 100).toFixed(2),
+            start_date: result.startdate,
+            end_date: result.enddate,
+            days_left: result.daysleft,
+            amount_sought: result.amountrequested,
+            amount_funded: result.amountfunded,
+            is_funded: result.funded,
+            percent_funded: parseFloat(parseFloat(result.amountfunded) / parseFloat(result.amountrequested) * 100).toFixed(2),
             owner: result.owner,
-            owner_country: result.owner_country,
-            owner_description: result.owner_description,
+            owner_country: result.ownercountry,
             error: errorMessage
         });
         errorMessage = '';
@@ -135,6 +131,19 @@ router.get('/projects/ongoing', function(req, res) {
     });
 });
 
+router.get('/my-projects', function(req, res) {
+  console.log('username' , username);
+  executer.getProjectByUser(username).then(result => {
+    let projects = result.rows;
+    res.render('pages/myProjects', {
+      projects: projects,
+      username: username,
+      error: errorMessage
+    });
+    errorMessage = '';
+  });
+});
+
 
 router.delete('/project/:pid', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
@@ -146,20 +155,38 @@ router.delete('/project/:pid', function(req, res) {
     });
 })
 
+router.get('/projects/add', function(req, res) {
+  executer.getCategories().then( results => {
+    res.render('pages/addEditProject', {
+      username: username,
+      title: 'Add project',
+      categories: results.rows,
+      project: {},
+      formAction: '/project',
+      formMethod: 'post',
+      dateFormat: ( date => moment(date).format('YYYY-MM-DD') ),
+      state: 'add',
+      error: errorMessage
+    });
+    errorMessage = '';
+  });
+});
+
+
 router.post('/project', function(req, res, next) {
-    var projectId = req.body.pid;
     var username = req.body.username;
     var title = req.body.title;
     var description = req.body.description;
-    var end_date = req.body.enddate;
-    var amount_sought = req.body.amountrequested;
-    var category = req.body.category; // yet to do category adding
+    var startdate = req.body.startdate;
+    var enddate = req.body.enddate;
+    var amountrequested = req.body.amountrequested;
+    var category = req.body.category;
     console.log(req.body);
     var promise = executer.addProject(
-        projectId, username, title, description, end_date, amount_sought
+        username, title, description, category, startdate, enddate, amountrequested
     );
     promise.then(function() {
-        res.redirect('/projects/' + projectId); // to project page
+        res.redirect('/my-projects/'); // to project page
     });
 
 });

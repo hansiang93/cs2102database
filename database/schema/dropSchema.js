@@ -10,5 +10,6 @@ const investmentQuery = 'DROP TABLE investment;';
 const investmentViewQuery = 'DROP FUNCTION projectInvestment(INT);';
 
 dbHelper.executeQueriesInOrder(investmentViewQuery, investmentQuery, 
-		projectCatagoryQuery, projectQuery, userQuery, catagoryQuery)
+		// projectCatagoryQuery, 
+		projectQuery, userQuery, catagoryQuery)
     .then( () => console.log("Drop/Delete tables done!") );

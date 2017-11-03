@@ -29,31 +29,27 @@
 			    </select>
 				</div>
 				<div class="form-group">
-					<label>Image URL</label>
-					<input class="form-control" placeholder="http://www..." name="image_url" value="<%= project.image_url %>"></input>
-				</div>
-				<div class="form-group">
 					<label>Description</label>
 					<textarea class="form-control" type="text" name="description" placeholder="Tell what the project is about and the motivations behind it in a short paragraph"><%= project.description %></textarea>
 				</div>
 				<div class="form-group">
 					<label>Start Date</label>
-					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="start_date" value="<%= dateFormat(project.start_date) %>"></input>
+					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="startdate" value="<%= dateFormat(project.startdate) %>"></input>
 				</div>
 				<div class="form-group">
 					<label>End Date</label>
-					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="end_date" value="<%= dateFormat(project.end_date) %>"></input>
+					<input class="form-control" type="date" placeholder="yyyy-mm-dd" name="enddate" value="<%= dateFormat(project.enddate) %>"></input>
 				</div>
 				<div class="form-group">
 					<label>Amount seeking, in U.S. Dollars</label>
-					<input class="form-control" type="number" placeholder="0" name="amount_sought" value=<%= project.amount_sought %>></input>
+					<input class="form-control" type="number" placeholder="0" name="amountrequested" value=<%= project.amountrequested %>></input>
 				</div>
 				<div class="form-group">
 					<label>Owner Username</label>
 					<% if(state==='add') { %>
-					<input class="form-control" type="text" name="owner_account" value="<%= username %>" readonly></input>
+					<input class="form-control" type="text" name="username" value="<%= username %>" readonly></input>
 					<% } else { %>
-					<input class="form-control" type="text" name="owner_account" value="<%= project.owner_account%>" readonly></input>
+					<input class="form-control" type="text" name="username" value="<%= project.username%>" readonly></input>
 					<% } %>
 				</div>
 

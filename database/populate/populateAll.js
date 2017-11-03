@@ -11,6 +11,6 @@ dbHelper.executeQueriesInOrder(
     userValues.query,
     catagoryValues.query,
     projectValues.query,
-    projectCatValues.query,
+    // projectCatValues.query,
     investValues.query
 );

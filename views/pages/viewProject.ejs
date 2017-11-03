@@ -28,17 +28,6 @@
 						</div>
 
 					</div>
-					<div class="col-md-6">
-						<div class="latest-pledge">
-							<h4>Latest Pledge:</h4>
-							<h3>$<%= backers[backers.length - 1].amount %></h3>
-							<h4>From <%= backers[backers.length - 1].username %></h4>
-							<button type="button" class="btn" data-toggle="modal" data-target=".backers-modal">See all backers</button><br><br>
-							<% if (username !== "") { %>
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".pledge-modal">Pledge Now</button>
-							<% } %>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -56,16 +45,6 @@
 		    </div>
 		  </div>
 		</div>
-		<div class="modal fade backers-modal" tabindex="-1" role="dialog" aria-labelledby="backers-modal" aria-hidden="true">
-		  <div class="modal-dialog modal-md">
-		    <div class="modal-content">
-		      <h2>Backers</h2>
-			  <% for(var i=0; i < backers.length; i++) { %>
-			   <div><b><%= backers[i].username %></b> backed <b><%= title %></b> for <b>$<%= backers[i].amount %></b> on <%= backers[i].time %></td></div>
-			  <% } %>
-		    </div>
-		  </div>
-		</div>
 		<div class="row">
 			<label>Description</label>
 			<p><%= description %></p>
@@ -75,7 +54,6 @@
 			<label>About the Owner</label>
 			<p><%= owner %></p>
 			<p><%= owner_country %></p>
-			<p><%= owner_description %></p>
 		</div>
 	</div>
 	<% include ../partials/scripts %>

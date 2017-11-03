@@ -4,8 +4,9 @@ const dbHelper = require('../dbHelper');
 
 const userQuery =
 	'CREATE TABLE users (' +
-		'username VARCHAR(32) PRIMARY KEY, ' +
-		'fullname VARCHAR(64),' +
+        'id SERIAL PRIMARY KEY,' +
+		'username VARCHAR(32) UNIQUE NOT NULL,' +
+		'fullname VARCHAR(64) NOT NULL,' +
 		'email VARCHAR(256),' +
 		'dob DATE,' +
 		'country VARCHAR(64),' +
@@ -15,16 +16,17 @@ const userQuery =
 
 const catagoryQuery = 
     'CREATE TABLE category (' +
-        'name VARCHAR(64) PRIMARY KEY' +
+        'name VARCHAR(64) PRIMARY KEY,' +
+        'description VARCHAR(1024)' +
     ');';
 
 const projectQuery = 
 	'CREATE TABLE project (' +
-		'pid INT PRIMARY KEY,' +
-		'creator VARCHAR(32) REFERENCES users(username),' +
+		'pid SERIAL PRIMARY KEY,' +
+		'creator INTEGER REFERENCES users(id) ON DELETE SET NULL,' +
 		'title VARCHAR(256),' +
 		'description VARCHAR(256),' +
-		// 'category VARCHAR(64) REFERENCES category(name),' +
+		'category VARCHAR(64) REFERENCES category(name),' +
 		'startdate DATE NOT NULL,' +
 		'enddate DATE NOT NULL,' +
 		'amountrequested BIGSERIAL,' +
@@ -39,7 +41,7 @@ const projectCatagoryQuery =
 
 const investmentQuery = 
     'CREATE TABLE investment (' +
-        'id INT PRIMARY KEY,' +
+        'id SERIAL PRIMARY KEY,' +
         'investor VARCHAR(32) REFERENCES users(username) ON DELETE SET NULL,' +
         'project INT REFERENCES project(pid) ON DELETE SET NULL,' +
         'amount DECIMAL CHECK(amount > 0),' +
@@ -80,6 +82,6 @@ const investmentTriggerQuery =
     'FOR EACH ROW ' +
     'EXECUTE PROCEDURE addInvestmentTrigger();';
 
-dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, projectCatagoryQuery, investmentQuery, 
+dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, 
     investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery)
     .then(() => console.log("Make tables done!"));

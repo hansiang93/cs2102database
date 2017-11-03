@@ -12,7 +12,7 @@
   	<div class="row">
   		<% projects.forEach(function(project) { %>
 			<div class="col-md-3">
-			  	<div class="projectcard" onclick="openProject(<%= project.id %>)">
+			  	<div class="projectcard" onclick="openProject(<%= project.pid %>)">
 			  		<div class="projectcard-content">
 			  			<div class="project-title"><%= project.title %></div>
 			  			<div class="project-owner"><%= project.owner %></div>

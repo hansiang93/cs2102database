@@ -60,10 +60,10 @@
     <div class="row">
       <% projects.forEach(function(project) { %>
       <div class="col-lg-3">
-        <div class="projectcard" onclick="openProject(<%= project.id %>)">
+        <div class="projectcard" onclick="openProject(<%= project.pid %>)">
           <div class="projectcard-content">
             <div class="project-title"><%= project.title %></div>
-            <div class="project-owner"><%= project.owner %>, <%= project.owner_country %></div>
+            <div class="project-owner"><%= project.fullname %>, <%= project.country %></div>
             <div class="project-description">
               <%= project.description %>
             </div>

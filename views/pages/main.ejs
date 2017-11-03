@@ -42,10 +42,10 @@
             <div class="row">
               <% for(let i=0; i<4; i++) { %>
               <div class="col-lg-3">
-                <div class="projectcard" onclick="openProject(<%= projects[i].id %>)">
+                <div class="projectcard" onclick="openProject(<%= projects[i].pid %>)">
                   <div class="projectcard-content">
                     <div class="project-title"><%= projects[i].title %></div>
-                    <div class="project-owner"><%= projects[i].owner %>, <%= projects[i].owner_country %></div>
+                    <div class="project-owner"><%= projects[i].fullname %>, <%= projects[i].country %></div>
                     <div class="project-description">
                       <%= projects[i].description %>
                     </div>
@@ -62,10 +62,10 @@
             <div class="row">
               <% for(let i=4; i<(projects.length>=8?8:projects.length); i++) { %>
               <div class="col-lg-3">
-                <div class="projectcard" onclick="openProject(<%= projects[i].id %>)">
+                <div class="projectcard" onclick="openProject(<%= projects[i].pid %>)">
                   <div class="projectcard-content">
                     <div class="project-title"><%= projects[i].title %></div>
-                    <div class="project-owner"><%= projects[i].owner %>, <%= projects[i].owner_country %></div>
+                    <div class="project-owner"><%= projects[i].fullname %>, <%= projects[i].country %></div>
                     <div class="project-description">
                       <%= projects[i].description %>
                     </div>
@@ -83,10 +83,10 @@
             <div class="row">
               <% for(let i=8; i<projects.length; i++) { %>
               <div class="col-lg-3">
-                <div class="projectcard" onclick="openProject(<%= projects[i].id %>)">
+                <div class="projectcard" onclick="openProject(<%= projects[i].pid %>)">
                   <div class="projectcard-content">
                     <div class="project-title"><%= projects[i].title %></div>
-                    <div class="project-owner"><%= projects[i].owner %>, <%= projects[i].owner_country %></div>
+                    <div class="project-owner"><%= projects[i].fullname %>, <%= projects[i].country %></div>
                     <div class="project-description">
                       <%= projects[i].description %>
                     </div>
