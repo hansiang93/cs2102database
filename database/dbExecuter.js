@@ -65,7 +65,7 @@ exports.updateProject = function (pid, title, category, description,
 
     console.log('attemping to edit project ' + pid + ': ' + title);
     return executeAndLog(queries.UPDATE_PROJECT, [
-        title, description, category, start_date, end_date, amount_sought, pid
+        title, description, category, end_date, amount_sought, pid
     ]);
 }
 
@@ -124,11 +124,20 @@ exports.investProject = function (invest_id, investor, project_id,
     ]);
 }
 
+exports.deleteInvestment = function(username) {
+    return executeAndLog(queries.DELETE_INVESTMENT, [invest_id]);
+}
+
 // Others
 
 exports.getCategories = function() {
     console.log('attempting to get all available categories');
     return executeAndLog(queries.GET_CATEGORIES);
+}
+
+exports.addCategory = function(category) {
+    console.log('adding category: ' + category);
+    return executeAndLog(queries.ADD_CATEGORY);
 }
 
 exports.getInvestmentsByMonthStats = function() {
@@ -139,4 +148,14 @@ exports.getInvestmentsByMonthStats = function() {
 exports.getInvestmentsByDayStats = function() {
     console.log('attempting to get investments group by Day stat');
     return executeAndLog(queries.GET_INVESTMENTS_BY_DAY);
+}
+
+exports.getAmountLeaderboard = function() {
+    console.log('attempting to get leaderboard by invested amount');
+    return executeAndLog(queries.GET_INVEST_AMOUNT_LEADERBOARD);
+}
+
+exports.getProjectsLeaderboard = function() {
+    console.log('attempting to get leaderboard by number of projects');
+    return executeAndLog(queries.GET_INVEST_PROJECT_LEADERBOARD);
 }

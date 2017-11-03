@@ -66,12 +66,14 @@ CREATE TABLE project_category (
 Investment table
 
 ```
-CREATE TABLE invest (
-	investor INT REFERENCES account(username),
-	project INT REFERENCES project(pid),
-	amount INT CHECK(amount > 0),
-	date DATE NOT NULL
-	);
+CREATE TABLE investment (
+    id INT PRIMARY KEY,
+    investor VARCHAR(32) REFERENCES users(username) ON DELETE SET NULL,
+    project INT REFERENCES project(pid) ON DELETE SET NULL,
+    amount DECIMAL CHECK(amount > 0),
+    date DATE
+);
+
 ```
 
 Project Funding function
@@ -144,29 +146,52 @@ populateUser.js
 
 ```
 exports.query =  
-        'INSERT INTO users VALUES(\'username00\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username01\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username02\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username03\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username04\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username05\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username06\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username07\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username08\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username09\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username10\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username11\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'username12\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
-    +   'INSERT INTO users VALUES(\'admin01\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin02\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin03\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin04\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin05\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin06\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin07\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin08\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin09\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
-    +   'INSERT INTO users VALUES(\'admin10\', \'full name\', \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+        'INSERT INTO users VALUES(\'username00\', \'full name\',
+         \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username01\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username02\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username03\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username04\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username05\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username06\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username07\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username08\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username09\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username10\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username11\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'username12\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', false);'
+    +   'INSERT INTO users VALUES(\'admin01\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin02\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin03\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin04\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin05\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin06\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin07\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin08\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin09\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
+    +   'INSERT INTO users VALUES(\'admin10\', \'full name\',
+     \'email@email.com\', \'1999-01-01\', \'Singapore\', true);'
     ;
 
 ```
@@ -203,22 +228,54 @@ populateProject.js
 ```
 
 exports.query =  
-        'INSERT INTO project VALUES(\'1\', \'username00\', \'New arts and craft project\', \'this is a new way of doing arts and crafts\', \'1999-01-01\', \'2018-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'2\', \'username00\', \'SkateBar\', \'wanna go to the bar and skate at the same time?\', \'1999-01-01\', \'2018-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'3\', \'username02\', \'Solar Panel for LIFE\', \'100% no fuss solar panel\', \'1999-01-01\', \'2019-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'4\', \'username02\', \'Solar Panel Competitor\', \'the other panel is bad\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'5\', \'username05\', \'New books\', \'some title and author\', \'1999-01-01\', \'2019-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'6\', \'username05\', \'BBC Competitor\', \'we are BBD!\', \'1999-01-01\', \'2018-04-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'7\', \'username06\', \'New Clothes for all genders\', \'clothes for all genders~\', \'1999-01-06\', \'2018-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'8\', \'username05\', \'Another Movie by Famous Actor\', \'another movie\', \'1999-01-01\', \'2017-09-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'9\', \'username02\', \'Another App\', \'another app for another platform\', \'1999-01-01\', \'2018-11-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'10\', \'username05\', \'projectTitleFOOBAR\', \'BAR BAR FOO BAR HAVE YOU ANY NULL\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'11\', \'username12\', \'Promises life for all\', \'gatica\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'12\', \'username05\', \'projectTitleFOOBAR2\', \'YES SIR YES SIR NULL BAGS FOO\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'13\', \'username08\', \'Pottery\', \'pots and pans\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'14\', \'username05\', \'New android\', \'android version 20\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'15\', \'username05\', \'Sick RnB\', \'some form of music\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
-    +   'INSERT INTO project VALUES(\'16\', \'username12\', \'New Iphone\', \'ios version 30\', \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+        'INSERT INTO project VALUES(\'1\', \'username00\',
+         \'New arts and craft project\', \'this is a new way of doing arts and crafts\',
+          \'1999-01-01\', \'2018-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'2\', \'username00\',
+     \'SkateBar\', \'wanna go to the bar and skate at the same time?\',
+      \'1999-01-01\', \'2018-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'3\', \'username02\',
+     \'Solar Panel for LIFE\', \'100% no fuss solar panel\',
+      \'1999-01-01\', \'2019-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'4\', \'username02\',
+     \'Solar Panel Competitor\', \'the other panel is bad\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'5\', \'username05\',
+     \'New books\', \'some title and author\',
+      \'1999-01-01\', \'2019-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'6\', \'username05\',
+     \'BBC Competitor\', \'we are BBD!\',
+      \'1999-01-01\', \'2018-04-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'7\', \'username06\',
+     \'New Clothes for all genders\', \'clothes for all genders~\',
+      \'1999-01-06\', \'2018-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'8\', \'username05\',
+     \'Another Movie by Famous Actor\', \'another movie\',
+      \'1999-01-01\', \'2017-09-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'9\', \'username02\',
+     \'Another App\', \'another app for another platform\',
+      \'1999-01-01\', \'2018-11-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'10\', \'username05\',
+     \'projectTitleFOOBAR\', \'BAR BAR FOO BAR HAVE YOU ANY NULL\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'11\', \'username12\',
+     \'Promises life for all\', \'gatica\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'12\', \'username05\',
+     \'projectTitleFOOBAR2\', \'YES SIR YES SIR NULL BAGS FOO\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'13\', \'username08\',
+     \'Pottery\', \'pots and pans\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'14\', \'username05\',
+     \'New android\', \'android version 20\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'15\', \'username05\',
+     \'Sick RnB\', \'some form of music\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
+    +   'INSERT INTO project VALUES(\'16\', \'username12\',
+     \'New Iphone\', \'ios version 30\',
+      \'1999-01-01\', \'2020-01-01\', 100000, FALSE);'
     ;
 
 ```

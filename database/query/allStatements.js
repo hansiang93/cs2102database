@@ -1,16 +1,3 @@
-exports.ADD_CATEGORY =
-    'INSERT INTO category ' +
-    ' (category)' +
-    ' VALUES($1)';
-
-exports.GET_CATEGORIES =
-    'SELECT * FROM category ORDER BY name';
-
-exports.ADD_INVESTMENT =
-    'INSERT INTO invest' +
-    ' (id, investor, project, amount, date)' +
-    ' VALUES ($1, $2, $3, $4, CURRENT_DATE)';
-
 // Project Statements
 
 exports.ADD_PROJECT =
@@ -20,8 +7,8 @@ exports.ADD_PROJECT =
 
 exports.UPDATE_PROJECT =
     'UPDATE project ' +
-    ' SET title = $1, description = $2, category = $3, startdate = $4, enddate = $5, amountrequested = $6' +
-    ' WHERE pid = $7';
+    ' SET title = $1, description = $2, category = $3, enddate = $4, amountrequested = $5' +
+    ' WHERE pid = $6';
 
 exports.REMOVE_PROJECT_CATEGORIES =
     'DELETE FROM project_category ' +
@@ -97,6 +84,27 @@ exports.GET_USER_PROJECTS_INVESTED =
     ' AND i.investor = $1' +
     ' GROUP BY p.title;';
 
+
+// Other APIs
+
+exports.GET_CATEGORIES =
+    'SELECT * FROM category ORDER BY name';
+
+exports.ADD_CATEGORY =
+    'INSERT INTO category ' +
+    ' (category)' +
+    ' VALUES($1)';
+    
+exports.ADD_INVESTMENT =
+    'INSERT INTO investment' +
+    ' (id, investor, project, amount, date)' +
+    ' VALUES ($1, $2, $3, $4, CURRENT_DATE)';
+
+exports.DELETE_INVESTMENT =
+    'DELETE FROM investment' +
+    ' WHERE id = $1;';
+
+
 // Fun stats?
 
 exports.GET_INVESTMENTS_BY_MONTH =
@@ -111,3 +119,16 @@ exports.GET_INVESTMENTS_BY_DAY =
     ' GROUP BY TO_CHAR(date, 'DD')' +
     ' ORDER BY 1;'
 
+exports.GET_INVEST_AMOUNT_LEADERBOARD =
+    'SELECT u.username, SUM(i.amount) AS totalinvestment' +
+    ' FROM users u, investment i' +
+    ' WHERE i.investor = u.username' +
+    ' GROUP BY u.username' +
+    ' ORDER BY totalinvestment;';
+
+exports.GET_INVEST_PROJECT_LEADERBOARD =
+    'SELECT u.username, COUNT(DISTINCT i.project) AS numberProjects' +
+    ' FROM users u, investment i' +
+    ' WHERE i.investor = u.username' +
+    ' GROUP BY u.username' +
+    ' ORDER BY numberProjects;';

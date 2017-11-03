@@ -94,13 +94,12 @@ router.post('/projects/:pid', function(req, res, next) {
     var title = req.body.title;
     var project_categories = req.body.category;
     var description = req.body.description;
-    var start_date = req.body.startdate;
     var end_date = req.body.enddate;
     var amount_sought = req.body.amountrequested;
     var owner_account = req.body.creator;
     console.log(req.body);
     var promise = executer.updateProject(
-        projectId, title, category, description, start_date, end_date, amount_sought
+        projectId, title, category, description, end_date, amount_sought
     );
     promise.then(function() {
         res.redirect('/projects/' + projectId); // to project page
@@ -186,6 +185,15 @@ router.post('/invest', function(req, res, next) {
     });
 });
 
+router.delete('/invest/:id', function(req, res, next) {
+    var invest_id = parseInt(req.params.id);
+    var promise = executer.deleteInvestment(
+        invest_id
+    );
+    promise.then(function() {
+        res.redirect('/'); // to main page
+    });
+});
 // Other APIs
 
 router.get('/categories', function(req, res) {
@@ -195,20 +203,43 @@ router.get('/categories', function(req, res) {
     });
 })
 
-router.get('/stats/month', function(req, res) {
+router.post('/categories', function(req, res, next) {
+    var category = req.body.category;
+    var promise = executer.addCategory(
+        category
+    );
+    promise.then(function() {
+        res.redirect('/'); // to main page
+    });
+});
+
+router.get('/invest/stats/month', function(req, res) {
     var promise = executer.getInvestmentsByMonthStats();
     promise.then(results => {
         return res.json(results.rows);
     });
 })
 
-router.get('/stats/day', function(req, res) {
+router.get('/invest/stats/day', function(req, res) {
     var promise = executer.getInvestmentsByDayStats();
     promise.then(results => {
         return res.json(results.rows);
     });
 })
 
+router.get('/leaderboard/amount', function(req, res) {
+    var promise = executer.getAmountLeaderboard();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
+
+router.get('/leaderboard/projects', function(req, res) {
+    var promise = executer.getProjectsLeaderboard();
+    promise.then(results => {
+        return res.json(results.rows);
+    });
+})
 
 router.post('/login', function(req, res, next) {
     var promise = executer.getUser(req.body.username);

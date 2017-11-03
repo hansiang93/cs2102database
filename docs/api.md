@@ -2,25 +2,14 @@
 
 prefix all apis with 'localhost:3000/api'
 
-Finish on the week of GRE
-
-CREATE ISSUEs
-
-MULTIPLE catagorIES
-
-
 SORTING OF DATABASE
 search by username
 
 To do: Sort database by name via trigger
 
-done Set PostGreSQL DATE format
-
 Get Current DATE in Postgres
 
 New Function for random PID and IID
-
-done?? Trigger to check if funded, if not, check if fund is reached 
 
 If ensure investment date < p.enddate
 
@@ -56,6 +45,7 @@ THROW ERROR
 > GET /projects/{name}
 
 - [x] Get individual project
+- [x] Get projects filtered by FUNDED OR NOT
 
 > GET /projects/{pid} 
 > GET /projects/funded
@@ -106,9 +96,6 @@ example data
 
 > GET /categories
 
-- [ ] Get projects filtered by name
-- [ ] Get projects filtered by categories
-- [ ] Get projects filtered by FUNDED OR NOT
 - [ ] Get project investors and their values
 - [x] Get all Usernames and their information (for Admin)
 
@@ -146,11 +133,20 @@ needs req.body.() username, fullname, email, dob, country, role
 
 '''
 
-- [ ] Create new catagory?
+- [x] Create new catagory?
+
+> POST /categories
 
 - [ ] Delete individual project -> Delete all related investments as well (for Admin)
-- [ ] Delete individual investment
-- [ ] Delete individual User (for self) (for admin) BUT keep investment?
+
+
+
+- [x] Delete individual investment
+
+> DELETE /invest/{investID}
+
+
+- [x] Delete individual User (for self) (for admin) BUT keep investment?
 
 > DELETE /user/{username}
 
@@ -160,3 +156,16 @@ needs req.body.() username, fullname, email, dob, country, role
 - [ ] Check if Project ID is occupied?
 - [ ] Check if Investment ID is occupied?
 - [ ] Check if username is taken
+
+
+## random stats APIs
+
+- [x] Get investments by month or day
+
+> GET /invest/stats/day
+> GET /invest/stats/month
+
+- [x] Get Investor Leader Board
+
+> GET /leaderboard/projects
+> GET /leaderboard/amount
