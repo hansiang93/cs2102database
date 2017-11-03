@@ -68,6 +68,7 @@ THROW ERROR
 > POST /project/
 
 '''
+
 example data
 
 "pid":"5436"
@@ -86,6 +87,7 @@ example data
 > POST /project/{pid}
 
 '''
+
 example data
 
 "pid":"5436"
@@ -127,6 +129,7 @@ example data
 POST /invest/{project_id}
 
 '''
+
 "invest_id":"1234",
 "username":"username10",
 "amount":"59483",
@@ -140,6 +143,7 @@ POST /invest/{project_id}
 
 '''
 needs req.body.() username, fullname, email, dob, country, role
+
 '''
 
 - [ ] Create new catagory?
