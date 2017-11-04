@@ -198,11 +198,11 @@ router.post('/project/:pid/update', function(req, res) {
 });
 
 
-router.delete('/project/:pid', function(req, res) {
+router.post('/project/:pid/delete', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
     promise.then(results => {
         console.log("deleting project " + results);
-        return res.json('DELETE request to project: ' + pid);
+        res.redirect('/my-projects/'); // to project page
     }).catch(function() {
         console.log("Promise rejected");
     });

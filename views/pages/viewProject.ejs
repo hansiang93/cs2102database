@@ -84,7 +84,12 @@
 
 			<p> You are the owner!</p>
 		      <form action=<%="/projects/" + projectId + "/update" %> method="get">
-		     	<button type="submit" class="btn"><h3>UPDATE!</h3></button><br><br>
+		     	<button type="submit" class="btn"><h4>UPDATE!</h4></button>
+		     </form>
+		     <br>
+		      <form action=<%="/project/" + projectId + "/delete" %> method="post">
+		     	<button type="submit" class="btn"><h4>DELETE</h4></button>
+		     </form>
 
 			<% } %>
 		</div>
