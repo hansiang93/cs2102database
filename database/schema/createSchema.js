@@ -82,12 +82,29 @@ const investmentTriggerQuery =
     'FOR EACH ROW ' +
     'EXECUTE PROCEDURE addInvestmentTrigger();';
 
-const investmentTriggerQuery2 =
+const projectTriggerFunctionQuery =
+    'CREATE OR REPLACE FUNCTION updateProjectTrigger()' +
+    ' RETURNS trigger AS ' +
+    ' $$' +
+    ' BEGIN' +
+    ' UPDATE project' +
+    ' SET funded = CASE WHEN (projectInvestment(pid) >= amountrequested) THEN true' +
+    ' WHEN (projectInvestment(pid) < amountrequested) THEN false' +
+    ' END' +
+    ' WHERE project.pid = NEW.pid;' +
+    ' RETURN NULL;' +
+    'END;' +
+    '$$' +
+    'LANGUAGE \'plpgsql\';'
+
+
+const projectTriggerQuery =
     'CREATE TRIGGER check_funded2 ' +
-    'AFTER INSERT OR UPDATE ON project ' +
+    'AFTER UPDATE OF amountrequested ON project ' +
     'FOR EACH ROW ' +
-    'EXECUTE PROCEDURE addInvestmentTrigger();';
+    'EXECUTE PROCEDURE updateProjectTrigger();';
 
 dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, 
-    investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery, investmentTriggerQuery2)
+    investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery,
+    projectTriggerFunctionQuery, projectTriggerQuery )
     .then(() => console.log("Make tables done!"));
