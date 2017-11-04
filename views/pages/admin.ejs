@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Indie Starter - Search Result</title>
+
+  <% include ../partials/header %>
+  <link rel="stylesheet" href="styles/search.css">
+</head>
+<body>
+  <% include ../partials/navbar %>
+
+  <div class="container search-result">
+    <div class="section-header">
+      <div class="section-title">
+        All Projects
+      </div>
+    </div>
+    <div class="row">
+      <% if(projects.length>0) { %>
+      <% projects.forEach(function(project) { %>
+      <div class="col-lg-3">
+        <div class="projectcard" onclick="openProject(<%= project.pid %>)">
+          <div class="projectcard-content">
+            <div class="project-title"><%= project.title %></div>
+            <div class="project-owner">Brought to you by <%= project.fullname %></div>
+            <div class="project-owner"><%= project.country %></div>
+            <div class="project-description">
+              <%= project.description %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+      <% } else { %>
+            <h1><div class="project-title col-lg-12 col-md-12 text-center">No projects found</div></h1>
+      <% } %>
+    </div>
+
+        <div class="section-header">
+      <div class="section-title">
+        All Users
+      </div>
+    </div>
+    <div class="row">
+      <% if(users.length>0) { %>
+      <% users.forEach(function(project) { %>
+      <div class="col-lg-3">
+        <div class="projectcard" onclick="openProject(<%= project.pid %>)">
+          <div class="projectcard-content">
+            <div class="project-title"><%= project.title %></div>
+            <div class="project-owner">Brought to you by <%= project.fullname %></div>
+            <div class="project-owner"><%= project.country %></div>
+            <div class="project-description">
+              <%= project.description %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+      <% } else { %>
+            <h1><div class="project-title col-lg-12 col-md-12 text-center">No projects found</div></h1>
+      <% } %>
+    </div>
+  </div>
+
+  <% include ../partials/footer %>
+  <% include ../partials/scripts %>
+  <script src="scripts/search.js"></script>
+</body>
+</html>

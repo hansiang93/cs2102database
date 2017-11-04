@@ -422,6 +422,30 @@ router.get('/leaderboard/projects', function(req, res) {
     });
 })
 
+
+router.get('/admin', function(req, res) {
+    let projectsObs = Rx.Observable.fromPromise(executer.getAllProjects());
+    let usersObs = Rx.Observable.fromPromise(executer.getAllUsers());
+    Rx.Observable.zip(projectsObs, usersObs).subscribe(
+        (results) => {
+            var projectresult = results[0].rows;
+            console.log(projectresult);
+            var userresult = results[1].rows;
+            res.render('pages/admin', {
+                username: username,
+                projects: projectresult,
+                users: userresult,
+                error: errorMessage
+            });
+            errorMessage = '';
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+});
+
+
 router.post('/login', function(req, res, next) {
     var promise = executer.getUser(req.body.username);
     promise.then(results => {
