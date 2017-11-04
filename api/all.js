@@ -112,6 +112,7 @@ router.get('/project/:pid', function(req, res) {
                 percent_funded: parseFloat(parseFloat(result.amountfunded) / parseFloat(result.amountrequested) * 100).toFixed(2),
                 owner: result.owner,
                 owner_country: result.ownercountry,
+                owner_username: result.ownerusername,
                 error: errorMessage
             });
             errorMessage = '';
@@ -147,6 +148,52 @@ router.get('/my-projects', function(req, res) {
             error: errorMessage
         });
         errorMessage = '';
+    });
+});
+
+router.get('/projects/:pid/update', function(req, res) {
+    var projectId = req.params['pid'];
+    let categoryObs = Rx.Observable.fromPromise(executer.getCategories());
+    let currentProjObs = Rx.Observable.fromPromise(executer.getProjectById(projectId));
+    Rx.Observable.zip(categoryObs, currentProjObs).subscribe(
+        (results) => {
+
+            var categories = results[0].rows;
+            var currentProj = results[1].rows[0];
+            console.log(currentProj.pid);
+            res.render('pages/addEditProject', {
+                username: username,
+                title: 'Edit project',
+                categories: categories,
+                project: currentProj,
+                formAction: '/project/' + currentProj.pid + '/update',
+                formMethod: 'post',
+                dateFormat: (date => moment(date).format('YYYY-MM-DD')),
+                state: 'update',
+                error: errorMessage
+            });
+            errorMessage = '';
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+});
+
+
+router.post('/project/:pid/update', function(req, res) {
+    var projectId = req.params['pid'];
+    var title = req.body.title;
+    var category = req.body.category;
+    var description = req.body.description;
+    var end_date = req.body.enddate;
+    var amount_sought = req.body.amountrequested;
+
+    var promise = executer.updateProject(projectId,
+        title, category, description, end_date, amount_sought);
+
+    promise.then(function() {
+        res.redirect('/my-projects/'); // to project page
     });
 });
 
@@ -194,7 +241,6 @@ router.post('/project', function(req, res, next) {
     promise.then(function() {
         res.redirect('/my-projects/'); // to project page
     });
-
 });
 
 router.post('/projects/:pid', function(req, res, next) {

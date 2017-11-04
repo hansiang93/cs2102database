@@ -89,7 +89,7 @@ exports.addProject = function addProject(username, title, category, description,
 }
 
 exports.updateProject = function (pid, title, category, description,
-    start_date, end_date, amount_sought) {
+    end_date, amount_sought) {
 
     console.log('attemping to edit project ' + pid + ': ' + title);
     return executeAndLog(queries.UPDATE_PROJECT, [

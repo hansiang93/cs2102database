@@ -78,10 +78,16 @@ const investmentTriggerFunctionQuery =
 
 const investmentTriggerQuery =
     'CREATE TRIGGER check_funded ' +
-    'AFTER INSERT ON investment ' +
+    'AFTER INSERT OR UPDATE ON investment ' +
+    'FOR EACH ROW ' +
+    'EXECUTE PROCEDURE addInvestmentTrigger();';
+
+const investmentTriggerQuery2 =
+    'CREATE TRIGGER check_funded2 ' +
+    'AFTER INSERT OR UPDATE ON project ' +
     'FOR EACH ROW ' +
     'EXECUTE PROCEDURE addInvestmentTrigger();';
 
 dbHelper.executeQueriesInOrder(catagoryQuery, userQuery, projectQuery, investmentQuery, 
-    investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery)
+    investmentFunctionQuery, investmentTriggerFunctionQuery, investmentTriggerQuery, investmentTriggerQuery2)
     .then(() => console.log("Make tables done!"));

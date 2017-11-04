@@ -71,7 +71,7 @@ exports.GET_PROJECT_BY_ID =
     'pr.startdate, pr.enddate, pr.amountrequested, pr.funded, ' +
     'DATE_PART(\'day\', pr.enddate::timestamp - pr.startdate::timestamp) as daysleft, ' +
     '(SELECT SUM(investment.amount) FROM investment WHERE investment.project = pr.pid) AS amountfunded, ' +
-    'users.fullname AS owner, users.country AS ownercountry ' +
+    'users.fullname AS owner, users.country AS ownercountry, users.username AS ownerusername ' +
     'FROM project pr INNER JOIN users ON pr.creator = users.id WHERE pr.pid = $1';
 
 exports.GET_PROJECT_BACKERS_BY_ID =

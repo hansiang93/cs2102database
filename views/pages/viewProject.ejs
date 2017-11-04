@@ -78,8 +78,15 @@
 		<br>
 		<div class="row">
 			<label>About the Owner</label>
-			<p><%= owner %></p>
+			<p><%= owner_username %>, <%= owner %></p>
 			<p><%= owner_country %></p>
+			<% if (username == owner_username) { %>
+
+			<p> You are the owner!</p>
+		      <form action=<%="/projects/" + projectId + "/update" %> method="get">
+		     	<button type="submit" class="btn"><h3>UPDATE!</h3></button><br><br>
+
+			<% } %>
 		</div>
 	</div>
 	<% include ../partials/scripts %>
