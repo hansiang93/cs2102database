@@ -8,7 +8,7 @@
         <h4 class="modal-title">SIGN UP</h4>
       </div>
       <div class="modal-body">
-        <form action="/account" method="post">
+        <form action="/register" method="post">
           <div class="form-group">
             <label for="suUsername" class="control-label">Username</label>
             <input type="text" class="form-control" id="suUsername" name="username"
@@ -25,9 +25,9 @@
               placeholder="Enter your email">
           </div>
           <div class="form-group">
-            <label for="suAge" class="control-label">Age</label>
-            <input type="number" class="form-control" id="suAge" name="age"
-              placeholder="Enter your age">
+            <label for="suDob" class="control-label">Date of Birth</label>
+            <input type="date" placeholder="yyyy-mm-dd"  class="form-control" id="suDob" name="dob"
+              placeholder="Enter your Date of Birth">
           </div>
           <div class="form-group">
             <label for="suCountry" class="control-label">Country</label>
@@ -35,18 +35,10 @@
               placeholder="Enter your country">
           </div>
           <div class="form-group">
-            <label for="suGender" class="control-label">Gender</label>
-            <select class="form-control" id="suGender" name="gender">
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-              <option value="OTHER">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
             <label for="suRole" class="control-label">Role</label>
             <select class="form-control" id="suRole" name="role">
-              <option value="ADMIN">Admin</option>
-              <option value="USER">User</option>
+              <option value="TRUE">Admin</option>
+              <option value="FALSE">User</option>
             </select>
           </div>
           <div class="modal-footer">

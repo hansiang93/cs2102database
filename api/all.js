@@ -51,7 +51,7 @@ router.get('/projects', function(req, res) {
         title: title,
         categories: categories
     };
-    var promise = executer.getAllProjects();
+    var promise = executer.getAllProjects(title,categories);
     promise.then(results => {
         projects = results.rows;
         res.render('pages/search', {
@@ -80,42 +80,47 @@ router.get('/projects', function(req, res) {
 
 router.get('/project/:pid', function(req, res) {
     var projectId = req.params.pid;
-    console.log('Finding Project with id: ' + projectId);
-    var promise = executer.getProjectById(projectId);
-    promise.then(results => {
-        // let projects = results;
-        // if (projects.rowCount == 0) {
-        //     res.status(404).send('No such project');
-        //     return;
-        // }
-        // let project = projects.rows[0];
-        // console.log(project);
-        // return res.json(project);
-        var result = results.rows[0];
-        console.log(result);
-        res.render('pages/viewProject', {
-            projectId: projectId,
-            username: username,
-            title: result.title,
-            description: result.description,
-            owner_account: result.creator,
-            category: result.category,
-            start_date: result.startdate,
-            end_date: result.enddate,
-            days_left: result.daysleft,
-            amount_sought: result.amountrequested,
-            amount_funded: result.amountfunded,
-            is_funded: result.funded,
-            percent_funded: parseFloat(parseFloat(result.amountfunded) / parseFloat(result.amountrequested) * 100).toFixed(2),
-            owner: result.owner,
-            owner_country: result.ownercountry,
-            error: errorMessage
-        });
-        errorMessage = '';
-    }).catch(function() {
-        console.log("No such project");
-    });
-})
+    let categoryObs = Rx.Observable.fromPromise(executer.getProjectById(projectId));
+    let projectsObs = Rx.Observable.fromPromise(executer.getProjectBackersById(projectId));
+    Rx.Observable.zip(categoryObs, projectsObs).subscribe(
+        (results) => {
+            // let projects = results;
+            // if (projects.rowCount == 0) {
+            //     res.status(404).send('No such project');
+            //     return;
+            // }
+            // let project = projects.rows[0];
+            // console.log(project);
+            // return res.json(project);
+            var result = results[0].rows[0];
+            console.log(results[1]);
+            var backerresult = results[1].rows;
+            res.render('pages/viewProject', {
+                projectId: projectId,
+                username: username,
+                title: result.title,
+                description: result.description,
+                owner_account: result.creator,
+                category: result.category,
+                start_date: result.startdate,
+                end_date: result.enddate,
+                days_left: result.daysleft,
+                backers: backerresult,
+                amount_sought: result.amountrequested,
+                amount_funded: result.amountfunded,
+                is_funded: result.funded,
+                percent_funded: parseFloat(parseFloat(result.amountfunded) / parseFloat(result.amountrequested) * 100).toFixed(2),
+                owner: result.owner,
+                owner_country: result.ownercountry,
+                error: errorMessage
+            });
+            errorMessage = '';
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+});
 
 router.get('/projects/funded', function(req, res) {
     var promise = executer.getFundedProjects();
@@ -132,16 +137,16 @@ router.get('/projects/ongoing', function(req, res) {
 });
 
 router.get('/my-projects', function(req, res) {
-  console.log('username' , username);
-  executer.getProjectByUser(username).then(result => {
-    let projects = result.rows;
-    res.render('pages/myProjects', {
-      projects: projects,
-      username: username,
-      error: errorMessage
+    console.log('username', username);
+    executer.getProjectByUser(username).then(result => {
+        let projects = result.rows;
+        res.render('pages/myProjects', {
+            projects: projects,
+            username: username,
+            error: errorMessage
+        });
+        errorMessage = '';
     });
-    errorMessage = '';
-  });
 });
 
 
@@ -156,20 +161,20 @@ router.delete('/project/:pid', function(req, res) {
 })
 
 router.get('/projects/add', function(req, res) {
-  executer.getCategories().then( results => {
-    res.render('pages/addEditProject', {
-      username: username,
-      title: 'Add project',
-      categories: results.rows,
-      project: {},
-      formAction: '/project',
-      formMethod: 'post',
-      dateFormat: ( date => moment(date).format('YYYY-MM-DD') ),
-      state: 'add',
-      error: errorMessage
+    executer.getCategories().then(results => {
+        res.render('pages/addEditProject', {
+            username: username,
+            title: 'Add project',
+            categories: results.rows,
+            project: {},
+            formAction: '/project',
+            formMethod: 'post',
+            dateFormat: (date => moment(date).format('YYYY-MM-DD')),
+            state: 'add',
+            error: errorMessage
+        });
+        errorMessage = '';
     });
-    errorMessage = '';
-  });
 });
 
 
@@ -233,6 +238,7 @@ router.post('/register', function(req, res, next) {
     var dob = req.body.dob;
     var country = (req.body.country) ? req.body.country : '';
     var role = req.body.role;
+    console.log(role);
     var promise = executer.addUser(username, fullname, email, dob, country, role);
     promise.then(function(result) {
         res.redirect('/'); //redirect back to home
@@ -274,16 +280,16 @@ router.get('/investments/:id', function(req, res) {
 // Investing APIs
 
 router.post('/invest', function(req, res, next) {
-    var invest_id = req.body.invest_id
     var investor = req.body.username;
-    var project_id = parseInt(req.params.id);
+    console.log('current user trying to invest: ' + investor);
+    var projectId = req.body.projectId;
     var amount = req.body.amount;
     console.log(req.body);
     var promise = executer.investProject(
-        invest_id, investor, project_id, amount
+        investor, projectId, amount
     );
     promise.then(function() {
-        res.redirect('/projects/' + projectId); // to project page
+        res.redirect('/project/' + projectId); // to project page
     });
 });
 
@@ -330,16 +336,42 @@ router.get('/invest/stats/day', function(req, res) {
 })
 
 router.get('/leaderboard/amount', function(req, res) {
-    var promise = executer.getAmountLeaderboard();
-    promise.then(results => {
-        return res.json(results.rows);
+    let summaryObs = Rx.Observable.fromPromise(executer.getAmountLeaderboardTotal());
+    let contentObs = Rx.Observable.fromPromise(executer.getAmountLeaderboard());
+    Rx.Observable.zip(summaryObs, contentObs).subscribe(results => {
+        console.log(results[1]);
+        let summary = results[0];
+        let content = results[1];
+        res.render('stats/index.ejs', {
+            username: username,
+            reportDescription: 'Leaderboard of top investors by top dollar invested.',
+            reportTitle: 'Top Investors by Dollar',
+            summary: summary,
+            content: content,
+            capitalize: capitalize,
+            error: errorMessage
+        });
+        errorMessage = '';
     });
 })
 
 router.get('/leaderboard/projects', function(req, res) {
-    var promise = executer.getProjectsLeaderboard();
-    promise.then(results => {
-        return res.json(results.rows);
+    let summaryObs = Rx.Observable.fromPromise(executer.getProjectsLeaderboardTotal());
+    let contentObs = Rx.Observable.fromPromise(executer.getProjectsLeaderboard());
+    Rx.Observable.zip(summaryObs, contentObs).subscribe(results => {
+        console.log(results[1]);
+        let summary = results[0];
+        let content = results[1];
+        res.render('stats/index.ejs', {
+            username: username,
+            reportDescription: 'Leaderboard of top investors by Number of Projects invested.',
+            reportTitle: 'Top Investors by Projects',
+            summary: summary,
+            content: content,
+            capitalize: capitalize,
+            error: errorMessage
+        });
+        errorMessage = '';
     });
 })
 

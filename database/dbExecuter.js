@@ -24,8 +24,28 @@ function executeAndLog(query, args) {
 }
 
 
-exports.getAllProjects = function() {
-    return executeAndLog(queries.GET_ALL_PROJECTS);
+exports.getAllProjects = function(title, categories) {
+    title = title || '';
+    title = '%' + title + '%';
+    let temp = [];
+    var params = [title];
+    var stmt = queries.GET_ALL_PROJECTS;
+    if(categories!==undefined && categories.length>0) {
+        let categoryArr = [];
+        if (typeof(categories)=='string') {
+            params.push(categories);
+            var insertIdx = stmt.indexOf('ORDER BY');
+            stmt = stmt.slice(0,insertIdx) + 'AND pr.category=$2 ' + stmt.slice(insertIdx);
+        } else {
+            for(var i=2; i<=categories.length+1;i++) {
+                temp.push('$'+i);
+            }
+            params = params.concat(categories);
+            var insertIdx = stmt.indexOf('ORDER BY');
+            stmt = stmt.slice(0,insertIdx) + 'AND pr.category IN ('+temp.join(',')+') ' + stmt.slice(insertIdx);
+        }
+    }
+    return executeAndLog(stmt, params);
 }
 
 exports.getFeaturedProjects = function() {
@@ -42,6 +62,10 @@ exports.getAllProjectsByName = function(name) {
 
 exports.getProjectById = function(pid) {
     return executeAndLog(queries.GET_PROJECT_BY_ID, [pid]);
+}
+
+exports.getProjectBackersById = function(pid) {
+    return executeAndLog(queries.GET_PROJECT_BACKERS_BY_ID, [pid]);
 }
 
 exports.getFundedProjects = function() {
@@ -93,12 +117,12 @@ exports.getAllUsers = function() {
     return executeAndLog(queries.GET_ALL_USERS);
 }
 
-exports.addUser = function addUser(username, full_name, email, dob,
+exports.addUser = function addUser(username, fullname, email, dob,
     country, role) {
 
     console.log('Attemping to add account ' + username);
     return executeAndLog(queries.ADD_USER, [
-        username, full_name, email, dob, country, role
+        username, fullname, email, dob, country, role
     ]);
 }
 
@@ -120,11 +144,11 @@ exports.getProjectInvestedByUser = function(username) {
 
 // Investing
 
-exports.investProject = function (invest_id, investor, project_id, 
-    amount, invest_date) {
+exports.investProject = function (investor, project_id, 
+    amount) {
         console.log('Attemping to add investment under project id ' + project_id);
     return executeAndLog(queries.ADD_INVESTMENT, [
-       invest_id, investor, project_id, amount, invest_date
+       investor, project_id, amount
     ]);
 }
 
@@ -159,7 +183,17 @@ exports.getAmountLeaderboard = function() {
     return executeAndLog(queries.GET_INVEST_AMOUNT_LEADERBOARD);
 }
 
+exports.getAmountLeaderboardTotal = function() {
+    console.log('attempting to get Total invested amount');
+    return executeAndLog(queries.GET_INVEST_AMOUNT_TOTAL);
+}
+
 exports.getProjectsLeaderboard = function() {
     console.log('attempting to get leaderboard by number of projects');
     return executeAndLog(queries.GET_INVEST_PROJECT_LEADERBOARD);
+}
+
+exports.getProjectsLeaderboardTotal = function() {
+    console.log('attempting to get Total number of projects invested');
+    return executeAndLog(queries.GET_INVEST_PROJECT_TOTAL);
 }

@@ -26,6 +26,7 @@ exports.GET_ALL_PROJECTS =
     ' u.username, u.fullname, u.country' +
     ' FROM project pr, users u ' +
     ' WHERE pr.creator = u.id ' +
+    ' AND UPPER(pr.title) LIKE UPPER($1) '
     ' ORDER BY pr.title';
 
 exports.GET_FEATURED_PROJECTS =
@@ -73,6 +74,13 @@ exports.GET_PROJECT_BY_ID =
     'users.fullname AS owner, users.country AS ownercountry ' +
     'FROM project pr INNER JOIN users ON pr.creator = users.id WHERE pr.pid = $1';
 
+exports.GET_PROJECT_BACKERS_BY_ID =
+    'SELECT u.username, i.amount, i.date ' +
+    'FROM users u, investment i ' +
+    'WHERE i.investor = u.username ' +
+    'AND i.project = $1 ' +
+    'ORDER BY i.date;';
+
 
 exports.GET_PROJECT_BY_USER =
     'SELECT * FROM project pr, users u ' +
@@ -92,7 +100,7 @@ exports.DELETE_PROJECT =
 
 exports.ADD_USER =
     'INSERT INTO users' +
-    ' (username, full_name, email, dob, country, admin)' +
+    ' (username, fullname, email, dob, country, admin)' +
     ' VALUES($1, $2, $3, $4, $5, $6)';
 
 exports.GET_ALL_USERS =
@@ -125,7 +133,7 @@ exports.ADD_CATEGORY =
 exports.ADD_INVESTMENT =
     'INSERT INTO investment' +
     ' (id, investor, project, amount, date)' +
-    ' VALUES ($1, $2, $3, $4, CURRENT_DATE)';
+    ' VALUES (DEFAULT, $1, $2, $3, CURRENT_DATE)';
 
 exports.DELETE_INVESTMENT =
     'DELETE FROM investment' +
@@ -146,16 +154,26 @@ exports.GET_INVESTMENTS_BY_DAY =
     ' GROUP BY TO_CHAR(date, \'DD\')' +
     ' ORDER BY 1;'
 
+
+
 exports.GET_INVEST_AMOUNT_LEADERBOARD =
     'SELECT u.username, SUM(i.amount) AS totalinvestment' +
     ' FROM users u, investment i' +
     ' WHERE i.investor = u.username' +
     ' GROUP BY u.username' +
-    ' ORDER BY totalinvestment;';
+    ' ORDER BY totalinvestment DESC;';
+
+exports.GET_INVEST_AMOUNT_TOTAL =
+    'SELECT SUM(i.amount) AS totalinvestment' +
+    ' FROM investment i;';
 
 exports.GET_INVEST_PROJECT_LEADERBOARD =
     'SELECT u.username, COUNT(DISTINCT i.project) AS numberProjects' +
     ' FROM users u, investment i' +
     ' WHERE i.investor = u.username' +
     ' GROUP BY u.username' +
-    ' ORDER BY numberProjects;';
+    ' ORDER BY numberProjects DESC;';
+
+exports.GET_INVEST_PROJECT_TOTAL =
+    'SELECT COUNT(DISTINCT i.project) AS numberProjectsInvested' +
+    ' FROM investment i;';
