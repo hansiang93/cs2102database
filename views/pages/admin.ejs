@@ -29,6 +29,13 @@
             <div class="project-description">
               <%= project.description %>
             </div>
+
+          <form action=<%="/projects/" + project.pid + "/update" %> method="get">
+          <button type="submit" class="btn">UPDATE</button>
+         </form>
+          <form action=<%="/project/" + project.pid + "/delete" %> method="post">
+          <button type="submit" class="btn">DELETE</button>
+         </form>
           </div>
         </div>
       </div>
@@ -45,16 +52,22 @@
     </div>
     <div class="row">
       <% if(users.length>0) { %>
-      <% users.forEach(function(project) { %>
+      <% users.forEach(function(user) { %>
       <div class="col-lg-3">
-        <div class="projectcard" onclick="openProject(<%= project.pid %>)">
+        <div class="projectcard" onclick="openProject(<%= user.pid %>)">
           <div class="projectcard-content">
-            <div class="project-title"><%= project.title %></div>
-            <div class="project-owner">Brought to you by <%= project.fullname %></div>
-            <div class="project-owner"><%= project.country %></div>
+            <div class="project-title"><%= user.username %></div>
+            <div class="project-owner"><%= user.fullname %></div>
+            <div class="project-owner"><%= user.country %></div>
             <div class="project-description">
-              <%= project.description %>
+              <%= user.description %>
             </div>
+        <form action=<%="/projects/" + user.id + "/update" %> method="get">
+          <button type="submit" class="btn">UPDATE</button>
+         </form>
+          <form action=<%="/project/" + user.id + "/delete" %> method="post">
+          <button type="submit" class="btn">DELETE</button>
+         </form>
           </div>
         </div>
       </div>

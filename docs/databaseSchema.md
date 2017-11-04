@@ -2,6 +2,13 @@
 
 Phua Han Siang A0125634
 
+Web Server: NodeJS with Express
+
+Sever Language: Javascript
+
+Database: PostgreSQL
+
+
 # Database Schema
 
 This project is created under the following problem scope:
