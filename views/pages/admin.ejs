@@ -14,7 +14,7 @@
   <div class="container search-result">
     <div class="section-header">
       <div class="section-title">
-        All Projects
+        Admin Page
       </div>
     </div>
     <div class="row">
@@ -30,12 +30,18 @@
               <%= project.description %>
             </div>
 
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
           <form action=<%="/projects/" + project.pid + "/update" %> method="get">
           <button type="submit" class="btn">UPDATE</button>
          </form>
+       </div>
+                  <div class="col-lg-6 col-md-6">
           <form action=<%="/project/" + project.pid + "/delete" %> method="post">
           <button type="submit" class="btn">DELETE</button>
          </form>
+       </div>
+     </div>
           </div>
         </div>
       </div>
@@ -62,12 +68,18 @@
             <div class="project-description">
               <%= user.description %>
             </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6">
         <form action=<%="/projects/" + user.id + "/update" %> method="get">
           <button type="submit" class="btn">UPDATE</button>
          </form>
+       </div>
+                  <div class="col-lg-6 col-md-6">
           <form action=<%="/project/" + user.id + "/delete" %> method="post">
           <button type="submit" class="btn">DELETE</button>
          </form>
+       </div>
+       </div>
           </div>
         </div>
       </div>
