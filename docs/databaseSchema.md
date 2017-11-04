@@ -148,7 +148,71 @@ CREATE TRIGGER check_funded2
     AFTER UPDATE OF amountrequested ON project
     FOR EACH ROW
     EXECUTE PROCEDURE updateProjectTrigger();
-    
+
+```
+
+
+## Key SQL commands used in database
+
+GET_FEATURED_PROJECTS
+
+```
+SELECT pr.pid, pr.creator, pr.title, pr.description,
+to_char(pr.startdate, \'DD-MM-YYYY\'),
+to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, 
+((SELECT SUM(investment.amount) FROM investment WHERE investment.project = pr.pid) / pr.amountrequested) AS percentage, 
+u.username, u.fullname, u.country
+FROM project pr, users u 
+WHERE pr.creator = u.id 
+ORDER BY percentage ASC
+LIMIT 12;
+```
+
+
+GET_ALL_PROJECTS
+
+```
+SELECT pr.pid, pr.creator, pr.title, pr.description,
+to_char(pr.startdate, \'DD-MM-YYYY\'),
+to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, 
+u.username, u.fullname, u.country
+FROM project pr, users u 
+WHERE pr.creator = u.id 
+AND UPPER(pr.title) LIKE UPPER($1)
+ORDER BY pr.title;
+```
+
+GET_PROJECTS
+
+```
+SELECT pr.pid, pr.title, pr.description, pr.owner_account, usr.fullname as owner, usr.country as owner_country 
+FROM project pr
+INNER JOIN users usr ON usr.id=pr.owner_account
+WHERE UPPER(pr.title) LIKE UPPER($1)
+ORDER BY pr.title;
+```
+
+
+GET_PROJECT_BY_ID
+
+```
+SELECT pr.pid, pr.title, pr.description, pr.creator, pr.category, 
+pr.startdate, pr.enddate, pr.amountrequested, pr.funded, 
+DATE_PART(\'day\', pr.enddate::timestamp - pr.startdate::timestamp) as daysleft, 
+(SELECT SUM(investment.amount) FROM investment WHERE investment.project = pr.pid) AS amountfunded, 
+users.fullname AS owner, users.country AS ownercountry, users.username AS ownerusername 
+FROM project pr INNER JOIN users ON pr.creator = users.id WHERE pr.pid = $1;
+```
+
+GET_INVEST_AMOUNT_LEADERBOARD
+
+```
+
+SELECT u.username, SUM(i.amount) AS totalinvestment
+FROM users u, investment i
+WHERE i.investor = u.username
+GROUP BY u.username
+ORDER BY totalinvestment DESC;
 ```
 
 ## Populating of database
