@@ -140,6 +140,7 @@ router.get('/my-projects', function(req, res) {
     console.log('username', username);
     executer.getProjectByUser(username).then(result => {
         let projects = result.rows;
+        console.log(projects);
         res.render('pages/myProjects', {
             projects: projects,
             username: username,
