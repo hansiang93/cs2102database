@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Indie Starter - Search Result</title>
+  <title>StartKicker - Search Result</title>
 
   <% include ../partials/header %>
   <link rel="stylesheet" href="styles/search.css">
+  <link rel="stylesheet" href="/styles/myProjects.css">
 </head>
 <body>
   <% include ../partials/navbar %>
@@ -23,12 +24,12 @@
       <div class="col-lg-3">
         <div class="projectcard" onclick="openProject(<%= project.pid %>)">
           <div class="projectcard-content">
-            <div class="project-title"><%= project.title %></div>
-            <div class="project-owner">Brought to you by <%= project.fullname %></div>
-            <div class="project-owner"><%= project.country %></div>
-            <div class="project-description">
-              <%= project.description %>
-            </div>
+            <div class="project-title"><%= project.pid %>. <%= project.title %></div>
+            <div class="project-owner"> <% if(project.username) { %> <%= project.username %><% } else { %> User Deleted <% } %></div>
+            <div class="project-owner">Funded $<%= project.amountfunded %> out of $<%= project.amountrequested %></div>
+            <div class="project-owner"><%= project.category %></div>
+            <div class="project-description"><%= project.description %></div>
+            <br>
 
                 <div class="row">
                   <div class="col-lg-6 col-md-6">
@@ -46,6 +47,11 @@
         </div>
       </div>
       <% }); %>
+              <a class="col-md-3" href="/projects/add">
+          <div class="projectcard">
+            <div class="project-add"><span class="glyphicon glyphicon-plus"></span> New Project</div>
+          </div>
+        </a>
       <% } else { %>
             <h1><div class="project-title col-lg-12 col-md-12 text-center">No projects found</div></h1>
       <% } %>
@@ -70,12 +76,7 @@
             </div>
                 <div class="row">
                   <div class="col-lg-6 col-md-6">
-        <form action=<%="/projects/" + user.id + "/update" %> method="get">
-          <button type="submit" class="btn">UPDATE</button>
-         </form>
-       </div>
-                  <div class="col-lg-6 col-md-6">
-          <form action=<%="/project/" + user.id + "/delete" %> method="post">
+          <form action=<%="/user/" + user.username + "/delete" %> method="post">
           <button type="submit" class="btn">DELETE</button>
          </form>
        </div>
@@ -85,7 +86,7 @@
       </div>
       <% }); %>
       <% } else { %>
-            <h1><div class="project-title col-lg-12 col-md-12 text-center">No projects found</div></h1>
+            <h1><div class="project-title col-lg-12 col-md-12 text-center">No Users found</div></h1>
       <% } %>
     </div>
   </div>

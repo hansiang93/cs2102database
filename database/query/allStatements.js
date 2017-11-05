@@ -29,6 +29,15 @@ exports.GET_ALL_PROJECTS =
     ' AND UPPER(pr.title) LIKE UPPER($1) '
     ' ORDER BY pr.title';
 
+exports.GET_ALL_PROJECTS_ADMIN = 
+    'SELECT pr.pid, pr.title, pr.description,' +
+    ' to_char(pr.startdate, \'DD-MM-YYYY\'),' +
+    ' to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, ' +
+    ' u.username, projectInvestment(pid) AS amountfunded' +
+    ' FROM project pr' +
+    ' LEFT JOIN users u ON pr.creator = u.id' +
+    ' ORDER BY pr.pid;'
+
 exports.GET_FEATURED_PROJECTS =
     'SELECT pr.pid, pr.creator, pr.title, pr.description,' +
     ' to_char(pr.startdate, \'DD-MM-YYYY\'),' +

@@ -48,6 +48,10 @@ exports.getAllProjects = function(title, categories) {
     return executeAndLog(stmt, params);
 }
 
+exports.getAllProjectsAdmin = function() {
+    return executeAndLog(queries.GET_ALL_PROJECTS_ADMIN);
+}
+
 exports.getFeaturedProjects = function() {
     return executeAndLog(queries.GET_FEATURED_PROJECTS);
 }

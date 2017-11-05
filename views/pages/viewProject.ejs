@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>IndieStarter</title>
+	<title>StartKicker</title>
 	<% include ../partials/header %>
 	<link rel="stylesheet" href="/styles/viewProject.css">
 </head>
@@ -19,9 +19,9 @@
 						<div class="funding-status">
 							<h2>Funding Status:</h2>
 							<% if (is_funded) { %>
-								<h1 style="color: #BF8A9A">Success</h1>
+								<h1 style="color: #008744">Success</h1>
 							<% } else { %>
-								<h1 style="color: #BF8A9A">Not Funded</h1>
+								<h1 style="color: #d62d20">Not Funded</h1>
 							<% } %>
 							<h3><%= percent_funded %>% funded</h3>
 							<h4>$<%= amount_funded %> / $<%= amount_sought %> goal</h4>

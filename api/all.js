@@ -295,11 +295,11 @@ router.post('/register', function(req, res, next) {
 router.get('/user/:id', function(req, res) {
     var promise = executer.getUser(req.params['id']);
     promise.then(results => {
-        return res.json(results.rows);
+        res.redirect('back'); // redirect back
     });
 });
 
-router.delete('/user/:username', function(req, res) {
+router.post('/user/:username/delete', function(req, res) {
     var promise = executer.deleteUser(req.params['username']);
     promise.then(results => {
         return res.json(results.rows);
@@ -346,7 +346,7 @@ router.delete('/invest/:id', function(req, res, next) {
         invest_id
     );
     promise.then(function() {
-        res.redirect('/'); // to main page
+        res.redirect('back'); // to previous page
     });
 });
 // Other APIs
@@ -364,7 +364,7 @@ router.post('/categories', function(req, res, next) {
         category
     );
     promise.then(function() {
-        res.redirect('/'); // to main page
+        res.redirect('back'); // to current page
     });
 });
 
@@ -424,7 +424,7 @@ router.get('/leaderboard/projects', function(req, res) {
 
 
 router.get('/admin', function(req, res) {
-    let projectsObs = Rx.Observable.fromPromise(executer.getAllProjects());
+    let projectsObs = Rx.Observable.fromPromise(executer.getAllProjectsAdmin());
     let usersObs = Rx.Observable.fromPromise(executer.getAllUsers());
     Rx.Observable.zip(projectsObs, usersObs).subscribe(
         (results) => {
@@ -451,6 +451,7 @@ router.post('/login', function(req, res, next) {
     promise.then(results => {
         if (results.rows.length > 0) {
             username = results.rows[0].username;
+            isuseradmin = results.rows[0].admin;
         } else {
             errorMessage = 'Your username is not registered.';
         }

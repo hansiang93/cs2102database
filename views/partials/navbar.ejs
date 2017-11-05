@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">IndieStarter</a>
+      <a class="navbar-brand" href="/">StartKicker</a>
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -34,6 +34,9 @@
             <li><a type="button" data-toggle="modal" data-target="#loginModal">LOGIN</a></li>
             <li><a type="button" data-toggle="modal" data-target="#signupModal">SIGN UP</a></li>
           <% } else { %>
+            <% if (isuseradmin) { %>
+              <li><a href="/admin">Admin Console</a></li>
+            <% } %>
             <li><a href="/my-projects">My Projects</a></li>
             <li><a role="button" href="/logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;LOGOUT</a></li>
           <% } %>

@@ -1,13 +1,15 @@
 ## CS2102 Group 42
 
-Phua Han Siang A0125634
+Phua Han Siang A0125634J
+
 
 Web Server: NodeJS with Express
-
 Sever Language: Javascript
-
 Database: PostgreSQL
 
+
+Special thanks to Peter Kristianto Widjaja, https://github.com/peterkwidjaja, 
+who offered support and guidance in the creation of the front end of the application
 
 # Database Schema
 
