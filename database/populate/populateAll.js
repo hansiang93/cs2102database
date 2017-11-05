@@ -2,15 +2,15 @@ require('dotenv').config();
 
 const dbHelper = require('../dbHelper');
 const userValues = require('./populateUser');
-const catagoryValues = require('./populateCat');
+const categoryValues = require('./populateCat');
 const projectValues = require('./populateProject');
-const projectCatValues = require('./populateProjCat');
-const investValues = require('./populateInvest');
+const hasCatValues = require('./populateProjCat');
+const investsValues = require('./populateInvest');
 
 dbHelper.executeQueriesInOrder(
     userValues.query,
-    catagoryValues.query,
+    categoryValues.query,
     projectValues.query,
-    // projectCatValues.query,
-    investValues.query
+    hasCatValues.query,
+    investsValues.query
 );

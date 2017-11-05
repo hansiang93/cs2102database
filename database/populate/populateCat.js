@@ -1,7 +1,7 @@
 // CREATE TABLE category (
 //     category VARCHAR(64) PRIMARY KEY,
 //     );
-// Catagories taken from Kickstarter.com
+// Categories taken from Kickstarter.com
 
 
 exports.query =  
