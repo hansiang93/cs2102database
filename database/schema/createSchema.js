@@ -3,7 +3,7 @@ require('dotenv').config();
 const dbHelper = require('../dbHelper');
 
 const userQuery =
-	'CREATE TABLE user ( ' +
+	'CREATE TABLE users ( ' +
 	'username VARCHAR(32) PRIMARY KEY, ' +
 	'fullname VARCHAR(64) NOT NULL, ' +
 	'email VARCHAR(256), ' +
@@ -21,28 +21,28 @@ const categoryQuery =
 
 const projectQuery = 
 	'CREATE TABLE project ( ' +
-	'pid INT UNSIGNED PRIMARY KEY, ' +
-	'creator VARCHAR(32) REFERENCES user(username) ON DELETE ON UPDATE CASCADE, ' +
+	'pid SERIAL PRIMARY KEY, ' +
+	'creator VARCHAR(32) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE, ' +
 	'title VARCHAR(256) NOT NULL, ' +
 	'description VARCHAR(1024), ' +
 	'startdate DATE NOT NULL, ' +
 	'enddate DATE NOT NULL, ' +
-	'amountrequested BIGINT UNSIGNED NOT NULL, ' +
-	'amountreceived BIGINT UNSIGNED NOT NULL ' +
+	'amountrequested BIGINT NOT NULL CHECK(amountrequested > 0), ' +
+	'amountreceived BIGINT NOT NULL CHECK(amountreceived >= 0)' +
 	');';
 
 const hasCategoryQuery =
     'CREATE TABLE has ( ' +
-    'pid INT UNSIGNED REFERENCES project(pid) ON DELETE ON UPDATE CASCADE, ' +
-    'name VARCHAR(64) REFERENCES category(name) ON DELETE ON UPDATE CASCADE, ' +
+    'pid SERIAL REFERENCES project(pid) ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'name VARCHAR(64) REFERENCES category(name) ON DELETE CASCADE ON UPDATE CASCADE, ' +
     'PRIMARY KEY(pid, name) ' +
     ');';
 
 const investsQuery = 
     'CREATE TABLE invests ( ' +
     'investor VARCHAR(32) REFERENCES users(username) ON DELETE SET NULL ON UPDATE CASCADE, ' +
-    'pid INT UNSIGNED REFERENCES project(pid) ON DELETE SET NULL ON UPDATE CASCADE, ' +
-    'amount BIGINT UNSIGNED NOT NULL CHECK(amount > 0), ' +
+    'pid SERIAL REFERENCES project(pid) ON DELETE SET NULL ON UPDATE CASCADE, ' +
+    'amount BIGINT NOT NULL CHECK(amount > 0), ' +
     'date DATE ' +
     ');';
 
@@ -52,7 +52,7 @@ const fundedQuery =
     'WHERE p.amountreceived >= p.amountrequested;';
 
 const investsUpdateFunctionQuery = 
-    'CREATE OR REPLACE FUNCTION updateAmountReceived(pid INT UNSIGNED, amount BIGINT UNSIGNED) ' +
+    'CREATE OR REPLACE FUNCTION updateAmountReceived(pid SERIAL, amount BIGINT UNSIGNED) ' +
     'RETURNS TRIGGER AS $$ ' +
     'BEGIN ' +
     'UPDATE project p ' +

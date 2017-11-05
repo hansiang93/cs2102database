@@ -2,14 +2,15 @@ require('dotenv').config();
 
 const dbHelper = require('../dbHelper');
 
-const userQuery = 'DROP TABLE users;';
-const catagoryQuery = 'DROP TABLE category;';
+const userQuery = 'DROP TABLE user;';
+const categoryQuery = 'DROP TABLE category;';
+const fundedQuery = 'DROP VIEW funded;';
 const projectQuery = 'DROP TABLE project;';
-const projectCatagoryQuery = 'DROP TABLE project_category;'
-const investmentQuery = 'DROP TABLE investment;';
-const investmentViewQuery = 'DROP FUNCTION projectInvestment(INT);';
+const hasCategoryQuery = 'DROP TABLE has;'
+const investsQuery = 'DROP TABLE invests;';
+const investsUpdateFunctionQuery = 'DROP FUNCTION updateAmountReceived;';
+const investsUpdateTriggerQuery = 'DROP TRIGGER updateInvestment;';
 
-dbHelper.executeQueriesInOrder(investmentViewQuery, investmentQuery, 
-		// projectCatagoryQuery, 
-		projectQuery, userQuery, catagoryQuery)
+dbHelper.executeQueriesInOrder(investsUpdateTriggerQuery, investsUpdateFunctionQuery, 
+		fundedQuery, hasCategoryQuery, investsQuery, projectQuery, userQuery, categoryQuery)
     .then( () => console.log("Drop/Delete tables done!") );
