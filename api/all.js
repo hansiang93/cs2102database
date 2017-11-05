@@ -202,7 +202,7 @@ router.post('/project/:pid/delete', function(req, res) {
     var promise = executer.deleteProjectById(req.params['pid']);
     promise.then(results => {
         console.log("deleting project " + results);
-        res.redirect('/my-projects/'); // to project page
+        res.redirect('back'); // redirect back
     }).catch(function() {
         console.log("Promise rejected");
     });
@@ -302,7 +302,7 @@ router.get('/user/:id', function(req, res) {
 router.post('/user/:username/delete', function(req, res) {
     var promise = executer.deleteUser(req.params['username']);
     promise.then(results => {
-        return res.json(results.rows);
+        res.redirect('back'); // redirect back
     });
 
 });

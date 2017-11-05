@@ -4,11 +4,14 @@ Phua Han Siang A0125634J
 
 
 Web Server: NodeJS with Express
+
 Sever Language: Javascript
+
 Database: PostgreSQL
 
 
 Special thanks to Peter Kristianto Widjaja, https://github.com/peterkwidjaja, 
+
 who offered support and guidance in the creation of the front end of the application
 
 # Database Schema
@@ -404,3 +407,30 @@ INSERT INTO investment VALUES(DEFAULT , 'username06', '2', 12 , '2011-05-21');
 INSERT INTO investment VALUES(DEFAULT , 'username06', '1', 12 , '2012-05-21');
 
 ```
+
+
+## Screenshots
+
+### Home screen
+
+![Screenshot1](screen0.png)
+
+
+### Project page
+
+![Screenshot1](screen4.png)
+
+
+### Leaderboard screen
+
+![Screenshot1](screen1.png)
+
+
+### Admin console
+
+![Screenshot1](screen2.png)
+
+
+### Search page
+
+![Screenshot1](screen3.png)

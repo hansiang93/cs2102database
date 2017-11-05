@@ -5,7 +5,7 @@
   "description": "My app description",
   "scripts": {
     "full-start": "cd ./frontend && npm install && npm run-script start && cd ./.. && nodemon server.js",
-    "start": "nodemon server.js",
+    "start": "nodemon app.js",
     "populate": "node database/populate/populateAll.js",
     "droptables": "node database/schema/dropSchema.js",
     "maketables": "node database/schema/createSchema.js",
