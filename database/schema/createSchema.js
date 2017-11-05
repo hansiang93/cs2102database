@@ -23,7 +23,7 @@ const catagoryQuery =
 const projectQuery = 
 	'CREATE TABLE project (' +
 		'pid SERIAL PRIMARY KEY,' +
-		'creator INTEGER REFERENCES users(id) ON DELETE SET NULL,' +
+		'creator INTEGER REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,' +
 		'title VARCHAR(256),' +
 		'description VARCHAR(256),' +
 		'category VARCHAR(64) REFERENCES category(name),' +
@@ -31,13 +31,13 @@ const projectQuery =
 		'enddate DATE NOT NULL,' +
 		'amountrequested BIGSERIAL,' +
 		'funded BOOLEAN' +
-	');'
+	');';
 
 const projectCatagoryQuery =
     'CREATE TABLE project_category ( ' +
         'pid INT REFERENCES project(pid), ' +
         'name VARCHAR(64) REFERENCES category(name) ' +
-        ');'
+    ');';
 
 const investmentQuery = 
     'CREATE TABLE investment (' +
@@ -74,7 +74,7 @@ const investmentTriggerFunctionQuery =
     ' RETURN NULL;' +
     'END;' +
     '$$' +
-    'LANGUAGE \'plpgsql\';'
+    'LANGUAGE \'plpgsql\';';
 
 const investmentTriggerQuery =
     'CREATE TRIGGER check_funded ' +
@@ -95,7 +95,7 @@ const projectTriggerFunctionQuery =
     ' RETURN NULL;' +
     'END;' +
     '$$' +
-    'LANGUAGE \'plpgsql\';'
+    'LANGUAGE \'plpgsql\';';
 
 
 const projectTriggerQuery =
