@@ -80,11 +80,12 @@ exports.deleteProjectById = function(pid) {
     return executeAndLog(queries.DELETE_PROJECT, [pid]);
 }
 
-exports.addProject = function addProject(username, title, category, description, startdate, enddate,
+// Category should be assigned by admin
+exports.addProject = function addProject(username, title, description, startdate, enddate,
     amountrequested) {
     console.log('Attemping to add project under ' + username);
     return executeAndLog(queries.ADD_PROJECT, [
-        username, title, category, description, startdate, enddate, amountrequested
+        username, title, description, startdate, enddate, amountrequested
     ]);
 }
 
@@ -107,8 +108,8 @@ exports.addProjectCategory = function (pid, category) {
     return executeAndLog(queries.ADD_PROJECT_CATEGORY, [pid, category]);
 }
 
-exports.getProjectInvestment = function() {
-    return executeAndLog(queries.GET_PROJECT_INVESTMENT_AMOUNT);
+exports.getProjectInvestment = function(pid) {
+    return executeAndLog(queries.GET_PROJECT_INVESTMENT_AMOUNT, [pid]);
 }
 
 // USERs
@@ -152,9 +153,9 @@ exports.investProject = function (investor, project_id,
     ]);
 }
 
-exports.deleteInvestment = function(username) {
-    return executeAndLog(queries.DELETE_INVESTMENT, [invest_id]);
-}
+//exports.deleteInvestment = function(username) {
+//    return executeAndLog(queries.DELETE_INVESTMENT, [invest_id]);
+//}
 
 // Others
 
@@ -165,17 +166,17 @@ exports.getCategories = function() {
 
 exports.addCategory = function(category) {
     console.log('adding category: ' + category);
-    return executeAndLog(queries.ADD_CATEGORY);
+    return executeAndLog(queries.ADD_CATEGORY, [category]);
 }
 
-exports.getInvestmentsByMonthStats = function() {
+exports.getInvestmentsByMonthStats = function(year) {
     console.log('attempting to get investments group by Month stat');
-    return executeAndLog(queries.GET_INVESTMENTS_BY_MONTH);
+    return executeAndLog(queries.GET_INVESTMENTS_BY_MONTH, [year]);
 }
 
-exports.getInvestmentsByDayStats = function() {
-    console.log('attempting to get investments group by Day stat');
-    return executeAndLog(queries.GET_INVESTMENTS_BY_DAY);
+exports.getInvestmentsByYearStats = function() {
+    console.log('attempting to get investments group by Year stat');
+    return executeAndLog(queries.GET_INVESTMENTS_BY_YEAR);
 }
 
 exports.getAmountLeaderboard = function() {

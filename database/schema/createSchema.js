@@ -44,32 +44,69 @@ const investsQuery =
     'pid SERIAL REFERENCES project(pid) ON DELETE SET NULL ON UPDATE CASCADE, ' +
     'amount BIGINT NOT NULL CHECK(amount > 0), ' +
     'date DATE ' +
+    'PRIMARY KEY(investor, date)' +
     ');';
 
 const fundedQuery = 
     'CREATE VIEW funded AS SELECT * ' +
-    'FROM projects p ' +
+    'FROM project p ' +
     'WHERE p.amountreceived >= p.amountrequested;';
 
-const investsUpdateFunctionQuery = 
-    'CREATE OR REPLACE FUNCTION updateAmountReceived(pid SERIAL, amount BIGINT UNSIGNED) ' +
+const investsAddFunctionQuery = 
+    'CREATE OR REPLACE FUNCTION addAmountReceived() ' +
     'RETURNS TRIGGER AS $$ ' +
     'BEGIN ' +
-    'UPDATE project p ' +
-    'SET p.amountreceived = p.amountreceived + amount '
-    'WHERE p.pid = pid; ' +
+    'UPDATE project ' +
+    'SET amountreceived = amountreceived + NEW.amount ' +
+    'WHERE pid = NEW.pid; ' +
+    'RETURN NEW; ' +
+    'END; $$ ' +
+    'LANGUAGE PLPGSQL;';
+
+const investsAddTriggerQuery =
+    'CREATE TRIGGER addInvestment ' +
+    'BEFORE INSERT ON invests ' +
+    'FOR EACH ROW ' +
+    'EXECUTE PROCEDURE addAmountReceived();';
+
+const investsUpdateFunctionQuery = 
+    'CREATE OR REPLACE FUNCTION updateAmountReceived() ' +
+    'RETURNS TRIGGER AS $$ ' +
+    'BEGIN ' +
+    'UPDATE project ' +
+    'SET amountreceived = amountreceived + NEW.amount - OLD.amount' +
+    'WHERE pid = NEW.pid; ' +
     'RETURN NEW; ' +
     'END; $$ ' +
     'LANGUAGE PLPGSQL;';
 
 const investsUpdateTriggerQuery =
     'CREATE TRIGGER updateInvestment ' +
-    'AFTER INSERT OR UPDATE ON invests ' +
+    'BEFORE UPDATE ON invests ' +
     'FOR EACH ROW ' +
-    'EXECUTE PROCEDURE updateAmountReceived(NEW.pid, NEW.amount);';
+    'EXECUTE PROCEDURE updateAmountReceived();';
+
+const investsDeleteFunctionQuery = 
+    'CREATE OR REPLACE FUNCTION deleteAmountReceived() ' +
+    'RETURNS TRIGGER AS $$ ' +
+    'BEGIN ' +
+    'UPDATE project ' +
+    'SET amountreceived = amountreceived - OLD.amount ' +
+    'WHERE pid = OLD.pid; ' +
+    'RETURN NEW; ' +
+    'END; $$ ' +
+    'LANGUAGE PLPGSQL;';
+
+const investsDeleteTriggerQuery =
+    'CREATE TRIGGER deleteInvestment ' +
+    'BEFORE DELETE ON invests ' +
+    'FOR EACH ROW ' +
+    'EXECUTE PROCEDURE deleteAmountReceived();';
 
 dbHelper.executeQueriesInOrder(userQuery, categoryQuery, projectQuery, hasCategoryQuery,
-		investsQuery, fundedQuery, investsUpdateFunctionQuery, investsUpdateTriggerQuery)
+		investsQuery, fundedQuery, investsUpdateFunctionQuery, investsUpdateTriggerQuery,
+		investsAddFunctionQuery, investsAddTriggerQuery,
+		investsDeleteFunctionQuery, investsDeleteTriggerQuery)
 	    .then(() => console.log("Make tables done!"));
 
 //const investmentTriggerFunctionQuery =

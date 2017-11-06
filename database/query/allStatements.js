@@ -2,13 +2,15 @@
 
 exports.ADD_PROJECT =
     'INSERT INTO project' +
-    '(creator, title, description, category, startdate, enddate, amountrequested, amountreceived) ' +
-    'VALUES($1, $2, $3, $4, $5, $6, $7, 0);';
+    '(creator, title, description, startdate, enddate, amountrequested, amountreceived) ' +
+    'VALUES($1, $2, $3, $4, $5, $6, 0);';
 
 exports.UPDATE_PROJECT =
     'UPDATE project ' +
-    'SET title = $1, description = $2, category = $3, enddate = $4, amountrequested = $5 ' +
-    'WHERE pid = $6;';
+    'SET title = $1, description = $2, enddate = $4, amountrequested = $5 ' +
+    'WHERE pid = $6; ' +
+    'DELETE FROM has WHERE has.pid = $6; ' +
+    'INSERT INTO has VALUES($6, $3);';
 
 exports.REMOVE_PROJECT_CATEGORIES =
     'DELETE FROM has ' +
@@ -23,7 +25,7 @@ exports.GET_ALL_PROJECTS =
     'to_char(pr.startdate, \'DD-MM-YYYY\'), ' +
     'to_char(pr.enddate, \'DD-MM-YYYY\'), pr.amountrequested, ' +
     'u.username, u.fullname, u.country ' +
-    'FROM project pr, user u ' +
+    'FROM project pr, users u ' +
     'WHERE pr.creator = u.username ' +
     'ORDER BY pr.title;';
 
@@ -34,9 +36,9 @@ exports.GET_FEATURED_PROJECTS =
     'to_char(f.enddate, \'DD-MM-YYYY\'), f.amountrequested, ' +
     '(f.amountreceived / f.amountrequested) AS percentage, ' +
     'u.username, u.fullname, u.country ' +
-    'FROM funded f, user u ' +
+    'FROM funded f, users u ' +
     'WHERE f.creator = u.username ' +
-    'ORDER BY percentage ASC ' +
+    'ORDER BY percentage DESC ' +
     'LIMIT 12;';
 
 exports.GET_ALL_PROJECTS_BY_CAT =
@@ -56,26 +58,26 @@ exports.GET_ALL_PROJECTS_BY_NAME =
     'ORDER BY p.title;';
 
 exports.GET_PROJECT_INVESTMENT_AMOUNT =
-    'SELECT * FROM project pr WHERE pr.pid = $1;';
+    'SELECT pr.amountreceived FROM project pr WHERE pr.pid = $1;';
 
 exports.GET_PROJECT_BY_ID =
-    'SELECT pr.pid, pr.title, pr.description, pr.creator, pr.category, ' +
+    'SELECT pr.pid, pr.title, pr.description, pr.creator, ' +
     'pr.startdate, pr.enddate, pr.amountrequested, ' +
     'DATE_PART(\'day\', pr.enddate::timestamp - pr.startdate::timestamp) as daysleft, ' +
     'pr.amountreceived AS amountfunded, ' +
     'u.fullname AS owner, u.country AS ownercountry, u.username AS ownerusername ' +
-    'FROM project pr INNER JOIN user u ON pr.creator = u.username WHERE pr.pid = $1;';
+    'FROM project pr INNER JOIN users u ON pr.creator = u.username WHERE pr.pid = $1;';
 
 // Gets all investments in a project 
 exports.GET_PROJECT_BACKERS_BY_ID =
     'SELECT u.username, i.amount, i.date ' +
-    'FROM user u, invests i ' +
+    'FROM users u, invests i ' +
     'WHERE i.investor = u.username ' +
     'AND i.pid = $1 ' +
     'ORDER BY i.date;';
 
 exports.GET_PROJECT_BY_USER =
-    'SELECT * FROM project pr, user u ' +
+    'SELECT * FROM project pr, users u ' +
     'WHERE pr.creator = u.username ' +
     'AND u.username = $1;';
 
@@ -93,18 +95,18 @@ exports.DELETE_PROJECT =
 // User Statements
 
 exports.ADD_USER =
-    'INSERT INTO user' +
-    '(username, fullname, email, dob, country, admin)' +
-    ' VALUES($1, $2, $3, $4, $5, $6);';
+    'INSERT INTO users' +
+    '(username, fullname, email, dob, country, admin) ' +
+    'VALUES($1, $2, $3, $4, $5, $6);';
 
 exports.GET_ALL_USERS =
-    'SELECT * FROM user;';
+    'SELECT * FROM users;';
 
 exports.GET_USER =
-    'SELECT * FROM user WHERE username = $1;';
+    'SELECT * FROM users WHERE username = $1;';
 
 exports.DELETE_USER =
-    'DELETE FROM user WHERE username = $1;';
+    'DELETE FROM users WHERE username = $1;';
 
 exports.GET_USER_PROJECTS_INVESTED =
     'SELECT p.title, SUM(i.amount) AS invested ' +
@@ -136,7 +138,7 @@ exports.ADD_INVESTMENT =
     '(investor, pid, amount, date) ' +
     'VALUES($1, $2, $3, CURRENT_DATE);';
 
-// Will break the system because the trigger does not account for deletion
+// Will break the system because invests has no primary key
 /*exports.DELETE_INVESTMENT =
     'DELETE FROM invests ' +
     'WHERE id = $1;';
@@ -144,6 +146,7 @@ exports.ADD_INVESTMENT =
 
 // Fun stats?
 
+// Of a year
 exports.GET_INVESTMENTS_BY_MONTH =
     'SELECT TO_CHAR(i.date, \'MM\'), SUM(i.amount) ' +
     'FROM invests i ' +
@@ -161,7 +164,7 @@ exports.GET_INVESTMENTS_BY_YEAR =
 
 exports.GET_INVEST_AMOUNT_LEADERBOARD =
     'SELECT u.username, SUM(i.amount) AS totalinvestment ' +
-    'FROM user u, invests i ' +
+    'FROM users u, invests i ' +
     'WHERE i.investor = u.username ' +
     'GROUP BY u.username ' +
     'ORDER BY totalinvestment DESC;';
@@ -172,7 +175,7 @@ exports.GET_INVEST_AMOUNT_TOTAL =
 
 exports.GET_INVEST_PROJECT_LEADERBOARD =
     'SELECT u.username, COUNT(DISTINCT i.pid) AS numberProjects ' +
-    'FROM user u, invests i ' +
+    'FROM users u, invests i ' +
     'WHERE i.investor = u.username ' +
     'GROUP BY u.username ' +
     'ORDER BY numberProjects DESC;';
