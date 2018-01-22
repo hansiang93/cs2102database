@@ -416,11 +416,6 @@ INSERT INTO investment VALUES(DEFAULT , 'username06', '1', 12 , '2012-05-21');
 ![Screenshot1](screen0.png)
 
 
-### Project page
-
-![Screenshot1](screen4.png)
-
-
 ### Leaderboard screen
 
 ![Screenshot1](screen1.png)
